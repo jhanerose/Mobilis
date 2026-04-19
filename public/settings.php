@@ -15,7 +15,7 @@ renderPageTop('Settings', 'settings');
 <section class="content-grid split-grid">
     <article class="card">
         <div class="card-header">
-            <h3>Configuration overview</h3>
+            <h4>Configuration overview</h4>
         </div>
         <div class="mini-stats">
             <div>
@@ -34,8 +34,8 @@ renderPageTop('Settings', 'settings');
     </article>
 
     <article class="card side-panel">
-        <h3>Account</h3>
-        <h4><?= htmlspecialchars((string) ($user['name'] ?? 'Unknown user')) ?></h4>
+        <h4>Account</h4>
+        <p class="settings-account-name"><?= htmlspecialchars((string) ($user['name'] ?? 'Unknown user')) ?></p>
         <p><?= htmlspecialchars((string) ($user['email'] ?? '')) ?></p>
         <div class="mini-stats">
             <div>

@@ -70,22 +70,22 @@ renderPageTop('Dashboard', 'dashboard');
 <section class="content-grid metric-grid">
     <article class="card metric-card">
         <p>Total fleet</p>
-        <h3><?= (int) $metrics['total_fleet'] ?></h3>
+        <h4><?= (int) $metrics['total_fleet'] ?></h4>
         <span>vehicles</span>
     </article>
     <article class="card metric-card">
         <p>Active rentals</p>
-        <h3><?= (int) $metrics['active_rentals'] ?></h3>
+        <h4><?= (int) $metrics['active_rentals'] ?></h4>
         <span>running now</span>
     </article>
     <article class="card metric-card">
         <p>Revenue today</p>
-        <h3>P<?= number_format((float) $metrics['revenue_today'], 2) ?></h3>
+        <h4>P<?= number_format((float) $metrics['revenue_today'], 2) ?></h4>
         <span>gross billings</span>
     </article>
     <article class="card metric-card">
         <p>Utilization rate</p>
-        <h3><?= (int) $metrics['utilization_rate'] ?>%</h3>
+        <h4><?= (int) $metrics['utilization_rate'] ?>%</h4>
         <span>of fleet booked</span>
     </article>
 </section>
@@ -93,7 +93,7 @@ renderPageTop('Dashboard', 'dashboard');
 <section class="content-grid split-grid">
     <article class="card">
         <div class="card-header">
-            <h3>Vehicle status</h3>
+            <h4>Vehicle status</h4>
             <a href="vehicles.php" class="ghost-link">View all</a>
         </div>
         <ul class="list clean">
@@ -115,7 +115,7 @@ renderPageTop('Dashboard', 'dashboard');
 
     <article class="card">
         <div class="card-header">
-            <h3>Upcoming bookings</h3>
+            <h4>Upcoming bookings</h4>
             <a href="bookings.php" class="ghost-link">Calendar</a>
         </div>
         <ul class="list clean">
@@ -142,7 +142,7 @@ renderPageTop('Dashboard', 'dashboard');
 <section class="content-grid split-grid">
     <article class="card">
         <div class="card-header">
-            <h3>Live fleet map</h3>
+            <h4>Live fleet map</h4>
             <a href="tracking.php" class="ghost-link">Full map</a>
         </div>
         <div class="map-embed-wrap">
@@ -156,7 +156,7 @@ renderPageTop('Dashboard', 'dashboard');
 
     <article class="card">
         <div class="card-header">
-            <h3>Fleet by category</h3>
+            <h4>Fleet by category</h4>
             <a href="vehicles.php" class="ghost-link">Details</a>
         </div>
         <div class="progress-list">

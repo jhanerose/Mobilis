@@ -14,7 +14,7 @@ renderPageTop('Maintenance', 'maintenance');
 
 <section class="card">
     <div class="card-header">
-        <h3>Service queue</h3>
+        <h4>Service queue</h4>
         <button type="button" class="primary-btn">+ Add work order</button>
     </div>
     <div class="table-wrap">

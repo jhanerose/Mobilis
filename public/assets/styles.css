@@ -329,12 +329,22 @@ input:focus {
   font-size: 2rem;
 }
 
+.metric-card h4 {
+  margin: 6px 0;
+  font-size: 2rem;
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
   gap: 12px;
+}
+
+.card-header h4 {
+  margin: 0;
+  font-size: 1.12rem;
 }
 
 .ghost-link {
@@ -1122,6 +1132,12 @@ td p {
   color: var(--muted);
   font-size: 0.95rem;
   font-weight: 600;
+}
+
+.settings-account-name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 .customers-toolbar {

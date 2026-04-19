@@ -14,7 +14,7 @@ renderPageTop('Payments', 'payments');
 
 <section class="card">
     <div class="card-header">
-        <h3>Payment ledger</h3>
+        <h4>Payment ledger</h4>
         <button type="button" class="primary-btn">Export</button>
     </div>
     <div class="table-wrap">

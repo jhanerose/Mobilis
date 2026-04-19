@@ -73,7 +73,7 @@ renderPageTop('Customers', 'customers', [
 <section class="content-grid customers-grid">
     <article class="card customers-table-card">
         <div class="card-header customers-table-head">
-            <p class="customers-table-head-title">Customer directory</p>
+            <h4>Customer directory</h4>
             <div class="customers-toolbar">
                 <input type="search" placeholder="Search customers..." aria-label="Search customers" data-customer-search>
                 <a class="ghost-link button-like" href="customers-export.php">Export</a>
@@ -129,7 +129,7 @@ renderPageTop('Customers', 'customers', [
             <div class="customer-profile-header">
                 <span class="customer-avatar large" id="profile-avatar"><?= htmlspecialchars(customerInitialsForPage((string) $selected['name'])) ?></span>
                 <div>
-                    <h3 id="profile-name"><?= htmlspecialchars((string) $selected['name']) ?></h3>
+                    <h4 id="profile-name"><?= htmlspecialchars((string) $selected['name']) ?></h4>
                     <p id="profile-tier"><?= htmlspecialchars((string) ($selected['tier'] ?? 'Regular')) ?> Customer · since <?= htmlspecialchars(customerJoinedLabel((string) ($selected['created_at'] ?? ''))) ?></p>
                 </div>
             </div>

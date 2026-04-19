@@ -16,7 +16,7 @@ renderPageTop('Support inbox', 'support');
 <section class="content-grid split-grid">
     <article class="card">
         <div class="card-header">
-            <h3>Contact admin submissions</h3>
+            <h4>Contact admin submissions</h4>
         </div>
         <div class="table-wrap">
             <table>
@@ -48,7 +48,7 @@ renderPageTop('Support inbox', 'support');
 
     <article class="card">
         <div class="card-header">
-            <h3>Password reset requests</h3>
+            <h4>Password reset requests</h4>
         </div>
         <div class="table-wrap">
             <table>

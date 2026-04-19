@@ -15,7 +15,7 @@ renderPageTop('Reports', 'reports');
 <section class="content-grid split-grid">
     <article class="card">
         <div class="card-header">
-            <h3>Python analysis output</h3>
+            <h4>Python analysis output</h4>
             <button type="button" class="primary-btn" data-refresh-insights>Generate report</button>
         </div>
         <p class="muted">This uses PHP to gather MySQL data and calls Python for deeper processing.</p>
@@ -24,7 +24,7 @@ renderPageTop('Reports', 'reports');
 
     <article class="card">
         <div class="card-header">
-            <h3>Maintenance backlog</h3>
+            <h4>Maintenance backlog</h4>
         </div>
         <div class="table-wrap">
             <table>

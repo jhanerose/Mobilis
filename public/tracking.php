@@ -15,7 +15,7 @@ renderPageTop('Live tracking', 'tracking');
 <section class="content-grid split-grid">
     <article class="card">
         <div class="card-header">
-            <h3>Live fleet map</h3>
+            <h4>Live fleet map</h4>
             <a href="vehicles.php" class="ghost-link">Full map</a>
         </div>
         <div class="map-stage">
@@ -30,7 +30,7 @@ renderPageTop('Live tracking', 'tracking');
 
     <article class="card">
         <div class="card-header">
-            <h3>Tracked vehicles</h3>
+            <h4>Tracked vehicles</h4>
         </div>
         <ul class="list clean">
             <?php foreach ($vehicles as $vehicle): ?>

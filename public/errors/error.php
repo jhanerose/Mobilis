@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../../app/bootstrap.php';
 
 $code = (int) ($_GET['code'] ?? 500);
 $title = (string) ($_GET['title'] ?? 'Server Error');

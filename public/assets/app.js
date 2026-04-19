@@ -152,9 +152,6 @@ function setupCustomerProfilePanel() {
     const email = String(customer.email || '').trim();
     const name = String(customer.name || '').trim();
     profileMessageBtn.href = 'mailto:' + email + '?subject=' + encodeURIComponent('Mobilis customer support: ' + name);
-    if (profileEditBtn) {
-      profileEditBtn.href = '/Staff/customer-edit.php?id=' + encodeURIComponent(String(customerId));
-    }
     if (profileBookingBtn) {
       profileBookingBtn.href = '/Staff/booking-create.php?user_id=' + encodeURIComponent(String(customerId));
     }

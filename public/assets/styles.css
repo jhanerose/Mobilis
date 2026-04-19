@@ -663,6 +663,12 @@ textarea::placeholder {
   font-variant-numeric: tabular-nums;
 }
 
+.tracking-list-scroll {
+  max-height: 560px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
 .leaflet-container {
   font-family: "Manrope", "Segoe UI", sans-serif;
 }

@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS Invoice;
 DROP TABLE IF EXISTS MaintenanceLog;
 DROP TABLE IF EXISTS Rental;
 DROP TABLE IF EXISTS Vehicle;
-DROP TABLE IF EXISTS Customer;
+DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS VehicleCategory;
 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -130,43 +130,55 @@ WHERE NOT EXISTS (
   WHERE v.plate_number = seed.plate_number
 );
 
--- ── 3. Customer ──────────────────────────────────────────────
-CREATE TABLE IF NOT EXISTS Customer (
-  customer_id    INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+-- ── 3. User ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS User (
+  user_id        INT UNSIGNED  NOT NULL AUTO_INCREMENT,
   first_name     VARCHAR(60)   NOT NULL,
   last_name      VARCHAR(60)   NOT NULL,
   email          VARCHAR(100)  NOT NULL,
   phone          VARCHAR(20)   NOT NULL,
-  license_number VARCHAR(30)   NOT NULL,
-  license_expiry DATE          NOT NULL,
+  license_number VARCHAR(30)   NULL,
+  license_expiry DATE          NULL,
   address        TEXT,
+  role           ENUM('admin','staff','customer') NOT NULL DEFAULT 'customer',
+  password_hash  VARCHAR(255)  NOT NULL,
   created_at     TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (customer_id),
+  PRIMARY KEY (user_id),
   UNIQUE KEY uq_email (email),
   UNIQUE KEY uq_license (license_number)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO Customer (first_name, last_name, email, phone, license_number, license_expiry, address, created_at)
-SELECT seed.first_name, seed.last_name, seed.email, seed.phone, seed.license_number, seed.license_expiry, seed.address, seed.created_at
+INSERT INTO User (first_name, last_name, email, phone, license_number, license_expiry, address, role, password_hash, created_at)
+SELECT seed.first_name, seed.last_name, seed.email, seed.phone, seed.license_number, seed.license_expiry, seed.address, seed.role, seed.password_hash, seed.created_at
 FROM (
-  SELECT 'Maria' AS first_name, 'Reyes' AS last_name, 'maria@email.com' AS email, '+63 917 123 4567' AS phone, 'N01-23-456789' AS license_number, '2028-03-20' AS license_expiry, 'Makati City, Metro Manila' AS address, '2023-01-12 09:30:00' AS created_at
-  UNION ALL SELECT 'Juan', 'dela Cruz', 'jdc@email.com', '+63 918 234 5678', 'N02-34-567890', '2027-08-30', 'Quezon City, Metro Manila', '2024-04-03 11:00:00'
-  UNION ALL SELECT 'Ana', 'Lim', 'ana.lim@email.com', '+63 919 345 6789', 'N03-45-678901', '2028-03-15', 'Pasig City, Metro Manila', '2023-03-18 10:15:00'
-  UNION ALL SELECT 'Ramon', 'Santos', 'ramon.s@email.com', '+63 920 456 7890', 'N04-56-789012', '2027-11-21', 'Manila City, Metro Manila', '2024-01-09 13:25:00'
-  UNION ALL SELECT 'Pedro', 'Cruz', 'pedz@email.com', '+63 921 567 8901', 'N05-67-890123', '2029-06-12', 'Taguig City, Metro Manila', '2023-06-25 08:20:00'
-  UNION ALL SELECT 'Lisa', 'Garcia', 'lisag@email.com', '+63 922 678 9012', 'N06-78-901234', '2028-10-08', 'Mandaluyong City, Metro Manila', '2026-03-30 16:10:00'
-  UNION ALL SELECT 'Bea', 'Torres', 'bea.t@email.com', '+63 923 789 0123', 'N07-89-012345', '2029-02-14', 'Caloocan City, Metro Manila', '2022-02-05 09:05:00'
+  -- Admin account
+  SELECT 'Admin' AS first_name, 'User' AS last_name, 'admin@mobilis.ph' AS email, '+63 900 000 0001' AS phone, NULL AS license_number, NULL AS license_expiry, 'Mobilis HQ, Metro Manila' AS address, 'admin' AS role, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi' AS password_hash, '2024-01-01 00:00:00' AS created_at
+  UNION ALL
+  -- Staff account
+  SELECT 'Staff' AS first_name, 'User' AS last_name, 'staff@mobilis.ph' AS email, '+63 900 000 0002' AS phone, NULL AS license_number, NULL AS license_expiry, 'Mobilis HQ, Metro Manila' AS address, 'staff' AS role, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi' AS password_hash, '2024-01-01 00:00:00' AS created_at
+  UNION ALL
+  -- Customer account
+  SELECT 'Customer' AS first_name, 'User' AS last_name, 'customer@mobilis.ph' AS email, '+63 900 000 0003' AS phone, NULL AS license_number, NULL AS license_expiry, 'Metro Manila, Philippines' AS address, 'customer' AS role, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi' AS password_hash, '2024-01-01 00:00:00' AS created_at
+  UNION ALL
+  -- Sample customers
+  SELECT 'Maria' AS first_name, 'Reyes' AS last_name, 'maria@email.com' AS email, '+63 917 123 4567' AS phone, 'N01-23-456789' AS license_number, '2028-03-20' AS license_expiry, 'Makati City, Metro Manila' AS address, 'customer' AS role, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi' AS password_hash, '2023-01-12 09:30:00' AS created_at
+  UNION ALL SELECT 'Juan', 'dela Cruz', 'jdc@email.com', '+63 918 234 5678', 'N02-34-567890', '2027-08-30', 'Quezon City, Metro Manila', 'customer', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2024-04-03 11:00:00'
+  UNION ALL SELECT 'Ana', 'Lim', 'ana.lim@email.com', '+63 919 345 6789', 'N03-45-678901', '2028-03-15', 'Pasig City, Metro Manila', 'customer', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2023-03-18 10:15:00'
+  UNION ALL SELECT 'Ramon', 'Santos', 'ramon.s@email.com', '+63 920 456 7890', 'N04-56-789012', '2027-11-21', 'Manila City, Metro Manila', 'customer', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2024-01-09 13:25:00'
+  UNION ALL SELECT 'Pedro', 'Cruz', 'pedz@email.com', '+63 921 567 8901', 'N05-67-890123', '2029-06-12', 'Taguig City, Metro Manila', 'customer', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2023-06-25 08:20:00'
+  UNION ALL SELECT 'Lisa', 'Garcia', 'lisag@email.com', '+63 922 678 9012', 'N06-78-901234', '2028-10-08', 'Mandaluyong City, Metro Manila', 'customer', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2026-03-30 16:10:00'
+  UNION ALL SELECT 'Bea', 'Torres', 'bea.t@email.com', '+63 923 789 0123', 'N07-89-012345', '2029-02-14', 'Caloocan City, Metro Manila', 'customer', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2022-02-05 09:05:00'
 ) AS seed
 WHERE NOT EXISTS (
   SELECT 1
-  FROM Customer c
-  WHERE c.email = seed.email OR c.license_number = seed.license_number
+  FROM User u
+  WHERE u.email = seed.email OR (u.license_number IS NOT NULL AND u.license_number = seed.license_number)
 );
 
 -- ── 4. Rental ────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS Rental (
   rental_id     INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  customer_id   INT UNSIGNED  NOT NULL,
+  user_id       INT UNSIGNED  NOT NULL,
   vehicle_id    INT UNSIGNED  NOT NULL,
   pickup_date   DATE          NOT NULL,
   return_date   DATE          NOT NULL,
@@ -175,29 +187,29 @@ CREATE TABLE IF NOT EXISTS Rental (
   notes         TEXT,
   created_at    TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (rental_id),
-  CONSTRAINT fk_rent_cust FOREIGN KEY (customer_id)
-    REFERENCES Customer(customer_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT fk_rent_user FOREIGN KEY (user_id)
+    REFERENCES User(user_id) ON UPDATE CASCADE ON DELETE RESTRICT,
   CONSTRAINT fk_rent_veh  FOREIGN KEY (vehicle_id)
     REFERENCES Vehicle(vehicle_id)   ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO Rental (rental_id, customer_id, vehicle_id, pickup_date, return_date, actual_return, status, notes)
-SELECT seed.rental_id, seed.customer_id, seed.vehicle_id, seed.pickup_date, seed.return_date, seed.actual_return, seed.status, seed.notes
+INSERT INTO Rental (rental_id, user_id, vehicle_id, pickup_date, return_date, actual_return, status, notes)
+SELECT seed.rental_id, seed.user_id, seed.vehicle_id, seed.pickup_date, seed.return_date, seed.actual_return, seed.status, seed.notes
 FROM (
-  SELECT 412 AS rental_id, 1 AS customer_id, 1 AS vehicle_id, DATE_ADD(CURDATE(), INTERVAL 1 DAY) AS pickup_date, DATE_ADD(CURDATE(), INTERVAL 4 DAY) AS return_date, NULL AS actual_return, 'active' AS status, 'Priority corporate booking' AS notes
-  UNION ALL SELECT 411, 2, 2, DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), NULL, 'pending', 'Awaiting approval'
-  UNION ALL SELECT 410, 3, 3, DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 8 DAY), NULL, 'active', 'Family vacation trip'
-  UNION ALL SELECT 409, 4, 5, DATE_ADD(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 7 DAY), NULL, 'active', 'Weekend out-of-town use'
-  UNION ALL SELECT 408, 5, 4, DATE_SUB(CURDATE(), INTERVAL 9 DAY), DATE_SUB(CURDATE(), INTERVAL 7 DAY), DATE_SUB(CURDATE(), INTERVAL 7 DAY), 'completed', 'Completed with receipt issued'
-  UNION ALL SELECT 407, 6, 6, DATE_SUB(CURDATE(), INTERVAL 11 DAY), DATE_SUB(CURDATE(), INTERVAL 11 DAY), NULL, 'cancelled', 'Customer cancelled same day'
-  UNION ALL SELECT 406, 1, 5, DATE_SUB(CURDATE(), INTERVAL 22 DAY), DATE_SUB(CURDATE(), INTERVAL 20 DAY), DATE_SUB(CURDATE(), INTERVAL 20 DAY), 'completed', 'Recent booking history'
-  UNION ALL SELECT 405, 1, 3, DATE_SUB(CURDATE(), INTERVAL 40 DAY), DATE_SUB(CURDATE(), INTERVAL 36 DAY), DATE_SUB(CURDATE(), INTERVAL 36 DAY), 'completed', 'Recent booking history'
-  UNION ALL SELECT 404, 7, 11, DATE_SUB(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 1 DAY), NULL, 'active', 'VIP corporate booking'
-  UNION ALL SELECT 403, 7, 12, DATE_SUB(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), NULL, 'active', 'VIP corporate booking'
-  UNION ALL SELECT 402, 2, 7, DATE_SUB(CURDATE(), INTERVAL 4 DAY), DATE_ADD(CURDATE(), INTERVAL 1 DAY), NULL, 'active', 'Regional travel'
-  UNION ALL SELECT 401, 4, 8, DATE_SUB(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), NULL, 'active', 'Branch operations'
-  UNION ALL SELECT 400, 3, 9, DATE_SUB(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), NULL, 'active', 'Intercity transfer'
-  UNION ALL SELECT 399, 5, 10, DATE_SUB(CURDATE(), INTERVAL 6 DAY), DATE_ADD(CURDATE(), INTERVAL 1 DAY), NULL, 'active', 'Event support fleet'
+  SELECT 412 AS rental_id, 4 AS user_id, 1 AS vehicle_id, DATE_ADD(CURDATE(), INTERVAL 1 DAY) AS pickup_date, DATE_ADD(CURDATE(), INTERVAL 4 DAY) AS return_date, NULL AS actual_return, 'active' AS status, 'Priority corporate booking' AS notes
+  UNION ALL SELECT 411, 5, 2, DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), NULL, 'pending', 'Awaiting approval'
+  UNION ALL SELECT 410, 6, 3, DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 8 DAY), NULL, 'active', 'Family vacation trip'
+  UNION ALL SELECT 409, 7, 5, DATE_ADD(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 7 DAY), NULL, 'active', 'Weekend out-of-town use'
+  UNION ALL SELECT 408, 8, 4, DATE_SUB(CURDATE(), INTERVAL 9 DAY), DATE_SUB(CURDATE(), INTERVAL 7 DAY), DATE_SUB(CURDATE(), INTERVAL 7 DAY), 'completed', 'Completed with receipt issued'
+  UNION ALL SELECT 407, 9, 6, DATE_SUB(CURDATE(), INTERVAL 11 DAY), DATE_SUB(CURDATE(), INTERVAL 11 DAY), NULL, 'cancelled', 'Customer cancelled same day'
+  UNION ALL SELECT 406, 4, 5, DATE_SUB(CURDATE(), INTERVAL 22 DAY), DATE_SUB(CURDATE(), INTERVAL 20 DAY), DATE_SUB(CURDATE(), INTERVAL 20 DAY), 'completed', 'Recent booking history'
+  UNION ALL SELECT 405, 4, 3, DATE_SUB(CURDATE(), INTERVAL 40 DAY), DATE_SUB(CURDATE(), INTERVAL 36 DAY), DATE_SUB(CURDATE(), INTERVAL 36 DAY), 'completed', 'Recent booking history'
+  UNION ALL SELECT 404, 10, 11, DATE_SUB(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 1 DAY), NULL, 'active', 'VIP corporate booking'
+  UNION ALL SELECT 403, 10, 12, DATE_SUB(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), NULL, 'active', 'VIP corporate booking'
+  UNION ALL SELECT 402, 5, 7, DATE_SUB(CURDATE(), INTERVAL 4 DAY), DATE_ADD(CURDATE(), INTERVAL 1 DAY), NULL, 'active', 'Regional travel'
+  UNION ALL SELECT 401, 7, 8, DATE_SUB(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), NULL, 'active', 'Branch operations'
+  UNION ALL SELECT 400, 6, 9, DATE_SUB(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), NULL, 'active', 'Intercity transfer'
+  UNION ALL SELECT 399, 8, 10, DATE_SUB(CURDATE(), INTERVAL 6 DAY), DATE_ADD(CURDATE(), INTERVAL 1 DAY), NULL, 'active', 'Event support fleet'
 ) AS seed
 WHERE NOT EXISTS (
   SELECT 1
@@ -205,9 +217,9 @@ WHERE NOT EXISTS (
   WHERE r.rental_id = seed.rental_id
 );
 
-INSERT INTO Rental (customer_id, vehicle_id, pickup_date, return_date, actual_return, status, notes)
+INSERT INTO Rental (user_id, vehicle_id, pickup_date, return_date, actual_return, status, notes)
 SELECT
-  ((v.vehicle_id - 1) % 7) + 1 AS customer_id,
+  ((v.vehicle_id - 1) % 7) + 4 AS user_id,
   v.vehicle_id,
   DATE_SUB(CURDATE(), INTERVAL ((v.vehicle_id - 1) % 5 + 1) DAY) AS pickup_date,
   DATE_ADD(CURDATE(), INTERVAL ((v.vehicle_id - 1) % 4 + 1) DAY) AS return_date,
@@ -327,7 +339,7 @@ WHERE NOT EXISTS (
 -- ── 8. PasswordResetRequest ──────────────────────────────────
 CREATE TABLE IF NOT EXISTS PasswordResetRequest (
   request_id      INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  customer_id     INT UNSIGNED DEFAULT NULL,
+  user_id         INT UNSIGNED DEFAULT NULL,
   email           VARCHAR(120) NOT NULL,
   license_number  VARCHAR(30)  DEFAULT NULL,
   reason          VARCHAR(500) NOT NULL,
@@ -339,15 +351,15 @@ CREATE TABLE IF NOT EXISTS PasswordResetRequest (
   PRIMARY KEY (request_id),
   KEY idx_pwd_reset_status (status),
   KEY idx_pwd_reset_created (created_at),
-  CONSTRAINT fk_pwdreset_customer FOREIGN KEY (customer_id)
-    REFERENCES Customer(customer_id) ON UPDATE CASCADE ON DELETE SET NULL
+  CONSTRAINT fk_pwdreset_user FOREIGN KEY (user_id)
+    REFERENCES User(user_id) ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO PasswordResetRequest (customer_id, email, license_number, reason, status, requested_ip)
-SELECT seed.customer_id, seed.email, seed.license_number, seed.reason, seed.status, seed.requested_ip
+INSERT INTO PasswordResetRequest (user_id, email, license_number, reason, status, requested_ip)
+SELECT seed.user_id, seed.email, seed.license_number, seed.reason, seed.status, seed.requested_ip
 FROM (
-  SELECT 1 AS customer_id, 'maria@email.com' AS email, 'N01-23-456789' AS license_number, 'I forgot my password after changing devices.' AS reason, 'pending' AS status, '127.0.0.1' AS requested_ip
-  UNION ALL SELECT 2, 'jdc@email.com', 'N02-34-567890', 'Unable to sign in with previous credentials.', 'processing', '127.0.0.1'
+  SELECT 4 AS user_id, 'maria@email.com' AS email, 'N01-23-456789' AS license_number, 'I forgot my password after changing devices.' AS reason, 'pending' AS status, '127.0.0.1' AS requested_ip
+  UNION ALL SELECT 5, 'jdc@email.com', 'N02-34-567890', 'Unable to sign in with previous credentials.', 'processing', '127.0.0.1'
 ) AS seed
 WHERE NOT EXISTS (
   SELECT 1
@@ -360,11 +372,11 @@ WHERE NOT EXISTS (
 -- ── Views ─────────────────────────────────────────────────────
 CREATE OR REPLACE VIEW vw_active_rentals AS
   SELECT r.rental_id,
-         CONCAT(c.first_name,' ',c.last_name) AS customer_name,
+         CONCAT(u.first_name,' ',u.last_name) AS customer_name,
          v.plate_number, v.brand, v.model,
          r.pickup_date, r.return_date
   FROM Rental r
-  JOIN Customer c ON r.customer_id = c.customer_id
+  JOIN User u ON r.user_id = u.user_id
   JOIN Vehicle  v ON r.vehicle_id  = v.vehicle_id
   WHERE r.status = 'active';
 

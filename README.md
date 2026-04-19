@@ -128,9 +128,11 @@ php -S localhost:8000 -t public
 
 Demo credentials:
 
-- `admin@mobilis.ph / admin123`
-- `staff@mobilis.ph / staff123`
-- `customer@mobilis.ph / customer123`
+- `admin@mobilis.ph / password`
+- `staff@mobilis.ph / password`
+- `customer@mobilis.ph / password`
+
+Note: All customer accounts use the same default password "password" for demo purposes.
 
 ## How Python Is Integrated
 

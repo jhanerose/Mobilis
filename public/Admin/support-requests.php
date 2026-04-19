@@ -6,12 +6,29 @@ requireAuth(['admin']);
 
 $success = '';
 $errors = [];
+$user = currentUser() ?? [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = (string) ($_POST['action'] ?? '');
     $requestId = (int) ($_POST['request_id'] ?? 0);
 
-    if ($action === 'reset_password' && $requestId > 0) {
+    if ($action === 'respond_contact' && $requestId > 0) {
+        $responseStatus = (string) ($_POST['response_status'] ?? 'read');
+        $responseMessage = trim((string) ($_POST['response_message'] ?? ''));
+
+        $result = respondToAdminContactMessage(
+            $requestId,
+            (int) ($user['user_id'] ?? 0),
+            $responseStatus,
+            $responseMessage
+        );
+
+        if (($result['ok'] ?? false) === true) {
+            $success = 'Response sent successfully.';
+        } else {
+            $errors[] = (string) ($result['error'] ?? 'Could not save response.');
+        }
+    } elseif ($action === 'reset_password' && $requestId > 0) {
         $newPassword = trim((string) ($_POST['new_password'] ?? ''));
         $confirmPassword = trim((string) ($_POST['confirm_password'] ?? ''));
         $email = trim((string) ($_POST['email'] ?? ''));
@@ -21,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($newPassword !== $confirmPassword) {
             $errors[] = 'Passwords do not match.';
         } else {
-            $resetRequests = getPasswordResetRequests(1);
+            $resetRequests = getPasswordResetRequests(200);
             $request = null;
             foreach ($resetRequests as $r) {
                 if ((int) $r['request_id'] === $requestId) {
@@ -81,24 +98,57 @@ viewBegin('app', appLayoutData('Support inbox', 'support', ['role' => 'admin']))
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Subject</th>
+                        <th>Customer</th>
+                        <th>Subject and message</th>
+                        <th>Admin response</th>
                         <th>Status</th>
                         <th>Date</th>
+                        <th>Respond</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($contactMessages as $msg): ?>
+                <?php if ($contactMessages === []): ?>
                     <tr>
-                        <td>#<?= (int) $msg['message_id'] ?></td>
-                        <td><?= htmlspecialchars((string) $msg['full_name']) ?></td>
-                        <td><?= htmlspecialchars((string) $msg['email']) ?></td>
-                        <td><?= htmlspecialchars((string) $msg['subject']) ?></td>
-                        <td><span class="pill support-status-<?= htmlspecialchars((string) $msg['status']) ?>"><?= htmlspecialchars(ucfirst((string) $msg['status'])) ?></span></td>
-                        <td><?= htmlspecialchars((string) $msg['created_at']) ?></td>
+                        <td colspan="7" class="muted">No contact submissions yet.</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php else: ?>
+                    <?php foreach ($contactMessages as $msg): ?>
+                        <tr>
+                            <td>#<?= (int) $msg['message_id'] ?></td>
+                            <td>
+                                <strong><?= htmlspecialchars((string) $msg['full_name']) ?></strong>
+                                <p class="muted"><?= htmlspecialchars((string) $msg['email']) ?></p>
+                                <p class="muted"><?= htmlspecialchars((string) ($msg['phone'] ?? '')) ?></p>
+                            </td>
+                            <td>
+                                <strong><?= htmlspecialchars((string) $msg['subject']) ?></strong>
+                                <p><?= nl2br(htmlspecialchars((string) ($msg['message'] ?? ''))) ?></p>
+                            </td>
+                            <td>
+                                <?php if (trim((string) ($msg['admin_response'] ?? '')) !== ''): ?>
+                                    <p><?= nl2br(htmlspecialchars((string) $msg['admin_response'])) ?></p>
+                                    <p class="muted">Updated: <?= htmlspecialchars((string) ($msg['responded_at'] ?? 'N/A')) ?></p>
+                                <?php else: ?>
+                                    <p class="muted">No response yet.</p>
+                                <?php endif; ?>
+                            </td>
+                            <td><span class="pill support-status-<?= htmlspecialchars((string) $msg['status']) ?>"><?= htmlspecialchars(ucfirst((string) $msg['status'])) ?></span></td>
+                            <td><?= htmlspecialchars((string) $msg['created_at']) ?></td>
+                            <td>
+                                <form method="post" style="display:grid; gap:6px; min-width:220px;">
+                                    <input type="hidden" name="action" value="respond_contact">
+                                    <input type="hidden" name="request_id" value="<?= (int) $msg['message_id'] ?>">
+                                    <select name="response_status" required>
+                                        <option value="read" <?= (string) ($msg['status'] ?? '') === 'read' ? 'selected' : '' ?>>Mark as read</option>
+                                        <option value="resolved" <?= (string) ($msg['status'] ?? '') === 'resolved' ? 'selected' : '' ?>>Mark as resolved</option>
+                                    </select>
+                                    <textarea name="response_message" rows="3" maxlength="1200" placeholder="Write response to this request..." required><?= htmlspecialchars((string) ($msg['admin_response'] ?? '')) ?></textarea>
+                                    <button type="submit" class="primary-btn">Save response</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
                 </tbody>
             </table>
         </div>

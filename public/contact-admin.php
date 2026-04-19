@@ -58,11 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <main class="auth-split-shell">
     <section class="auth-brand-panel">
         <a href="/index.php" class="brand hero-brand">
-            <span class="brand-icon">🚗</span>
-            <div>
-                <h1>Mobilis</h1>
-                <p>Vehicle Rental</p>
-            </div>
+            <img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
         </a>
         <div class="hero-copy">
             <h2>Reach the Mobilis team</h2>

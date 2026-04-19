@@ -72,6 +72,17 @@ a {
   align-items: center;
 }
 
+.brand-logo {
+  display: block;
+  width: 160px;
+  max-width: 100%;
+  height: auto;
+}
+
+.sidebar .brand-logo {
+  width: 146px;
+}
+
 .brand h1 {
   font-size: 1.4rem;
 }
@@ -1442,12 +1453,16 @@ td p {
   background: linear-gradient(155deg, #15745a 0%, #0f5f47 58%, #0d4d3b 100%);
 }
 
-.hero-brand .brand-icon {
-  background: rgba(255, 255, 255, 0.2);
+.hero-brand {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.14);
 }
 
-.hero-brand p {
-  color: #9fe2cc;
+.hero-brand .brand-logo {
+  width: 176px;
 }
 
 .hero-copy {
@@ -1859,6 +1874,14 @@ td p {
 
 .landing-nav .brand p {
   font-size: 0.82rem;
+}
+
+.landing-nav .brand {
+  gap: 0;
+}
+
+.landing-nav .brand-logo {
+  width: 150px;
 }
 
 .landing-nav-links {

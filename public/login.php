@@ -44,11 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="login-shell">
     <section class="login-brand-panel">
         <a href="/index.php" class="brand hero-brand">
-            <span class="brand-icon">🚗</span>
-            <div>
-                <h1>Mobilis</h1>
-                <p>Vehicle Rental</p>
-            </div>
+            <img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
         </a>
         <div class="hero-copy">
             <h2>Rent a vehicle and manage a fleet, all from one place</h2>

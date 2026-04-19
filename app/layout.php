@@ -67,7 +67,7 @@ if (!function_exists('renderPageTop')) {
         echo '</head><body>';
         echo '<div class="app-shell">';
         echo '<aside class="sidebar">';
-        echo '<div class="brand"><span class="brand-icon">🚗</span><div><h1>Mobilis</h1><p>Vehicle Rental</p></div></div>';
+        echo '<div class="brand"><img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo"></div>';
         echo '<nav class="nav">';
         foreach (navSections() as $group) {
             echo '<section class="nav-group">';

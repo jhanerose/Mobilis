@@ -23,11 +23,7 @@ if (isAuthenticated()) {
 <main class="landing-shell">
     <nav class="landing-nav reveal">
         <a href="/index.php" class="brand">
-            <span class="brand-icon">🚗</span>
-            <div>
-                <h1>Mobilis</h1>
-                <p>Vehicle Rental Platform</p>
-            </div>
+            <img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
         </a>
         <div class="landing-nav-links">
             <a href="/login.php" class="landing-nav-link">Sign in</a>
@@ -37,11 +33,7 @@ if (isAuthenticated()) {
 
     <section class="landing-hero reveal reveal-delay-1">
         <div class="brand hero-brand">
-            <span class="brand-icon">🚗</span>
-            <div>
-                <h1>Mobilis</h1>
-                <p>Vehicle Rental & Fleet Management</p>
-            </div>
+            <img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
         </div>
 
         <div class="landing-hero-copy">

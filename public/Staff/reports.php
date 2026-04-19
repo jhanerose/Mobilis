@@ -8,6 +8,12 @@ $analytics = getAnalyticsSummary();
 $maintenanceAlerts = getOverdueMaintenanceAlerts();
 $revenueTrends = getRevenueByPeriod('month');
 $bookingTrends = getBookingTrends('month');
+$topCustomers = getTopCustomersByRevenue(10);
+$vehiclePerformance = getVehiclePerformance();
+$paymentStatusBreakdown = getPaymentStatusBreakdown();
+$bookingStatusBreakdown = getBookingStatusBreakdown();
+$avgRevenuePerBooking = getAverageRevenuePerBooking();
+$revenueByVehicleType = getRevenueByVehicleType();
 
 renderPageTop('Reports', 'reports');
 ?>
@@ -59,6 +65,10 @@ renderPageTop('Reports', 'reports');
             <div class="stat-item">
                 <span class="stat-label">Avg Rental Days</span>
                 <strong class="stat-value"><?= number_format((float) ($analytics['booking_behavior']['average_rental_days'] ?? 0), 1) ?></strong>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Avg Revenue/Booking</span>
+                <strong class="stat-value"><?= formatCurrency($avgRevenuePerBooking) ?></strong>
             </div>
         </div>
         <div class="top-demand">
@@ -133,6 +143,180 @@ renderPageTop('Reports', 'reports');
                 <li class="muted">No recommendations at this time.</li>
             <?php endif; ?>
         </ul>
+    </article>
+</section>
+
+<section class="page-content-head" style="margin-top: 32px;">
+    <h3>Top Customers by Revenue</h3>
+</section>
+<section class="content-grid">
+    <article class="card full">
+        <div class="card-header">
+            <h4>Top 10 Customers</h4>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Bookings</th>
+                        <th>Total Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($topCustomers as $customer): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($customer['name'] ?? 'Unknown') ?></td>
+                            <td><?= htmlspecialchars($customer['email'] ?? '') ?></td>
+                            <td><?= number_format($customer['bookings'] ?? 0) ?></td>
+                            <td><?= formatCurrency($customer['total_revenue'] ?? 0) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php if (empty($topCustomers)): ?>
+                        <tr><td colspan="4" class="muted">No customer data available.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>
+
+<section class="page-content-head" style="margin-top: 32px;">
+    <h3>Vehicle Performance</h3>
+</section>
+<section class="content-grid">
+    <article class="card full">
+        <div class="card-header">
+            <h4>Vehicles by Revenue</h4>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Type</th>
+                        <th>Rentals</th>
+                        <th>Total Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($vehiclePerformance as $vehicle): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($vehicle['name'] ?? 'Unknown') ?></td>
+                            <td><?= htmlspecialchars($vehicle['type'] ?? 'Unknown') ?></td>
+                            <td><?= number_format($vehicle['rentals'] ?? 0) ?></td>
+                            <td><?= formatCurrency($vehicle['revenue'] ?? 0) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php if (empty($vehiclePerformance)): ?>
+                        <tr><td colspan="4" class="muted">No vehicle performance data available.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>
+
+<section class="page-content-head" style="margin-top: 32px;">
+    <h3>Revenue by Vehicle Type</h3>
+</section>
+<section class="content-grid">
+    <article class="card full">
+        <div class="card-header">
+            <h4>Vehicle Type Revenue</h4>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vehicle Type</th>
+                        <th>Total Revenue</th>
+                        <th>Rentals</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($revenueByVehicleType as $type): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($type['type'] ?? 'Unknown') ?></td>
+                            <td><?= formatCurrency($type['total_revenue'] ?? 0) ?></td>
+                            <td><?= number_format($type['rentals'] ?? 0) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php if (empty($revenueByVehicleType)): ?>
+                        <tr><td colspan="3" class="muted">No vehicle type data available.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>
+
+<section class="page-content-head" style="margin-top: 32px;">
+    <h3>Payment Status Breakdown</h3>
+</section>
+<section class="content-grid">
+    <article class="card full">
+        <div class="card-header">
+            <h4>Payment Status</h4>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Count</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($paymentStatusBreakdown as $status): ?>
+                        <tr>
+                            <td><?= htmlspecialchars(ucfirst($status['status'] ?? 'Unknown')) ?></td>
+                            <td><?= number_format($status['count'] ?? 0) ?></td>
+                            <td><?= formatCurrency($status['total'] ?? 0) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php if (empty($paymentStatusBreakdown)): ?>
+                        <tr><td colspan="3" class="muted">No payment data available.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>
+
+<section class="page-content-head" style="margin-top: 32px;">
+    <h3>Booking Status Breakdown</h3>
+</section>
+<section class="content-grid">
+    <article class="card full">
+        <div class="card-header">
+            <h4>Booking Status</h4>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Count</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($bookingStatusBreakdown as $status): ?>
+                        <tr>
+                            <td><?= htmlspecialchars(ucfirst($status['status'] ?? 'Unknown')) ?></td>
+                            <td><?= number_format($status['count'] ?? 0) ?></td>
+                            <td><?= formatCurrency($status['total'] ?? 0) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php if (empty($bookingStatusBreakdown)): ?>
+                        <tr><td colspan="3" class="muted">No booking data available.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </article>
 </section>
 

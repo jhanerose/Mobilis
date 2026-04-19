@@ -1453,3 +1453,143 @@ if (!function_exists('getBookingTrends')) {
         }
     }
 }
+
+if (!function_exists('formatCurrency')) {
+    function formatCurrency(float $amount): string
+    {
+        return '₱' . number_format($amount, 2);
+    }
+}
+
+if (!function_exists('getTopCustomersByRevenue')) {
+    function getTopCustomersByRevenue(int $limit = 10): array
+    {
+        try {
+            $sql = "SELECT c.name, c.email, COUNT(r.rental_id) as bookings, SUM(r.total_amount) as total_revenue
+                    FROM Customer c
+                    JOIN Rental r ON c.customer_id = r.customer_id
+                    WHERE r.status != 'cancelled'
+                    GROUP BY c.customer_id
+                    ORDER BY total_revenue DESC
+                    LIMIT ?";
+            $stmt = db()->prepare($sql);
+            $stmt->execute([$limit]);
+            $rows = $stmt->fetchAll();
+            
+            return array_map(fn($row) => [
+                'name' => $row['name'] ?? 'Unknown',
+                'email' => $row['email'] ?? '',
+                'bookings' => (int) ($row['bookings'] ?? 0),
+                'total_revenue' => (float) ($row['total_revenue'] ?? 0),
+            ], $rows);
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+}
+
+if (!function_exists('getVehiclePerformance')) {
+    function getVehiclePerformance(): array
+    {
+        try {
+            $sql = "SELECT v.name, v.type, COUNT(r.rental_id) as rentals, SUM(r.total_amount) as revenue
+                    FROM Vehicle v
+                    LEFT JOIN Rental r ON v.vehicle_id = r.vehicle_id AND r.status != 'cancelled'
+                    GROUP BY v.vehicle_id
+                    ORDER BY revenue DESC";
+            $stmt = db()->query($sql);
+            $rows = $stmt->fetchAll();
+            
+            return array_map(fn($row) => [
+                'name' => $row['name'] ?? 'Unknown',
+                'type' => $row['type'] ?? 'Unknown',
+                'rentals' => (int) ($row['rentals'] ?? 0),
+                'revenue' => (float) ($row['revenue'] ?? 0),
+            ], $rows);
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+}
+
+if (!function_exists('getPaymentStatusBreakdown')) {
+    function getPaymentStatusBreakdown(): array
+    {
+        try {
+            $sql = "SELECT payment_status, COUNT(*) as count, SUM(total_amount) as total
+                    FROM Invoice
+                    GROUP BY payment_status";
+            $stmt = db()->query($sql);
+            $rows = $stmt->fetchAll();
+            
+            return array_map(fn($row) => [
+                'status' => $row['payment_status'] ?? 'unknown',
+                'count' => (int) ($row['count'] ?? 0),
+                'total' => (float) ($row['total'] ?? 0),
+            ], $rows);
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+}
+
+if (!function_exists('getBookingStatusBreakdown')) {
+    function getBookingStatusBreakdown(): array
+    {
+        try {
+            $sql = "SELECT status, COUNT(*) as count, SUM(total_amount) as total
+                    FROM Rental
+                    GROUP BY status";
+            $stmt = db()->query($sql);
+            $rows = $stmt->fetchAll();
+            
+            return array_map(fn($row) => [
+                'status' => $row['status'] ?? 'unknown',
+                'count' => (int) ($row['count'] ?? 0),
+                'total' => (float) ($row['total'] ?? 0),
+            ], $rows);
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+}
+
+if (!function_exists('getAverageRevenuePerBooking')) {
+    function getAverageRevenuePerBooking(): float
+    {
+        try {
+            $sql = "SELECT AVG(total_amount) as avg_revenue
+                    FROM Rental
+                    WHERE status != 'cancelled'";
+            $stmt = db()->query($sql);
+            $row = $stmt->fetch();
+            
+            return (float) ($row['avg_revenue'] ?? 0);
+        } catch (Throwable $e) {
+            return 0;
+        }
+    }
+}
+
+if (!function_exists('getRevenueByVehicleType')) {
+    function getRevenueByVehicleType(): array
+    {
+        try {
+            $sql = "SELECT v.type, SUM(r.total_amount) as total_revenue, COUNT(r.rental_id) as rentals
+                    FROM Vehicle v
+                    LEFT JOIN Rental r ON v.vehicle_id = r.vehicle_id AND r.status != 'cancelled'
+                    GROUP BY v.type
+                    ORDER BY total_revenue DESC";
+            $stmt = db()->query($sql);
+            $rows = $stmt->fetchAll();
+            
+            return array_map(fn($row) => [
+                'type' => $row['type'] ?? 'Unknown',
+                'total_revenue' => (float) ($row['total_revenue'] ?? 0),
+                'rentals' => (int) ($row['rentals'] ?? 0),
+            ], $rows);
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+}

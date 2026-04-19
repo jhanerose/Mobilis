@@ -145,12 +145,17 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard'));
             <h4>Live fleet map</h4>
             <a href="tracking.php" class="ghost-link">Full map</a>
         </div>
-        <div class="map-embed-wrap">
-            <iframe
-                title="Live fleet map"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                src="https://www.google.com/maps?q=Metro+Manila,+Philippines&output=embed"></iframe>
+        <div
+            id="dashboard-live-map"
+            class="live-map-canvas"
+            data-tracking-map
+            data-tracking-endpoint="/api/tracking.php"
+            data-tracking-status-target="dashboard-tracking-status"></div>
+        <p id="dashboard-tracking-status" class="muted tracking-status-note">
+            Simulated locations refresh every few seconds.
+        </p>
+        <div class="tracking-map-actions">
+            <button type="button" class="ghost-link button-like" data-tracking-refresh="dashboard-live-map">Refresh now</button>
         </div>
     </article>
 

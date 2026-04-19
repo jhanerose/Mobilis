@@ -25,74 +25,108 @@ if (isAuthenticated()) {
         <a href="/index.php" class="brand">
             <img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
         </a>
+        <div class="landing-nav-center">
+            <a href="#platform" class="landing-nav-tab active">Platform</a>
+            <a href="#why" class="landing-nav-tab">Solutions</a>
+            <a href="#team" class="landing-nav-tab">Team</a>
+        </div>
         <div class="landing-nav-links">
-            <a href="/login.php" class="landing-nav-link">Sign in</a>
+            <a href="/login.php" class="landing-nav-link subtle">Sign in</a>
             <a href="/register.php" class="landing-nav-link primary">Register</a>
         </div>
     </nav>
 
-    <section class="landing-hero reveal reveal-delay-1">
-        <div class="landing-hero-copy">
-            <h2>Book faster, travel smarter, and stay in control of every ride.</h2>
-            <p>Mobilis helps customers reserve trusted vehicles, monitor booking status in real time, and get transparent billing from pickup to return.</p>
-        </div>
+    <section class="landing-hero reveal reveal-delay-1" id="platform">
+        <div class="landing-hero-layout">
+            <div class="landing-hero-copy">
+                <span class="landing-kicker">Redefining Mobility</span>
+                <h2>Book faster.<br>Travel <span class="landing-accent">smarter.</span></h2>
+                <p>Mobilis helps customers reserve trusted vehicles, monitor booking status in real time, and get transparent billing from pickup to return.</p>
+                <div class="landing-hero-actions">
+                    <a href="/register.php" class="primary-btn">Start your journey</a>
+                    <a href="/login.php" class="ghost-btn">I already have an account</a>
+                </div>
+            </div>
 
-        <div class="landing-hero-actions">
-            <a href="/register.php" class="primary-btn">Get started</a>
-            <a href="/login.php" class="ghost-btn">I already have an account</a>
-        </div>
-
-        <div class="landing-proof-grid">
-            <article>
-                <span class="landing-proof-icon">🚙</span>
-                <div class="landing-proof-content">
-                    <strong>48+</strong>
-                    <span>Vehicles managed daily</span>
+            <aside class="landing-hero-visual">
+                <div class="landing-hero-panel">
+                    <p class="landing-panel-title">Live Fleet Snapshot</p>
+                    <ul class="landing-mini-list">
+                        <li><span>Vehicles online</span><strong>48</strong></li>
+                        <li><span>Active rentals</span><strong>31</strong></li>
+                        <li><span>On-time updates</span><strong>99%</strong></li>
+                    </ul>
                 </div>
-            </article>
-            <article>
-                <span class="landing-proof-icon">🧭</span>
-                <div class="landing-proof-content">
-                    <strong>31</strong>
-                    <span>Active rentals in progress</span>
-                </div>
-            </article>
-            <article>
-                <span class="landing-proof-icon">📊</span>
-                <div class="landing-proof-content">
-                    <strong>99%</strong>
-                    <span>On-time booking updates</span>
-                </div>
-            </article>
+            </aside>
         </div>
     </section>
 
-    <section class="landing-section reveal reveal-delay-2">
+    <section class="landing-stat-section reveal reveal-delay-2">
+        <article class="landing-stat-card">
+            <span class="landing-proof-icon">🚙</span>
+            <div class="landing-proof-content">
+                <strong>48+</strong>
+                <span>Vehicles managed daily</span>
+            </div>
+        </article>
+        <article class="landing-stat-card shift">
+            <span class="landing-proof-icon">🧭</span>
+            <div class="landing-proof-content">
+                <strong>31</strong>
+                <span>Active rentals in progress</span>
+            </div>
+        </article>
+        <article class="landing-stat-card">
+            <span class="landing-proof-icon">📊</span>
+            <div class="landing-proof-content">
+                <strong>99%</strong>
+                <span>On-time booking updates</span>
+            </div>
+        </article>
+    </section>
+
+    <section class="landing-section reveal reveal-delay-2" id="why">
         <div class="landing-section-head">
-            <h3>Why customers choose Mobilis</h3>
+            <span class="landing-section-kicker">Our Advantage</span>
+            <h3>Precision in every mile.</h3>
             <p>Everything you need before, during, and after a rental.</p>
         </div>
-        <div class="landing-feature-grid">
-            <article class="card landing-feature-card">
-                <span class="landing-feature-icon">⚡</span>
-                <h4>Instant booking visibility</h4>
-                <p>Track confirmation, payment, and schedule updates with clear status indicators.</p>
+
+        <div class="landing-bento-grid">
+            <article class="landing-bento-card wide">
+                <span class="landing-proof-icon">🚙</span>
+                <div class="landing-proof-content">
+                    <strong>Instant booking visibility</strong>
+                    <span>Track confirmation, payment, and schedule updates with clear status indicators from reservation to return.</span>
+                </div>
             </article>
-            <article class="card landing-feature-card">
+
+            <article class="landing-bento-card accent">
                 <span class="landing-feature-icon">🛡️</span>
                 <h4>Reliable vehicle options</h4>
-                <p>Choose from sedans, SUVs, vans, and pickups with transparent rates and availability.</p>
+                <p>Choose sedans, SUVs, vans, and pickups with transparent rates and real availability.</p>
             </article>
-            <article class="card landing-feature-card">
+
+            <article class="landing-bento-card compact">
                 <span class="landing-feature-icon">💳</span>
                 <h4>Transparent billing flow</h4>
-                <p>See charges, invoices, and payment status in one place with no hidden surprises.</p>
+                <p>View charges, invoices, and payment status in one place.</p>
+            </article>
+
+            <article class="landing-bento-card split">
+                <div>
+                    <span class="landing-feature-icon">🕒</span>
+                    <h4>24/7 support routing</h4>
+                    <p>Our support workflows keep customers informed with timely updates and clear turnaround expectations.</p>
+                </div>
+                <div class="landing-bento-art"></div>
             </article>
         </div>
     </section>
 
-    <section class="landing-section reveal reveal-delay-3">
+    <section class="landing-section reveal reveal-delay-3" id="team">
         <div class="landing-section-head">
+            <span class="landing-section-kicker">The Team</span>
             <h3>Meet Team Mobilis</h3>
             <p>The people building your smarter rental experience.</p>
         </div>

@@ -90,16 +90,20 @@ if (!function_exists('getBookings')) {
     {
         if (!dbConnected()) {
             return [
-                ['rental_id' => 412, 'user_id' => 4, 'customer' => 'Maria Reyes', 'customer_email' => 'maria@email.com', 'vehicle_id' => 1, 'vehicle' => 'Toyota Fortuner', 'pickup_date' => '2026-04-13', 'return_date' => '2026-04-16', 'status' => 'confirmed', 'payment_status' => 'paid', 'days' => 3, 'total' => 10500],
-                ['rental_id' => 411, 'user_id' => 5, 'customer' => 'Juan dela Cruz', 'customer_email' => 'jdc@email.com', 'vehicle_id' => 2, 'vehicle' => 'Honda Civic', 'pickup_date' => '2026-04-14', 'return_date' => '2026-04-14', 'status' => 'pending', 'payment_status' => 'unpaid', 'days' => 1, 'total' => 2200],
-                ['rental_id' => 410, 'user_id' => 6, 'customer' => 'Ana Lim', 'customer_email' => 'ana@email.com', 'vehicle_id' => 3, 'vehicle' => 'Toyota HiAce', 'pickup_date' => '2026-04-15', 'return_date' => '2026-04-20', 'status' => 'confirmed', 'payment_status' => 'paid', 'days' => 5, 'total' => 20000],
-                ['rental_id' => 409, 'user_id' => 7, 'customer' => 'Ramon Santos', 'customer_email' => 'ramon@email.com', 'vehicle_id' => 4, 'vehicle' => 'Ford Ranger', 'pickup_date' => '2026-04-17', 'return_date' => '2026-04-19', 'status' => 'confirmed', 'payment_status' => 'unpaid', 'days' => 2, 'total' => 6400],
-                ['rental_id' => 408, 'user_id' => 8, 'customer' => 'Pedro Cruz', 'customer_email' => 'pedz@email.com', 'vehicle_id' => 5, 'vehicle' => 'Mitsubishi Xpander', 'pickup_date' => '2026-04-10', 'return_date' => '2026-04-12', 'status' => 'completed', 'payment_status' => 'paid', 'days' => 2, 'total' => 5600],
-                ['rental_id' => 407, 'user_id' => 9, 'customer' => 'Lisa Garcia', 'customer_email' => 'lisag@email.com', 'vehicle_id' => 6, 'vehicle' => 'Hyundai Tucson', 'pickup_date' => '2026-04-08', 'return_date' => '2026-04-08', 'status' => 'cancelled', 'payment_status' => 'unpaid', 'days' => 1, 'total' => 3800],
+                ['rental_id' => 412, 'user_id' => 4, 'customer' => 'Maria Reyes', 'customer_email' => 'maria@email.com', 'vehicle_id' => 1, 'vehicle' => 'Toyota Fortuner', 'pickup_date' => '2026-04-13', 'return_date' => '2026-04-16', 'status' => 'confirmed', 'payment_status' => 'paid', 'payment_method' => 'gcash', 'days' => 3, 'total' => 10500],
+                ['rental_id' => 411, 'user_id' => 5, 'customer' => 'Juan dela Cruz', 'customer_email' => 'jdc@email.com', 'vehicle_id' => 2, 'vehicle' => 'Honda Civic', 'pickup_date' => '2026-04-14', 'return_date' => '2026-04-14', 'status' => 'pending', 'payment_status' => 'unpaid', 'payment_method' => 'pending', 'days' => 1, 'total' => 2200],
+                ['rental_id' => 410, 'user_id' => 6, 'customer' => 'Ana Lim', 'customer_email' => 'ana@email.com', 'vehicle_id' => 3, 'vehicle' => 'Toyota HiAce', 'pickup_date' => '2026-04-15', 'return_date' => '2026-04-20', 'status' => 'confirmed', 'payment_status' => 'paid', 'payment_method' => 'cash', 'days' => 5, 'total' => 20000],
+                ['rental_id' => 409, 'user_id' => 7, 'customer' => 'Ramon Santos', 'customer_email' => 'ramon@email.com', 'vehicle_id' => 4, 'vehicle' => 'Ford Ranger', 'pickup_date' => '2026-04-17', 'return_date' => '2026-04-19', 'status' => 'confirmed', 'payment_status' => 'unpaid', 'payment_method' => 'pending', 'days' => 2, 'total' => 6400],
+                ['rental_id' => 408, 'user_id' => 8, 'customer' => 'Pedro Cruz', 'customer_email' => 'pedz@email.com', 'vehicle_id' => 5, 'vehicle' => 'Mitsubishi Xpander', 'pickup_date' => '2026-04-10', 'return_date' => '2026-04-12', 'status' => 'completed', 'payment_status' => 'paid', 'payment_method' => 'card', 'days' => 2, 'total' => 5600],
+                ['rental_id' => 407, 'user_id' => 9, 'customer' => 'Lisa Garcia', 'customer_email' => 'lisag@email.com', 'vehicle_id' => 6, 'vehicle' => 'Hyundai Tucson', 'pickup_date' => '2026-04-08', 'return_date' => '2026-04-08', 'status' => 'cancelled', 'payment_status' => 'unpaid', 'payment_method' => 'pending', 'days' => 1, 'total' => 3800],
             ];
         }
 
         try {
+            if (function_exists('ensureInvoicePaymentMethodColumn')) {
+                ensureInvoicePaymentMethodColumn();
+            }
+
             $sql = "
                 SELECT
                     r.rental_id,
@@ -113,6 +117,7 @@ if (!function_exists('getBookings')) {
                     r.return_date,
                     r.status,
                     i.payment_status,
+                    i.payment_method,
                     GREATEST(DATEDIFF(r.return_date, r.pickup_date), 1) AS days,
                     COALESCE(i.total_amount, vc.daily_rate * GREATEST(DATEDIFF(r.return_date, r.pickup_date), 1)) AS total
                 FROM Rental r
@@ -288,12 +293,16 @@ if (!function_exists('getCustomerBookings')) {
     {
         if (!dbConnected()) {
             return [
-                ['rental_id' => 412, 'vehicle_id' => 1, 'vehicle' => 'Toyota Fortuner', 'pickup_date' => '2026-04-13', 'return_date' => '2026-04-16', 'status' => 'confirmed', 'payment_status' => 'paid', 'days' => 3, 'total' => 10500],
-                ['rental_id' => 408, 'vehicle_id' => 5, 'vehicle' => 'Mitsubishi Xpander', 'pickup_date' => '2026-04-10', 'return_date' => '2026-04-12', 'status' => 'completed', 'payment_status' => 'paid', 'days' => 2, 'total' => 5600],
+                ['rental_id' => 412, 'vehicle_id' => 1, 'vehicle' => 'Toyota Fortuner', 'pickup_date' => '2026-04-13', 'return_date' => '2026-04-16', 'status' => 'confirmed', 'payment_status' => 'paid', 'payment_method' => 'gcash', 'days' => 3, 'total' => 10500],
+                ['rental_id' => 408, 'vehicle_id' => 5, 'vehicle' => 'Mitsubishi Xpander', 'pickup_date' => '2026-04-10', 'return_date' => '2026-04-12', 'status' => 'completed', 'payment_status' => 'paid', 'payment_method' => 'card', 'days' => 2, 'total' => 5600],
             ];
         }
 
         try {
+            if (function_exists('ensureInvoicePaymentMethodColumn')) {
+                ensureInvoicePaymentMethodColumn();
+            }
+
             $sql = "
                 SELECT
                     r.rental_id,
@@ -305,6 +314,7 @@ if (!function_exists('getCustomerBookings')) {
                     r.return_date,
                     r.status,
                     i.payment_status,
+                    i.payment_method,
                     GREATEST(DATEDIFF(r.return_date, r.pickup_date), 1) AS days,
                     COALESCE(i.total_amount, vc.daily_rate * GREATEST(DATEDIFF(r.return_date, r.pickup_date), 1)) AS total
                 FROM Rental r

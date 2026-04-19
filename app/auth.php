@@ -69,8 +69,7 @@ if (!function_exists('requireAuth')) {
         }
 
         if ($roles !== [] && !in_array($user['role'], $roles, true)) {
-            http_response_code(403);
-            echo 'Forbidden';
+            header('Location: /errors/403.php');
             exit;
         }
     }

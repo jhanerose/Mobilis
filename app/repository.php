@@ -1095,3 +1095,165 @@ if (!function_exists('getPasswordResetRequests')) {
         }
     }
 }
+
+if (!function_exists('getCustomerBookings')) {
+    function getCustomerBookings(string $customerEmail, int $limit = 10): array
+    {
+        if (!dbConnected()) {
+            return [
+                ['rental_id' => 412, 'vehicle_id' => 1, 'vehicle' => 'Toyota Fortuner', 'pickup_date' => '2026-04-13', 'return_date' => '2026-04-16', 'status' => 'confirmed', 'payment_status' => 'paid', 'days' => 3, 'total' => 10500],
+                ['rental_id' => 408, 'vehicle_id' => 5, 'vehicle' => 'Mitsubishi Xpander', 'pickup_date' => '2026-04-10', 'return_date' => '2026-04-12', 'status' => 'completed', 'payment_status' => 'paid', 'days' => 2, 'total' => 5600],
+            ];
+        }
+
+        try {
+            $sql = "
+                SELECT
+                    r.rental_id,
+                    r.vehicle_id,
+                    CONCAT(v.brand, ' ', v.model) AS vehicle,
+                    r.pickup_date,
+                    r.return_date,
+                    r.status,
+                    i.payment_status,
+                    GREATEST(DATEDIFF(r.return_date, r.pickup_date), 1) AS days,
+                    COALESCE(i.total_amount, vc.daily_rate * GREATEST(DATEDIFF(r.return_date, r.pickup_date), 1)) AS total
+                FROM Rental r
+                INNER JOIN Customer c ON c.customer_id = r.customer_id
+                INNER JOIN Vehicle v ON v.vehicle_id = r.vehicle_id
+                INNER JOIN VehicleCategory vc ON vc.category_id = v.category_id
+                LEFT JOIN Invoice i ON i.rental_id = r.rental_id
+                WHERE c.email = :email
+                ORDER BY r.pickup_date DESC
+                LIMIT :limit
+            ";
+            $stmt = db()->prepare($sql);
+            $stmt->bindValue(':email', $customerEmail);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $rows = $stmt->fetchAll();
+            foreach ($rows as &$row) {
+                if ($row['status'] === 'active') {
+                    $row['status'] = 'confirmed';
+                }
+                if (!isset($row['payment_status']) || $row['payment_status'] === null) {
+                    $row['payment_status'] = 'unpaid';
+                }
+            }
+            return $rows;
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+}
+
+if (!function_exists('getAvailableVehicles')) {
+    function getAvailableVehicles(int $limit = 10): array
+    {
+        if (!dbConnected()) {
+            return [
+                ['vehicle_id' => 2, 'name' => 'Honda Civic', 'plate' => 'XYZ-5678', 'category_name' => 'Sedan', 'daily_rate' => 2200, 'status' => 'available'],
+                ['vehicle_id' => 5, 'name' => 'Mitsubishi Xpander', 'plate' => 'JKL-7890', 'category_name' => 'Sedan', 'daily_rate' => 2800, 'status' => 'available'],
+            ];
+        }
+
+        try {
+            $sql = "
+                SELECT
+                    v.vehicle_id,
+                    CONCAT(v.brand, ' ', v.model) AS name,
+                    REPLACE(v.plate_number, ' ', '-') AS plate,
+                    vc.category_name,
+                    vc.daily_rate,
+                    v.status
+                FROM Vehicle v
+                INNER JOIN VehicleCategory vc ON vc.category_id = v.category_id
+                WHERE v.status = 'available'
+                ORDER BY v.vehicle_id DESC
+                LIMIT :limit
+            ";
+            $stmt = db()->prepare($sql);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+}
+
+if (!function_exists('getCustomerPayments')) {
+    function getCustomerPayments(string $customerEmail, int $limit = 10): array
+    {
+        if (!dbConnected()) {
+            return [
+                ['invoice_id' => 1001, 'vehicle' => 'Toyota Fortuner', 'total_amount' => 10500, 'payment_status' => 'paid', 'issued_at' => '2026-04-13'],
+                ['invoice_id' => 1002, 'vehicle' => 'Mitsubishi Xpander', 'total_amount' => 5600, 'payment_status' => 'paid', 'issued_at' => '2026-04-10'],
+            ];
+        }
+
+        try {
+            $sql = "
+                SELECT
+                    i.invoice_id,
+                    CONCAT(v.brand, ' ', v.model) AS vehicle,
+                    i.total_amount,
+                    i.payment_status,
+                    DATE(i.issued_at) AS issued_at
+                FROM Invoice i
+                INNER JOIN Rental r ON r.rental_id = i.rental_id
+                INNER JOIN Customer c ON c.customer_id = r.customer_id
+                INNER JOIN Vehicle v ON v.vehicle_id = r.vehicle_id
+                WHERE c.email = :email
+                ORDER BY i.issued_at DESC
+                LIMIT :limit
+            ";
+            $stmt = db()->prepare($sql);
+            $stmt->bindValue(':email', $customerEmail);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+}
+
+if (!function_exists('getCustomerByEmail')) {
+    function getCustomerByEmail(string $email): ?array
+    {
+        if (!dbConnected()) {
+            foreach (getCustomers(50) as $customer) {
+                if (($customer['email'] ?? '') === strtolower($email)) {
+                    return $customer;
+                }
+            }
+            return null;
+        }
+
+        try {
+            $sql = "
+                SELECT
+                    c.customer_id,
+                    c.first_name,
+                    c.last_name,
+                    CONCAT(c.first_name, ' ', c.last_name) AS name,
+                    c.email,
+                    c.phone,
+                    c.license_number,
+                    c.license_expiry,
+                    c.address
+                FROM Customer c
+                WHERE c.email = :email
+                LIMIT 1
+            ";
+            $stmt = db()->prepare($sql);
+            $stmt->execute(['email' => strtolower($email)]);
+            $row = $stmt->fetch();
+            return $row ?: null;
+        } catch (Throwable $e) {
+            return null;
+        }
+    }
+}

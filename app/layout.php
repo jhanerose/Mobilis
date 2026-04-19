@@ -2,9 +2,31 @@
 declare(strict_types=1);
 
 if (!function_exists('navSections')) {
-    function navSections(): array
+    function navSections(string $role = 'staff'): array
     {
-        return [
+        $customerNav = [
+            [
+                'section' => 'My Rentals',
+                'items' => [
+                    ['key' => 'dashboard', 'label' => 'Dashboard', 'href' => '/Customer/dashboard.php', 'icon' => '📊'],
+                    ['key' => 'bookings', 'label' => 'My bookings', 'href' => '/Customer/bookings.php', 'icon' => '🗓'],
+                ],
+            ],
+            [
+                'section' => 'Fleet',
+                'items' => [
+                    ['key' => 'tracking', 'label' => 'Live tracking', 'href' => '/Customer/tracking.php', 'icon' => '📍'],
+                ],
+            ],
+            [
+                'section' => 'Account',
+                'items' => [
+                    ['key' => 'payments', 'label' => 'Payments', 'href' => '/Customer/payments.php', 'icon' => '💳'],
+                ],
+            ],
+        ];
+
+        $staffNav = [
             [
                 'section' => 'Overview',
                 'items' => [
@@ -28,6 +50,9 @@ if (!function_exists('navSections')) {
                     ['key' => 'reports', 'label' => 'Reports', 'href' => '/Staff/reports.php', 'icon' => '📈'],
                 ],
             ],
+        ];
+
+        $adminNav = [
             [
                 'section' => 'Admin',
                 'items' => [
@@ -36,6 +61,16 @@ if (!function_exists('navSections')) {
                 ],
             ],
         ];
+
+        if ($role === 'customer') {
+            return $customerNav;
+        }
+
+        if ($role === 'admin') {
+            return array_merge($staffNav, $adminNav);
+        }
+
+        return $staffNav;
     }
 }
 
@@ -43,6 +78,7 @@ if (!function_exists('renderPageTop')) {
     function renderPageTop(string $title, string $activeNav, array $options = []): void
     {
         $user = currentUser();
+        $role = (string) ($options['role'] ?? ($user['role'] ?? 'staff'));
         $showSearch = (bool) ($options['show_search'] ?? true);
         $showPrimaryCta = (bool) ($options['show_primary_cta'] ?? true);
         $primaryCtaLabel = (string) ($options['primary_cta_label'] ?? '+ New booking');
@@ -69,7 +105,7 @@ if (!function_exists('renderPageTop')) {
         echo '<aside class="sidebar">';
         echo '<div class="brand"><img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo"></div>';
         echo '<nav class="nav">';
-        foreach (navSections() as $group) {
+        foreach (navSections($role) as $group) {
             echo '<section class="nav-group">';
             echo '<p class="nav-section-title">' . htmlspecialchars((string) $group['section']) . '</p>';
             foreach ($group['items'] as $item) {
@@ -91,7 +127,7 @@ if (!function_exists('renderPageTop')) {
         echo '<div class="sidebar-footer">';
         echo '<div class="sidebar-footer-meta">';
         echo '<p class="sidebar-user-label">Signed in as</p>';
-        echo '<p class="sidebar-user-role">' . htmlspecialchars((string) ($user['role'] ?? 'guest')) . '</p>';
+        echo '<p class="sidebar-user-role">' . htmlspecialchars(ucfirst($role)) . '</p>';
         echo '</div>';
         echo '<a class="sidebar-logout-btn" href="/logout.php">Sign out</a>';
         echo '</div>';

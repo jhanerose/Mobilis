@@ -98,7 +98,7 @@ if (!function_exists('renderPageTop')) {
         echo '<title>' . htmlspecialchars($title) . ' | Mobilis</title>';
         echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
         echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
-        echo '<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">';
+        echo '<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">';
         echo '<link rel="stylesheet" href="/assets/styles.css">';
         echo '</head><body>';
         echo '<div class="app-shell">';

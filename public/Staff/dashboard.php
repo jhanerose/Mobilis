@@ -94,7 +94,7 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard'));
     <article class="card">
         <div class="card-header">
             <h4>Vehicle status</h4>
-            <a href="vehicles.php" class="ghost-link">View all</a>
+            <a href="vehicles.php" class="ghost-link">View all vehicles</a>
         </div>
         <ul class="list clean">
             <?php foreach ($vehicleStatus as $vehicle): ?>
@@ -116,7 +116,7 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard'));
     <article class="card">
         <div class="card-header">
             <h4>Upcoming bookings</h4>
-            <a href="bookings.php" class="ghost-link">Calendar</a>
+            <a href="bookings.php" class="ghost-link">View all bookings</a>
         </div>
         <ul class="list clean">
             <?php foreach ($upcomingBookings as $booking): ?>
@@ -157,7 +157,7 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard'));
     <article class="card">
         <div class="card-header">
             <h4>Fleet by category</h4>
-            <a href="vehicles.php" class="ghost-link">Details</a>
+            <a href="vehicles.php" class="ghost-link">View details</a>
         </div>
         <div class="progress-list">
             <?php foreach ($fleetByCategory as $row): ?>

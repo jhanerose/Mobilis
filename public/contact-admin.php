@@ -5,13 +5,29 @@ require_once __DIR__ . '/../app/bootstrap.php';
 
 $errors = [];
 $success = '';
+$contactHistoryEmail = '';
+$contactHistory = [];
+
+$form = [
+    'full_name' => '',
+    'email' => '',
+    'phone' => '',
+    'subject' => '',
+    'message' => '',
+];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $fullName = trim((string) ($_POST['full_name'] ?? ''));
-    $email = strtolower(trim((string) ($_POST['email'] ?? '')));
-    $phone = trim((string) ($_POST['phone'] ?? ''));
-    $subject = trim((string) ($_POST['subject'] ?? ''));
-    $message = trim((string) ($_POST['message'] ?? ''));
+    $form['full_name'] = trim((string) ($_POST['full_name'] ?? ''));
+    $form['email'] = strtolower(trim((string) ($_POST['email'] ?? '')));
+    $form['phone'] = trim((string) ($_POST['phone'] ?? ''));
+    $form['subject'] = trim((string) ($_POST['subject'] ?? ''));
+    $form['message'] = trim((string) ($_POST['message'] ?? ''));
+
+    $fullName = $form['full_name'];
+    $email = $form['email'];
+    $phone = $form['phone'];
+    $subject = $form['subject'];
+    $message = $form['message'];
 
     if ($fullName === '') {
         $errors[] = 'Please provide your full name.';
@@ -37,10 +53,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $saved = submitAdminContactMessage($fullName, $email, $phone, $subject, $message);
         if ($saved) {
             $success = 'Your message was submitted and saved for the admin team.';
+            $contactHistoryEmail = $email;
         } else {
             $errors[] = 'Could not save your message right now. Check database connection and table setup.';
         }
     }
+}
+
+if ($contactHistoryEmail === '' && $form['email'] !== '') {
+    $contactHistoryEmail = $form['email'];
+}
+
+if ($contactHistoryEmail !== '') {
+    $contactHistory = getAdminContactMessagesByEmail($contactHistoryEmail, 5);
 }
 ?>
 <?php
@@ -97,22 +122,57 @@ viewBegin('auth', authLayoutData('Contact Admin'));
 
         <form method="post" class="auth-form-grid">
             <label for="contact-full-name">Full name
-                <input id="contact-full-name" type="text" name="full_name" placeholder="Maria Reyes" required>
+                <input id="contact-full-name" type="text" name="full_name" value="<?= htmlspecialchars($form['full_name']) ?>" placeholder="Maria Reyes" required>
             </label>
             <label for="contact-email">Email address
-                <input id="contact-email" type="email" name="email" placeholder="maria@email.com" required>
+                <input id="contact-email" type="email" name="email" value="<?= htmlspecialchars($form['email']) ?>" placeholder="maria@email.com" required>
             </label>
             <label for="contact-phone">Phone (optional)
-                <input id="contact-phone" type="tel" name="phone" placeholder="+63 917 123 4567">
+                <input id="contact-phone" type="tel" name="phone" value="<?= htmlspecialchars($form['phone']) ?>" placeholder="+63 917 123 4567">
             </label>
             <label for="contact-subject">Subject
-                <input id="contact-subject" type="text" name="subject" placeholder="Account access support" required>
+                <input id="contact-subject" type="text" name="subject" value="<?= htmlspecialchars($form['subject']) ?>" placeholder="Account access support" required>
             </label>
             <label for="contact-message" class="full">Message
-                <textarea id="contact-message" name="message" rows="4" maxlength="1000" placeholder="Please help reset my account access" required></textarea>
+                <textarea id="contact-message" name="message" rows="4" maxlength="1000" placeholder="Please help reset my account access" required><?= htmlspecialchars($form['message']) ?></textarea>
             </label>
             <button type="submit" class="primary-btn full">Send to admin</button>
         </form>
+
+        <?php if ($contactHistory !== []): ?>
+            <div class="table-wrap" style="margin-top: 12px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket</th>
+                            <th>Subject</th>
+                            <th>Status</th>
+                            <th>Admin response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($contactHistory as $item): ?>
+                            <tr>
+                                <td>#<?= (int) ($item['message_id'] ?? 0) ?></td>
+                                <td>
+                                    <?= htmlspecialchars((string) ($item['subject'] ?? '')) ?>
+                                    <p class="muted"><?= htmlspecialchars((string) ($item['created_at'] ?? '')) ?></p>
+                                </td>
+                                <td><span class="pill support-status-<?= htmlspecialchars((string) ($item['status'] ?? 'new')) ?>"><?= htmlspecialchars(ucfirst((string) ($item['status'] ?? 'new'))) ?></span></td>
+                                <td>
+                                    <?php if (trim((string) ($item['admin_response'] ?? '')) !== ''): ?>
+                                        <?= nl2br(htmlspecialchars((string) ($item['admin_response'] ?? ''))) ?>
+                                        <p class="muted">Updated <?= htmlspecialchars((string) ($item['responded_at'] ?? '')) ?></p>
+                                    <?php else: ?>
+                                        <span class="muted">Awaiting admin response</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
 
         <div class="auth-form-footer-links">
             <a href="/login.php">Back to sign in</a>

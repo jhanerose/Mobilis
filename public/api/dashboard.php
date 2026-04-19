@@ -14,11 +14,8 @@ $payload = [
     'maintenance' => getMaintenanceBacklog(),
 ];
 
-$insights = generatePythonInsights($payload);
-
 echo json_encode([
     'ok' => true,
     'source' => dbConnected() ? 'mysql' : 'fallback',
     'payload' => $payload,
-    'insights' => $insights,
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

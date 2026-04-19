@@ -1,11 +1,10 @@
-# Mobilis Prototype (PHP + MySQL + Python)
+# Mobilis Prototype (PHP + MySQL)
 
 This is a functional prototype for the Mobilis vehicle rental and fleet management system using the requested stack:
 
 - Frontend: HTML, CSS, JavaScript
 - Backend: PHP
 - Database: MySQL
-- Advanced processing: Python (analytics and maintenance insights)
 
 ## Features Included
 
@@ -14,11 +13,40 @@ This is a functional prototype for the Mobilis vehicle rental and fleet manageme
 - Vehicles module with card-based inventory view
 - Bookings module with status chips and totals
 - Customers module with spending and booking summaries
-- Reports module with Python-generated analytics output
+- Reports module with analytics output
 - Contact Admin form with database persistence
 - Forgot Password request form with database persistence
 - Admin Support Inbox page to review stored support requests
 - Fallback demo data when MySQL is not yet connected
+
+## Recent Changes
+
+- Admin support inbox now supports direct response handling for contact tickets (`read` / `resolved`) with stored admin responses and response timestamps.
+- Password reset requests can now be completed directly in admin workflow, including password reset and request status update (`completed` / `rejected`).
+- Customer booking flow uses transactional booking creation (`Rental` + `Invoice` + `Vehicle.status` update).
+- Customer payments now support payment method capture (`cash`, `gcash`, `card`, `bank_transfer`) and invoice status transitions.
+- Live tracking API now returns role-aware vehicle snapshots and customer-scoped active rentals.
+- Reporting views were expanded with richer SQL-backed analytics and chart-oriented aggregates.
+
+## Technical Documentation
+
+Comprehensive technical documentation is available in the `docs/` folder:
+
+- `docs/documentation-index.md` (master index)
+- `docs/technology-stack.md`
+- `docs/system-architecture.md`
+- `docs/eerd-structure.md`
+- `docs/database-design-schema.md`
+- `docs/relationship-logic-data-structure.md`
+- `docs/database-cardinality-rules.md`
+- `docs/data-dictionary.md`
+- `docs/sql-scripts-ddl-dml.md`
+- `docs/connectivity-php-mysql.md`
+- `docs/api-reference.md`
+- `docs/module-map.md`
+- `docs/developer-guide.md`
+- `docs/database-quick-reference.md`
+- `docs/auth-support-db.md`
 
 ## User Accounts & Authentication
 
@@ -107,13 +135,13 @@ The Customers module provides comprehensive customer management capabilities for
 
 ## Project Structure
 
-- `app/` PHP backend logic (auth, DB, repository, layout, Python bridge)
+- `app/` PHP backend logic (auth, DB, repository, layout)
 - `public/` web root and pages
 - `public/api/` JSON endpoint used by dashboard and reports
 - `public/forgot-password.php` password reset request form (writes to DB)
 - `public/contact-admin.php` admin contact form (writes to DB)
-- `public/support-requests.php` admin/staff inbox for submitted requests
-- `python/` analytics processor scripts
+- `public/Admin/support-requests.php` admin support inbox for submitted requests
+- `docs/` technical documentation and database references
 - `mobilis_sql.sql` database schema and seed data
 
 ## Quick Start
@@ -154,7 +182,6 @@ export MOBILIS_DB_PORT=3306
 export MOBILIS_DB_NAME=mobilis_db
 export MOBILIS_DB_USER=mobilis_app
 export MOBILIS_DB_PASS=mobilis_app_pass
-export MOBILIS_PYTHON_BIN=python3
 ```
 
 Windows PowerShell:
@@ -165,7 +192,6 @@ $env:MOBILIS_DB_PORT="3306"
 $env:MOBILIS_DB_NAME="mobilis_db"
 $env:MOBILIS_DB_USER="mobilis_app"
 $env:MOBILIS_DB_PASS="mobilis_app_pass"
-$env:MOBILIS_PYTHON_BIN="python"
 ```
 
 3. Run the PHP development server from the repository root:
@@ -186,12 +212,6 @@ Demo credentials:
 
 Note: All customer accounts use the same default password "password" for demo purposes.
 
-## How Python Is Integrated
-
-- Endpoint `public/api/dashboard.php` pulls metrics and records via PHP.
-- PHP calls `python/analyze.py` through `proc_open` and sends JSON payload.
-- Python computes insights such as utilization interpretation, demand trends, and maintenance alerts.
-- The dashboard/reports pages display the Python response directly.
 
 ## Deploy To Railway
 
@@ -200,7 +220,7 @@ This repository is ready for Railway using the included Docker runtime.
 1. Push this codebase to GitHub.
 2. In Railway, create a new project and deploy from that GitHub repository.
 3. Add a MySQL service in the same Railway project.
-4. Set environment variables in the app service: use Railway MySQL defaults (`MYSQLHOST`, `MYSQLPORT`, `MYSQLDATABASE`, `MYSQLUSER`, `MYSQLPASSWORD`) which are auto-detected; optional override is `MOBILIS_DB_HOST`, `MOBILIS_DB_PORT`, `MOBILIS_DB_NAME`, `MOBILIS_DB_USER`, `MOBILIS_DB_PASS`; keep `MOBILIS_PYTHON_BIN=python3`.
+4. Set environment variables in the app service: use Railway MySQL defaults (`MYSQLHOST`, `MYSQLPORT`, `MYSQLDATABASE`, `MYSQLUSER`, `MYSQLPASSWORD`) which are auto-detected; optional override is `MOBILIS_DB_HOST`, `MOBILIS_DB_PORT`, `MOBILIS_DB_NAME`, `MOBILIS_DB_USER`, `MOBILIS_DB_PASS`.
 
 5. Open the MySQL service shell (or connect from your local machine using Railway connection info) and import schema + seed data:
 

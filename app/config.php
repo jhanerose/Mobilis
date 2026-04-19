@@ -35,6 +35,5 @@ return [
             ?? (is_array($dbUrlParts) ? (string) ($dbUrlParts['pass'] ?? '') : '')
             ?: '',
     ],
-    'python_bin' => getenv('MOBILIS_PYTHON_BIN') ?: 'python3',
     'mileage_alert_threshold' => 80000,
 ];

@@ -4,7 +4,7 @@ const insightsOutput = document.querySelector('#insights-output');
 async function refreshInsights() {
   if (!insightsOutput) return;
 
-  insightsOutput.textContent = 'Running PHP + Python analysis...';
+  insightsOutput.textContent = 'Running analysis...';
 
   try {
     const response = await fetch('/api/dashboard.php', {

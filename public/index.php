@@ -135,7 +135,7 @@ viewBegin('landing', ['title' => 'Mobilis | Smarter Vehicle Rental']);
             <article class="team-card">
                 <img src="/assets/images/Team-Mobilis/SY.png" alt="Kenneth A. Sy">
                 <h4>SY, KENNETH A.</h4>
-                <p>Backend/Python</p>
+                <p>Backend</p>
             </article>
             <article class="team-card">
                 <img src="/assets/images/Team-Mobilis/TENORIA.png" alt="Johan Jaiser Tenoria">

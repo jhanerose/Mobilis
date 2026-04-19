@@ -65,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $passwordHash
                     ]);
 
-                    $success = 'Account created successfully! You can now sign in with your credentials.';
+                    header('Location: /login.php');
+                    exit;
                 }
             } catch (Throwable $e) {
                 $errors[] = 'Could not create account. Please try again later.';

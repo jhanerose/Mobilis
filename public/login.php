@@ -50,11 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2>Rent a vehicle and manage a fleet, all from one place</h2>
             <p>Track vehicles in real time, handle bookings, monitor maintenance, and grow your rental business with confidence.</p>
         </div>
-        <div class="hero-kpis">
-            <div><strong>48</strong><span>Vehicles tracked</span></div>
-            <div><strong>P28k</strong><span>Revenue today</span></div>
-            <div><strong>64%</strong><span>Utilization</span></div>
-        </div>
     </section>
 
     <section class="login-form-panel">

@@ -89,6 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <p class="auth-footnote">Don't have an account? <a href="/register.php" class="text-link">Create an account</a></p>
+
+            <a href="/index.php" class="ghost-link button-like" style="display: block; text-align: center; margin-top: 16px;">← Back to home</a>
         </div>
     </section>
 </div>

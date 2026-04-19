@@ -28,7 +28,7 @@ if (!function_exists('submitAdminContactMessage')) {
 }
 
 if (!function_exists('submitPasswordResetRequest')) {
-    function submitPasswordResetRequest(string $email, ?string $licenseNumber, string $reason, ?int $customerId = null): bool
+    function submitPasswordResetRequest(string $email, ?string $licenseNumber, string $reason, ?int $userId = null): bool
     {
         if (!dbConnected()) {
             return false;
@@ -37,7 +37,7 @@ if (!function_exists('submitPasswordResetRequest')) {
         try {
             $sql = "
                 INSERT INTO PasswordResetRequest (
-                    customer_id,
+                    user_id,
                     email,
                     license_number,
                     reason,
@@ -45,7 +45,7 @@ if (!function_exists('submitPasswordResetRequest')) {
                     requested_ip,
                     user_agent
                 ) VALUES (
-                    :customer_id,
+                    :user_id,
                     :email,
                     :license_number,
                     :reason,
@@ -55,11 +55,11 @@ if (!function_exists('submitPasswordResetRequest')) {
                 )
             ";
             $stmt = db()->prepare($sql);
-            $customerValue = $customerId !== null ? $customerId : null;
+            $userValue = $userId !== null ? $userId : null;
             $licenseValue = $licenseNumber !== null && trim($licenseNumber) !== '' ? trim($licenseNumber) : null;
 
             return $stmt->execute([
-                'customer_id' => $customerValue,
+                'user_id' => $userValue,
                 'email' => $email,
                 'license_number' => $licenseValue,
                 'reason' => $reason,
@@ -120,6 +120,7 @@ if (!function_exists('getPasswordResetRequests')) {
             return [
                 [
                     'request_id' => 1,
+                    'user_id' => 4,
                     'email' => 'juan@email.com',
                     'license_number' => 'N01-23-456789',
                     'status' => 'pending',
@@ -132,8 +133,10 @@ if (!function_exists('getPasswordResetRequests')) {
             $sql = "
                 SELECT
                     request_id,
+                    user_id,
                     email,
                     license_number,
+                    reason,
                     status,
                     created_at
                 FROM PasswordResetRequest
@@ -146,6 +149,42 @@ if (!function_exists('getPasswordResetRequests')) {
             return $stmt->fetchAll();
         } catch (Throwable $e) {
             return [];
+        }
+    }
+}
+
+if (!function_exists('updatePasswordResetRequestStatus')) {
+    function updatePasswordResetRequestStatus(int $requestId, string $status): bool
+    {
+        if (!dbConnected()) {
+            return false;
+        }
+
+        try {
+            $sql = "UPDATE PasswordResetRequest SET status = ? WHERE request_id = ?";
+            $stmt = db()->prepare($sql);
+            return $stmt->execute([$status, $requestId]);
+        } catch (Throwable $e) {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('findUserByEmail')) {
+    function findUserByEmail(string $email): ?array
+    {
+        if (!dbConnected()) {
+            return null;
+        }
+
+        try {
+            $sql = "SELECT user_id, first_name, last_name, email FROM User WHERE email = ?";
+            $stmt = db()->prepare($sql);
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+            return $user ?: null;
+        } catch (Throwable $e) {
+            return null;
         }
     }
 }

@@ -29,11 +29,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error = 'Invalid credentials. Try admin@mobilis.ph / admin123';
 }
 ?>
-<?php
-renderAuthPageTop('Sign In', 'login-body');
-?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Mobilis</title>
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body class="login-body">
 <div class="login-shell">
-    <?php renderAuthBrandPanel('Rent a vehicle and manage a fleet, all from one place', 'Track vehicles in real time, handle bookings, monitor maintenance, and grow your rental business with confidence.'); ?>
+    <section class="login-brand-panel">
+        <a href="/index.php" class="brand hero-brand">
+            <img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
+        </a>
+        <div class="hero-copy">
+            <h2>Rent a vehicle and manage a fleet, all from one place</h2>
+            <p>Track vehicles in real time, handle bookings, monitor maintenance, and grow your rental business with confidence.</p>
+        </div>
+    </section>
 
     <section class="login-form-panel">
         <div class="form-wrap">
@@ -77,4 +95,5 @@ renderAuthPageTop('Sign In', 'login-body');
         </div>
     </section>
 </div>
-<?php renderAuthPageBottom(); ?>
+</body>
+</html>

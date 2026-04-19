@@ -12,6 +12,8 @@ if ($notice === 'customer_created') {
     $noticeMessage = 'Customer profile was updated successfully.';
 } elseif ($notice === 'booking_created') {
     $noticeMessage = 'New booking was created successfully.';
+} elseif ($notice === 'self_registration_enabled') {
+    $noticeMessage = 'Customer records are self-service now. New customers must register on their own.';
 }
 
 $customers = getCustomers(20);
@@ -77,7 +79,7 @@ viewBegin('app', appLayoutData('Customers', 'customers', [
             <div class="customers-toolbar">
                 <input type="search" placeholder="Search customers..." aria-label="Search customers" data-customer-search>
                 <a class="ghost-link button-like" href="customers-export.php">Export</a>
-                <a class="primary-btn" href="customer-create.php">+ Add customer</a>
+                <span class="pill support-status-read">Self-registration enabled</span>
             </div>
         </div>
         <div class="table-wrap">
@@ -165,7 +167,6 @@ viewBegin('app', appLayoutData('Customers', 'customers', [
 
             <div class="customer-profile-actions">
                 <a class="ghost-link button-like" id="profile-message-btn" href="mailto:<?= htmlspecialchars((string) ($selected['email'] ?? '')) ?>">Message</a>
-                <a class="ghost-link button-like" id="profile-edit-btn" href="customer-edit.php?id=<?= (int) ($selected['user_id'] ?? 0) ?>">Edit</a>
                 <a class="primary-btn" id="profile-booking-btn" href="booking-create.php?user_id=<?= (int) ($selected['user_id'] ?? 0) ?>">New booking</a>
             </div>
         <?php else: ?>

@@ -20,6 +20,39 @@ This is a functional prototype for the Mobilis vehicle rental and fleet manageme
 - Admin Support Inbox page to review stored support requests
 - Fallback demo data when MySQL is not yet connected
 
+## Customers Module
+
+The Customers module provides comprehensive customer management capabilities:
+
+### Customer Information Tracked
+- **Personal Details**: Full name, email address, phone number
+- **Account Status**: Active/inactive status, registration date
+- **Booking History**: Total bookings, active bookings, completed bookings
+- **Financial Summary**: Total spending, average spending per booking
+- **Contact Information**: Address, city, zip code
+
+### Customer Features
+- **Customer Dashboard**: View personal booking history and spending summaries
+- **Live Tracking**: Track rented vehicles in real-time with GPS coordinates
+- **Booking Management**: View current and past bookings with status updates
+- **Profile Management**: Update personal information and contact details
+
+### Customer Access Levels
+- **Customer Role**: Can only view their own bookings and tracked vehicles
+- **Live Tracking Access**: Customers can track vehicles they have active/confirmed bookings for
+- **Booking Restrictions**: Customers can only see vehicles associated with their active bookings in the tracking view
+
+### Customer Data Structure
+Customer data is stored in the `Customer` table with the following key fields:
+- `customer_id`: Unique identifier
+- `name`: Full name
+- `email`: Email address (used for login)
+- `phone`: Contact phone number
+- `address`: Physical address
+- `city`: City of residence
+- `zip_code`: Postal code
+- `created_at`: Account creation timestamp
+
 ## Project Structure
 
 - `app/` PHP backend logic (auth, DB, repository, layout, Python bridge)

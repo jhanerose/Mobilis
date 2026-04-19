@@ -163,7 +163,7 @@ if (!function_exists('viewErrorBrandPanel')) {
 }
 
 if (!function_exists('viewErrorFormPanel')) {
-    function viewErrorFormPanel(int $code, string $title, string $message, string $backUrl = '/index.php'): void
+    function viewErrorFormPanel(int $code, string $title, string $message, string $backUrl = '/index.php', bool $showSignOut = false): void
     {
         unset($title);
         echo '<section class="auth-form-panel">';
@@ -173,6 +173,9 @@ if (!function_exists('viewErrorFormPanel')) {
         echo '<div style="margin-top: 24px;">';
         echo '<a href="' . htmlspecialchars($backUrl) . '" class="primary-btn full">Go to dashboard</a>';
         echo '<a href="/" class="ghost-link button-like" style="display: block; text-align: center; margin-top: 12px;">Go to home</a>';
+        if ($showSignOut) {
+            echo '<a href="/logout.php" class="ghost-link button-like" style="display: block; text-align: center; margin-top: 12px;">Sign out</a>';
+        }
         echo '</div>';
         echo '</div>';
         echo '</section>';

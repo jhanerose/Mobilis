@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../app/bootstrap.php';
 
 if (isAuthenticated()) {
-    header('Location: /Staff/dashboard.php');
+    header('Location: ' . currentUserHomePath());
     exit;
 }
 
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = (string) ($_POST['password'] ?? '');
 
     if (attemptLogin($email, $password)) {
-        header('Location: /Staff/dashboard.php');
+        header('Location: ' . currentUserHomePath());
         exit;
     }
 

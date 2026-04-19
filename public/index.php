@@ -4,14 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../app/bootstrap.php';
 
 if (isAuthenticated()) {
-    $user = currentUser();
-    $role = $user['role'] ?? '';
-    
-    if ($role === 'customer') {
-        header('Location: /Customer/dashboard.php');
-    } else {
-        header('Location: /Staff/dashboard.php');
-    }
+    header('Location: ' . currentUserHomePath());
     exit;
 }
 ?>

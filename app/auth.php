@@ -75,6 +75,31 @@ if (!function_exists('requireAuth')) {
     }
 }
 
+if (!function_exists('roleHomePath')) {
+    function roleHomePath(?string $role): string
+    {
+        if ($role === 'customer') {
+            return '/Customer/dashboard.php';
+        }
+
+        if ($role === 'admin') {
+            return '/Admin/settings.php';
+        }
+
+        return '/Staff/dashboard.php';
+    }
+}
+
+if (!function_exists('currentUserHomePath')) {
+    function currentUserHomePath(): string
+    {
+        $user = currentUser();
+        $role = is_array($user) ? (string) ($user['role'] ?? '') : '';
+
+        return roleHomePath($role);
+    }
+}
+
 if (!function_exists('logoutUser')) {
     function logoutUser(): void
     {

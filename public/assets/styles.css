@@ -8,6 +8,11 @@
   --brand: #16986d;
   --brand-dark: #0f6f50;
   --accent: #f2b340;
+  --field-bg: #ffffff;
+  --field-border: #cfd8d2;
+  --field-border-focus: #16986d;
+  --field-radius: 10px;
+  --field-focus-ring: 0 0 0 3px rgba(22, 152, 109, 0.16);
   --sidebar-width: 230px;
   --radius: 14px;
   --shadow: 0 14px 28px rgba(14, 32, 31, 0.08);
@@ -266,24 +271,39 @@ a {
   gap: 10px;
 }
 
-input[type="search"],
-input[type="email"],
-input[type="password"],
-input[type="text"],
-input[type="tel"],
+input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 select,
 textarea {
-  border: 1px solid #cfd8d2;
-  background: #fff;
-  border-radius: 10px;
+  border: 1px solid var(--field-border);
+  background: var(--field-bg);
+  border-radius: var(--field-radius);
   padding: 10px 12px;
   font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--ink);
   min-width: 220px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-input:focus {
-  outline: 2px solid rgba(22, 152, 109, 0.16);
-  border-color: var(--brand);
+input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--field-border-focus);
+  box-shadow: var(--field-focus-ring);
+}
+
+input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):disabled,
+select:disabled,
+textarea:disabled {
+  background: #f1f4f2;
+  color: #7a898b;
+  cursor: not-allowed;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8d9b9d;
 }
 
 .avatar {
@@ -681,6 +701,11 @@ input:focus {
   padding: 9px 12px;
 }
 
+.bookings-search-wrap:focus-within {
+  border-color: var(--field-border-focus);
+  box-shadow: var(--field-focus-ring);
+}
+
 .bookings-search-wrap span {
   font-size: 0.9rem;
 }
@@ -694,6 +719,7 @@ input:focus {
 
 .bookings-search-wrap input[type="search"]:focus {
   outline: none;
+  box-shadow: none;
 }
 
 .bookings-date-range {
@@ -911,6 +937,11 @@ input:focus {
   padding: 9px 12px;
 }
 
+.vehicles-search-wrap:focus-within {
+  border-color: var(--field-border-focus);
+  box-shadow: var(--field-focus-ring);
+}
+
 .vehicles-search-wrap span {
   font-size: 0.9rem;
 }
@@ -924,6 +955,7 @@ input:focus {
 
 .vehicles-search-wrap input[type="search"]:focus {
   outline: none;
+  box-shadow: none;
 }
 
 .vehicles-kpi-grid {
@@ -1875,7 +1907,10 @@ td p {
 .login-form textarea,
 .auth-form-grid input,
 .auth-form-grid select,
-.auth-form-grid textarea {
+.auth-form-grid textarea,
+.customer-form-grid input,
+.customer-form-grid select,
+.customer-form-grid textarea {
   width: 100%;
   min-width: 0;
 }

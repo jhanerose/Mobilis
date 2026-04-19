@@ -126,21 +126,6 @@ foreach ($allBookings as $booking) {
     $baseFiltered[] = $booking;
 }
 
-$tabCounts = [
-    'all' => count($baseFiltered),
-    'confirmed' => 0,
-    'pending' => 0,
-    'completed' => 0,
-    'cancelled' => 0,
-];
-
-foreach ($baseFiltered as $booking) {
-    $key = (string) ($booking['status_key'] ?? '');
-    if (isset($tabCounts[$key])) {
-        $tabCounts[$key]++;
-    }
-}
-
 $statusFiltered = $baseFiltered;
 if ($activeStatus !== 'all') {
     $statusFiltered = array_values(array_filter(
@@ -200,6 +185,40 @@ if (!function_exists('bookingsQuery')) {
     }
 }
 
+if (!function_exists('bookingsPaginationItems')) {
+    function bookingsPaginationItems(int $currentPage, int $totalPages): array
+    {
+        if ($totalPages <= 1) {
+            return [1];
+        }
+
+        $pages = [1, $totalPages];
+        for ($i = 2; $i <= min(3, $totalPages - 1); $i++) {
+            $pages[] = $i;
+        }
+        for ($i = max(1, $currentPage - 1); $i <= min($totalPages, $currentPage + 1); $i++) {
+            $pages[] = $i;
+        }
+
+        $pages = array_values(array_unique($pages));
+        sort($pages);
+
+        $items = [];
+        $previous = null;
+        foreach ($pages as $page) {
+            if ($previous !== null && $page - $previous > 1) {
+                $items[] = '...';
+            }
+            $items[] = $page;
+            $previous = $page;
+        }
+
+        return $items;
+    }
+}
+
+$paginationItems = bookingsPaginationItems($currentPage, $totalPages);
+
 renderPageTop('Bookings', 'bookings', [
     'show_search' => false,
     'show_primary_cta' => false,
@@ -209,15 +228,32 @@ renderPageTop('Bookings', 'bookings', [
     <div class="<?= htmlspecialchars($noticeClass) ?> customers-alert"><?= htmlspecialchars($noticeMessage) ?></div>
 <?php endif; ?>
 
-<section class="card bookings-page-card">
-    <div class="card-header bookings-head-row">
+<section class="bookings-page-head">
+    <div class="bookings-page-titlebar">
         <h3>All bookings</h3>
         <form class="bookings-toolbar" method="get" action="bookings.php">
-            <input type="search" name="q" placeholder="Search bookings..." value="<?= htmlspecialchars($searchTerm) ?>">
-            <input type="date" name="from" value="<?= htmlspecialchars($fromDate) ?>">
-            <input type="date" name="to" value="<?= htmlspecialchars($toDate) ?>">
+            <div class="bookings-search-wrap">
+                <span aria-hidden="true">🔍</span>
+                <input type="search" name="q" placeholder="Search bookings..." value="<?= htmlspecialchars($searchTerm) ?>">
+            </div>
+
             <input type="hidden" name="status" value="<?= htmlspecialchars($activeStatus) ?>">
-            <button class="ghost-link button-like" type="submit">Date range</button>
+
+            <details class="bookings-date-range">
+                <summary class="ghost-link button-like">📅 Date range</summary>
+                <div class="bookings-date-panel">
+                    <label>
+                        <span>From</span>
+                        <input type="date" name="from" value="<?= htmlspecialchars($fromDate) ?>">
+                    </label>
+                    <label>
+                        <span>To</span>
+                        <input type="date" name="to" value="<?= htmlspecialchars($toDate) ?>">
+                    </label>
+                    <button class="ghost-link button-like" type="submit">Apply</button>
+                </div>
+            </details>
+
             <a class="ghost-link button-like" href="bookings-export.php?<?= htmlspecialchars(bookingsQuery(['page' => 1])) ?>">Export</a>
             <a class="primary-btn" href="booking-create.php">+ New booking</a>
         </form>
@@ -228,13 +264,12 @@ renderPageTop('Bookings', 'bookings', [
             <?php $isActiveTab = $activeStatus === $key; ?>
             <a class="bookings-tab<?= $isActiveTab ? ' active' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['status' => $key, 'page' => 1])) ?>">
                 <?= htmlspecialchars($label) ?>
-                <?php if ($key === 'all' || ($tabCounts[$key] ?? 0) > 0): ?>
-                    <span class="bookings-tab-count"><?= (int) ($tabCounts[$key] ?? 0) ?></span>
-                <?php endif; ?>
             </a>
         <?php endforeach; ?>
     </nav>
+</section>
 
+<section class="card bookings-table-card">
     <div class="bookings-table-wrap table-wrap">
         <table class="bookings-table">
             <thead>
@@ -256,7 +291,7 @@ renderPageTop('Bookings', 'bookings', [
                 $statusClass = $statusKey === 'awaiting-payment' ? 'awaiting payment' : $statusKey;
                 ?>
                 <tr>
-                    <td>BK-<?= str_pad((string) ((int) $booking['rental_id']), 4, '0', STR_PAD_LEFT) ?></td>
+                    <td class="booking-id-cell">BK-<?= str_pad((string) ((int) $booking['rental_id']), 4, '0', STR_PAD_LEFT) ?></td>
                     <td>
                         <div class="booking-customer-cell">
                             <span class="booking-avatar"><?= htmlspecialchars(bookingInitials((string) $booking['customer'])) ?></span>
@@ -266,32 +301,32 @@ renderPageTop('Bookings', 'bookings', [
                     <td><?= htmlspecialchars((string) $booking['vehicle']) ?></td>
                     <td><?= htmlspecialchars(bookingDateLabel((string) $booking['pickup_date'], (string) $booking['return_date'])) ?></td>
                     <td><?= (int) $booking['days'] ?></td>
-                    <td>P<?= number_format((float) $booking['total'], 2) ?></td>
+                    <td><strong>P<?= number_format((float) $booking['total'], 0) ?></strong></td>
                     <td><span class="pill <?= htmlspecialchars($statusClass) ?>"><?= htmlspecialchars((string) ($booking['status_label'] ?? 'Pending')) ?></span></td>
                     <td>
                         <div class="booking-actions">
-                            <a class="ghost-link button-like" href="booking-view.php?id=<?= (int) $booking['rental_id'] ?>">View</a>
+                            <a class="ghost-link button-like booking-mini-btn" href="booking-view.php?id=<?= (int) $booking['rental_id'] ?>">View</a>
 
                             <?php if ($statusKey === 'pending'): ?>
                                 <form method="post" action="booking-action.php">
                                     <input type="hidden" name="action" value="approve">
                                     <input type="hidden" name="id" value="<?= (int) $booking['rental_id'] ?>">
                                     <input type="hidden" name="redirect" value="bookings.php?<?= htmlspecialchars(bookingsQuery()) ?>">
-                                    <button class="ghost-link button-like" type="submit">Approve</button>
+                                    <button class="ghost-link button-like booking-mini-btn" type="submit">Approve</button>
                                 </form>
                             <?php elseif ($statusKey === 'awaiting-payment'): ?>
                                 <form method="post" action="booking-action.php">
                                     <input type="hidden" name="action" value="remind">
                                     <input type="hidden" name="id" value="<?= (int) $booking['rental_id'] ?>">
                                     <input type="hidden" name="redirect" value="bookings.php?<?= htmlspecialchars(bookingsQuery()) ?>">
-                                    <button class="ghost-link button-like" type="submit">Remind</button>
+                                    <button class="ghost-link button-like booking-mini-btn" type="submit">Remind</button>
                                 </form>
                             <?php elseif ($statusKey === 'completed'): ?>
-                                <a class="ghost-link button-like" href="booking-view.php?id=<?= (int) $booking['rental_id'] ?>&receipt=1">Receipt</a>
+                                <a class="ghost-link button-like booking-mini-btn" href="booking-view.php?id=<?= (int) $booking['rental_id'] ?>&receipt=1">Receipt</a>
                             <?php elseif ($statusKey === 'cancelled'): ?>
-                                <a class="ghost-link button-like" href="booking-create.php?customer_id=<?= (int) ($booking['customer_id'] ?? 0) ?>">Rebook</a>
+                                <a class="ghost-link button-like booking-mini-btn" href="booking-create.php?customer_id=<?= (int) ($booking['customer_id'] ?? 0) ?>">Rebook</a>
                             <?php else: ?>
-                                <a class="ghost-link button-like" href="booking-edit.php?id=<?= (int) $booking['rental_id'] ?>">Edit</a>
+                                <a class="ghost-link button-like booking-mini-btn" href="booking-edit.php?id=<?= (int) $booking['rental_id'] ?>">Edit</a>
                             <?php endif; ?>
                         </div>
                     </td>
@@ -309,11 +344,15 @@ renderPageTop('Bookings', 'bookings', [
         <p>Showing <?= $startItem ?>-<?= $endItem ?> of <?= $totalFiltered ?> bookings</p>
 
         <div class="bookings-pagination">
-            <a class="ghost-link button-like<?= $currentPage <= 1 ? ' disabled' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => max(1, $currentPage - 1)])) ?>">&lsaquo;</a>
-            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <a class="ghost-link button-like<?= $currentPage === $i ? ' active' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => $i])) ?>"><?= $i ?></a>
-            <?php endfor; ?>
-            <a class="ghost-link button-like<?= $currentPage >= $totalPages ? ' disabled' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => min($totalPages, $currentPage + 1)])) ?>">&rsaquo;</a>
+            <a class="ghost-link button-like page-btn<?= $currentPage <= 1 ? ' disabled' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => max(1, $currentPage - 1)])) ?>">&lsaquo;</a>
+            <?php foreach ($paginationItems as $item): ?>
+                <?php if ($item === '...'): ?>
+                    <span class="page-ellipsis">...</span>
+                <?php else: ?>
+                    <a class="ghost-link button-like page-btn<?= $currentPage === (int) $item ? ' active' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => (int) $item])) ?>"><?= (int) $item ?></a>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <a class="ghost-link button-like page-btn<?= $currentPage >= $totalPages ? ' disabled' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => min($totalPages, $currentPage + 1)])) ?>">&rsaquo;</a>
         </div>
     </div>
 </section>

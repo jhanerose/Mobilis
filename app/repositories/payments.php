@@ -1,18 +1,54 @@
 <?php
 declare(strict_types=1);
 
+if (!function_exists('ensureInvoicePaymentMethodColumn')) {
+    function ensureInvoicePaymentMethodColumn(): void
+    {
+        static $ensured = false;
+        if ($ensured || !dbConnected()) {
+            return;
+        }
+
+        $ensured = true;
+
+        try {
+            db()->exec("ALTER TABLE Invoice ADD COLUMN payment_method ENUM('pending','cash','gcash','card','bank_transfer') NOT NULL DEFAULT 'pending' AFTER payment_status");
+        } catch (Throwable $e) {
+            // Ignore if column already exists.
+        }
+    }
+}
+
+if (!function_exists('normalizePaymentMethod')) {
+    function normalizePaymentMethod(?string $value, bool $allowPending = true): string
+    {
+        $normalized = strtolower(trim((string) $value));
+        $allowed = $allowPending
+            ? ['pending', 'cash', 'gcash', 'card', 'bank_transfer']
+            : ['cash', 'gcash', 'card', 'bank_transfer'];
+
+        if (!in_array($normalized, $allowed, true)) {
+            return $allowPending ? 'pending' : 'cash';
+        }
+
+        return $normalized;
+    }
+}
+
 if (!function_exists('getPayments')) {
     function getPayments(int $limit = 20): array
     {
         if (!dbConnected()) {
             return [
-                ['invoice_id' => 1001, 'customer' => 'Maria Reyes', 'vehicle' => 'Toyota Fortuner', 'total_amount' => 10500, 'payment_status' => 'paid', 'issued_at' => '2026-04-13'],
-                ['invoice_id' => 1002, 'customer' => 'Juan dela Cruz', 'vehicle' => 'Honda Civic', 'total_amount' => 2200, 'payment_status' => 'unpaid', 'issued_at' => '2026-04-14'],
-                ['invoice_id' => 1003, 'customer' => 'Ana Lim', 'vehicle' => 'Toyota HiAce', 'total_amount' => 20000, 'payment_status' => 'partial', 'issued_at' => '2026-04-15'],
+                ['invoice_id' => 1001, 'customer' => 'Maria Reyes', 'vehicle' => 'Toyota Fortuner', 'total_amount' => 10500, 'payment_status' => 'paid', 'payment_method' => 'gcash', 'issued_at' => '2026-04-13'],
+                ['invoice_id' => 1002, 'customer' => 'Juan dela Cruz', 'vehicle' => 'Honda Civic', 'total_amount' => 2200, 'payment_status' => 'unpaid', 'payment_method' => 'pending', 'issued_at' => '2026-04-14'],
+                ['invoice_id' => 1003, 'customer' => 'Ana Lim', 'vehicle' => 'Toyota HiAce', 'total_amount' => 20000, 'payment_status' => 'partial', 'payment_method' => 'bank_transfer', 'issued_at' => '2026-04-15'],
             ];
         }
 
         try {
+            ensureInvoicePaymentMethodColumn();
+
             $sql = "
                 SELECT
                     i.invoice_id,
@@ -20,6 +56,7 @@ if (!function_exists('getPayments')) {
                     CONCAT(v.brand, ' ', v.model) AS vehicle,
                     i.total_amount,
                     i.payment_status,
+                    i.payment_method,
                     DATE(i.issued_at) AS issued_at
                 FROM Invoice i
                 INNER JOIN Rental r ON r.rental_id = i.rental_id
@@ -43,18 +80,21 @@ if (!function_exists('getCustomerPayments')) {
     {
         if (!dbConnected()) {
             return [
-                ['invoice_id' => 1001, 'vehicle' => 'Toyota Fortuner', 'total_amount' => 10500, 'payment_status' => 'paid', 'issued_at' => '2026-04-13'],
-                ['invoice_id' => 1002, 'vehicle' => 'Mitsubishi Xpander', 'total_amount' => 5600, 'payment_status' => 'paid', 'issued_at' => '2026-04-10'],
+                ['invoice_id' => 1001, 'vehicle' => 'Toyota Fortuner', 'total_amount' => 10500, 'payment_status' => 'paid', 'payment_method' => 'gcash', 'issued_at' => '2026-04-13'],
+                ['invoice_id' => 1002, 'vehicle' => 'Mitsubishi Xpander', 'total_amount' => 5600, 'payment_status' => 'paid', 'payment_method' => 'cash', 'issued_at' => '2026-04-10'],
             ];
         }
 
         try {
+            ensureInvoicePaymentMethodColumn();
+
             $sql = "
                 SELECT
                     i.invoice_id,
                     CONCAT(v.brand, ' ', v.model) AS vehicle,
                     i.total_amount,
                     i.payment_status,
+                    i.payment_method,
                     DATE(i.issued_at) AS issued_at
                 FROM Invoice i
                 INNER JOIN Rental r ON r.rental_id = i.rental_id
@@ -87,6 +127,8 @@ if (!function_exists('getCustomerPaymentsByCustomerId')) {
         }
 
         try {
+            ensureInvoicePaymentMethodColumn();
+
             $sql = "
                 SELECT
                     i.invoice_id,
@@ -94,6 +136,7 @@ if (!function_exists('getCustomerPaymentsByCustomerId')) {
                     CONCAT(v.brand, ' ', v.model) AS vehicle,
                     i.total_amount,
                     i.payment_status,
+                    i.payment_method,
                     DATE(i.issued_at) AS issued_at
                 FROM Invoice i
                 INNER JOIN Rental r ON r.rental_id = i.rental_id
@@ -130,12 +173,15 @@ if (!function_exists('getCustomerInvoiceById')) {
         }
 
         try {
+            ensureInvoicePaymentMethodColumn();
+
             $sql = "
                 SELECT
                     i.invoice_id,
                     i.rental_id,
                     i.total_amount,
                     i.payment_status,
+                    i.payment_method,
                     DATE(i.issued_at) AS issued_at,
                     CONCAT(v.brand, ' ', v.model) AS vehicle
                 FROM Invoice i
@@ -159,7 +205,7 @@ if (!function_exists('getCustomerInvoiceById')) {
 }
 
 if (!function_exists('markCustomerInvoicePaid')) {
-    function markCustomerInvoicePaid(int $customerId, int $invoiceId): array
+    function markCustomerInvoicePaid(int $customerId, int $invoiceId, string $paymentMethod = 'cash'): array
     {
         $invoice = getCustomerInvoiceById($customerId, $invoiceId);
         if ($invoice === null) {
@@ -176,15 +222,19 @@ if (!function_exists('markCustomerInvoicePaid')) {
         }
 
         try {
+            ensureInvoicePaymentMethodColumn();
+
             $sql = "
                 UPDATE Invoice i
                 INNER JOIN Rental r ON r.rental_id = i.rental_id
-                SET i.payment_status = 'paid'
+                SET i.payment_status = 'paid',
+                    i.payment_method = :payment_method
                 WHERE i.invoice_id = :invoice_id
                   AND r.user_id = :user_id
             ";
             $stmt = db()->prepare($sql);
             $stmt->execute([
+                'payment_method' => normalizePaymentMethod($paymentMethod, false),
                 'invoice_id' => $invoiceId,
                 'user_id' => $customerId,
             ]);

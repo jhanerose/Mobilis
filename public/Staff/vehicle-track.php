@@ -7,10 +7,10 @@ requireAuth(['admin', 'staff']);
 $vehicleId = (int) ($_GET['id'] ?? 0);
 $vehicle = getVehicleById($vehicleId);
 
-renderPageTop('Vehicle tracking', 'tracking', [
+viewBegin('app', appLayoutData('Vehicle tracking', 'tracking', [
     'show_search' => false,
     'show_primary_cta' => false,
-]);
+]));
 ?>
 <section class="card customer-form-card">
     <?php if ($vehicle === null): ?>
@@ -32,4 +32,5 @@ renderPageTop('Vehicle tracking', 'tracking', [
         </div>
     <?php endif; ?>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

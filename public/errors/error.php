@@ -15,7 +15,7 @@ if (!in_array($code, $validCodes, true)) {
 http_response_code($code);
 ?>
 <?php
-renderErrorPageTop($code, $title);
-renderErrorBrandPanel($title, $message);
-renderErrorFormPanel($code, $title, 'An error occurred while processing your request.');
-renderErrorPageBottom();
+viewBegin('error', ['code' => $code, 'title' => $title]);
+viewErrorBrandPanel($title, $message);
+viewErrorFormPanel($code, $title, 'An error occurred while processing your request.');
+viewEnd();

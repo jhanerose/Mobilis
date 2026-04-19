@@ -79,7 +79,7 @@ if (!function_exists('bookingStatusKey')) {
     }
 }
 
-renderPageTop('Dashboard', 'dashboard', ['role' => 'customer']);
+viewBegin('app', appLayoutData('Dashboard', 'dashboard', ['role' => 'customer']));
 ?>
 <section class="page-content-head">
     <h3>Welcome, <?= htmlspecialchars($user['name'] ?? 'Customer') ?></h3>
@@ -192,4 +192,5 @@ renderPageTop('Dashboard', 'dashboard', ['role' => 'customer']);
         </table>
     </div>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

@@ -27,7 +27,7 @@ if (!function_exists('vehicleEmoji')) {
     }
 }
 
-renderPageTop('Live tracking', 'tracking', ['role' => 'customer']);
+viewBegin('app', appLayoutData('Live tracking', 'tracking', ['role' => 'customer']));
 ?>
 <section class="page-content-head">
     <h3>My vehicle tracking</h3>
@@ -73,4 +73,5 @@ renderPageTop('Live tracking', 'tracking', ['role' => 'customer']);
         </article>
     </section>
 <?php endif; ?>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

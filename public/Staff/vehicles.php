@@ -143,10 +143,10 @@ $currentlyRented = (int) ($statusCounts['rented'] ?? 0);
 $availableNow = (int) ($statusCounts['available'] ?? 0);
 $inMaintenance = (int) ($statusCounts['maintenance'] ?? 0);
 
-renderPageTop('Vehicles', 'vehicles', [
+viewBegin('app', appLayoutData('Vehicles', 'vehicles', [
     'show_search' => false,
     'show_primary_cta' => false,
-]);
+]));
 ?>
 <?php if ($noticeMessage !== ''): ?>
     <div class="alert-success customers-alert"><?= htmlspecialchars($noticeMessage) ?></div>
@@ -237,4 +237,5 @@ renderPageTop('Vehicles', 'vehicles', [
         <article class="card"><p class="muted">No vehicles found for the selected filters.</p></article>
     <?php endif; ?>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

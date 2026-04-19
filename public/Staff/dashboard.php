@@ -61,7 +61,7 @@ if (!function_exists('formatBookingDateRange')) {
     }
 }
 
-renderPageTop('Dashboard', 'dashboard');
+viewBegin('app', appLayoutData('Dashboard', 'dashboard'));
 ?>
 <section class="page-content-head">
     <h3>Overview</h3>
@@ -171,4 +171,5 @@ renderPageTop('Dashboard', 'dashboard');
         </div>
     </article>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

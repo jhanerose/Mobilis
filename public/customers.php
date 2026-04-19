@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../app/bootstrap.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 requireAuth(['admin', 'staff']);
 
 $notice = (string) ($_GET['notice'] ?? '');
@@ -166,6 +166,7 @@ viewBegin('app', appLayoutData('Customers', 'customers', [
             <div class="customer-profile-actions">
                 <a class="ghost-link button-like" id="profile-message-btn" href="mailto:<?= htmlspecialchars((string) ($selected['email'] ?? '')) ?>">Message</a>
                 <a class="ghost-link button-like" id="profile-edit-btn" href="customer-edit.php?id=<?= (int) ($selected['customer_id'] ?? 0) ?>">Edit</a>
+                <a class="primary-btn" id="profile-booking-btn" href="booking-create.php?customer_id=<?= (int) ($selected['customer_id'] ?? 0) ?>">New booking</a>
             </div>
         <?php else: ?>
             <p>No customer data available.</p>
@@ -174,5 +175,4 @@ viewBegin('app', appLayoutData('Customers', 'customers', [
 </section>
 
 <div id="customer-profile-data" data-customers="<?= $customerProfilesJson ?>"></div>
-<?php viewEnd();
-?>
+<?php viewEnd(); ?>

@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <?php
-renderAuthPageTop('Contact Admin');
+viewBegin('auth', authLayoutData('Contact Admin'));
 ?>
     <section class="auth-brand-panel">
         <a href="/index.php" class="brand hero-brand">
@@ -79,7 +79,7 @@ renderAuthPageTop('Contact Admin');
         </div>
     </section>
 
-    <?php renderAuthFormPanelStart(); ?>
+    <?php viewAuthFormPanelStart(); ?>
         <h3>Contact your admin</h3>
         <p>Submit a support message and we will route it to the right team.</p>
 
@@ -118,5 +118,6 @@ renderAuthPageTop('Contact Admin');
             <a href="/login.php">Back to sign in</a>
             <a href="/forgot-password.php">Forgot password</a>
         </div>
-    <?php renderAuthFormPanelEnd(); ?>
-<?php renderAuthPageBottom(); ?>
+    <?php viewAuthFormPanelEnd(); ?>
+<?php viewEnd();
+?>

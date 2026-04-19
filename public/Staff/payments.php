@@ -6,7 +6,7 @@ requireAuth(['admin', 'staff']);
 
 $payments = getPayments(25);
 
-renderPageTop('Payments', 'payments');
+viewBegin('app', appLayoutData('Payments', 'payments'));
 ?>
 <section class="page-content-head">
     <h3>All payments</h3>
@@ -45,4 +45,5 @@ renderPageTop('Payments', 'payments');
         </table>
     </div>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

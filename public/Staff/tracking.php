@@ -6,7 +6,7 @@ requireAuth(['admin', 'staff']);
 
 $vehicles = getVehicles(12);
 
-renderPageTop('Live tracking', 'tracking');
+viewBegin('app', appLayoutData('Live tracking', 'tracking'));
 ?>
 <section class="page-content-head">
     <h3>Live tracking overview</h3>
@@ -45,4 +45,5 @@ renderPageTop('Live tracking', 'tracking');
         </ul>
     </article>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

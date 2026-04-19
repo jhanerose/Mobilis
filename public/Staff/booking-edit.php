@@ -9,13 +9,13 @@ $booking = getBookingById($rentalId);
 $errors = [];
 
 if ($booking === null) {
-    renderPageTop('Edit booking', 'bookings', [
+    viewBegin('app', appLayoutData('Edit booking', 'bookings', [
         'show_search' => false,
         'show_primary_cta' => false,
-    ]);
-    echo '<section class="card customer-form-card"><h3>Booking not found</h3><p class="muted">The selected booking record does not exist.</p><p><a class="ghost-link" href="bookings.php">Back to bookings</a></p></section>';
-    renderPageBottom();
-    exit;
+    ]));
+echo '<section class="card customer-form-card"><h3>Booking not found</h3><p class="muted">The selected booking record does not exist.</p><p><a class="ghost-link" href="bookings.php">Back to bookings</a></p></section>';
+    viewEnd();
+exit;
 }
 
 $form = [
@@ -47,10 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors[] = (string) ($result['error'] ?? 'Unable to update booking.');
 }
 
-renderPageTop('Edit booking', 'bookings', [
+viewBegin('app', appLayoutData('Edit booking', 'bookings', [
     'show_search' => false,
     'show_primary_cta' => false,
-]);
+]));
 ?>
 <section class="card customer-form-card">
     <div class="card-header">
@@ -96,4 +96,5 @@ renderPageTop('Edit booking', 'bookings', [
         </div>
     </form>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

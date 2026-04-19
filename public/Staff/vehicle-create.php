@@ -44,10 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-renderPageTop('Add vehicle', 'vehicles', [
+viewBegin('app', appLayoutData('Add vehicle', 'vehicles', [
     'show_search' => false,
     'show_primary_cta' => false,
-]);
+]));
 ?>
 <section class="card customer-form-card">
     <div class="card-header">
@@ -113,4 +113,5 @@ renderPageTop('Add vehicle', 'vehicles', [
         </div>
     </form>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

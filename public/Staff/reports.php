@@ -15,7 +15,7 @@ $bookingStatusBreakdown = getBookingStatusBreakdown();
 $avgRevenuePerBooking = getAverageRevenuePerBooking();
 $revenueByVehicleType = getRevenueByVehicleType();
 
-renderPageTop('Reports', 'reports');
+viewBegin('app', appLayoutData('Reports', 'reports'));
 ?>
 <section class="page-content-head">
     <h3>Analytics Dashboard</h3>
@@ -385,4 +385,5 @@ renderPageTop('Reports', 'reports');
         </div>
     </article>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

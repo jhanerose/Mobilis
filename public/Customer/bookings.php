@@ -165,7 +165,7 @@ if (!function_exists('bookingsPaginationItems')) {
 
 $paginationItems = bookingsPaginationItems($currentPage, $totalPages);
 
-renderPageTop('My Bookings', 'bookings', ['role' => 'customer']);
+viewBegin('app', appLayoutData('My Bookings', 'bookings', ['role' => 'customer']));
 ?>
 <section class="bookings-page-head">
     <div class="bookings-page-titlebar">
@@ -251,4 +251,5 @@ renderPageTop('My Bookings', 'bookings', ['role' => 'customer']);
         </div>
     <?php endif; ?>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <?php
-renderAuthPageTop('Forgot Password');
+viewBegin('auth', authLayoutData('Forgot Password'));
 ?>
     <section class="auth-brand-panel">
         <a href="/index.php" class="brand hero-brand">
@@ -56,7 +56,7 @@ renderAuthPageTop('Forgot Password');
         </div>
     </section>
 
-    <?php renderAuthFormPanelStart(); ?>
+    <?php viewAuthFormPanelStart(); ?>
         <h3>Password assistance</h3>
         <p>Provide your account details and reason for the request.</p>
 
@@ -89,5 +89,6 @@ renderAuthPageTop('Forgot Password');
             <a href="/login.php">Back to sign in</a>
             <a href="/contact-admin.php">Contact admin</a>
         </div>
-    <?php renderAuthFormPanelEnd(); ?>
-<?php renderAuthPageBottom(); ?>
+    <?php viewAuthFormPanelEnd(); ?>
+<?php viewEnd();
+?>

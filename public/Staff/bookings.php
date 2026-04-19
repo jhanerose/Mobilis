@@ -219,10 +219,10 @@ if (!function_exists('bookingsPaginationItems')) {
 
 $paginationItems = bookingsPaginationItems($currentPage, $totalPages);
 
-renderPageTop('Bookings', 'bookings', [
+viewBegin('app', appLayoutData('Bookings', 'bookings', [
     'show_search' => false,
     'show_primary_cta' => false,
-]);
+]));
 ?>
 <?php if ($noticeMessage !== ''): ?>
     <div class="<?= htmlspecialchars($noticeClass) ?> customers-alert"><?= htmlspecialchars($noticeMessage) ?></div>
@@ -354,4 +354,5 @@ renderPageTop('Bookings', 'bookings', [
         </div>
     </div>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

@@ -6,7 +6,7 @@ requireAuth(['admin']);
 
 $user = currentUser();
 
-renderPageTop('Settings', 'settings', ['role' => 'admin']);
+viewBegin('app', appLayoutData('Settings', 'settings', ['role' => 'admin']));
 ?>
 <section class="page-content-head">
     <h3>System settings</h3>
@@ -49,4 +49,5 @@ renderPageTop('Settings', 'settings', ['role' => 'admin']);
         </div>
     </article>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

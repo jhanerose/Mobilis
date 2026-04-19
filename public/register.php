@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <?php
-renderAuthPageTop('Create Account');
+viewBegin('auth', authLayoutData('Create Account'));
 ?>
     <section class="auth-brand-panel">
         <a href="/index.php" class="brand hero-brand">
@@ -65,7 +65,7 @@ renderAuthPageTop('Create Account');
         </div>
     </section>
 
-    <?php renderAuthFormPanelStart(); ?>
+    <?php viewAuthFormPanelStart(); ?>
         <h3>Create your Mobilis account</h3>
         <p>Submit your details below and wait for admin approval.</p>
 
@@ -101,5 +101,6 @@ renderAuthPageTop('Create Account');
         </form>
 
         <p class="auth-footnote">Already approved? <a href="/login.php" class="text-link">Sign in</a></p>
-    <?php renderAuthFormPanelEnd(); ?>
-<?php renderAuthPageBottom(); ?>
+    <?php viewAuthFormPanelEnd(); ?>
+<?php viewEnd();
+?>

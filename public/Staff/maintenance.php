@@ -6,7 +6,7 @@ requireAuth(['admin', 'staff']);
 
 $maintenance = getMaintenanceBacklog();
 
-renderPageTop('Maintenance', 'maintenance');
+viewBegin('app', appLayoutData('Maintenance', 'maintenance'));
 ?>
 <section class="page-content-head">
     <h3>All maintenance jobs</h3>
@@ -42,4 +42,5 @@ renderPageTop('Maintenance', 'maintenance');
         </table>
     </div>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

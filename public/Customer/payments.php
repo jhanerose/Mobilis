@@ -9,7 +9,7 @@ $customerEmail = $user['email'] ?? '';
 
 $payments = getCustomerPayments($customerEmail, 50);
 
-renderPageTop('Payments', 'payments', ['role' => 'customer']);
+viewBegin('app', appLayoutData('Payments', 'payments', ['role' => 'customer']));
 ?>
 <section class="page-content-head">
     <h3>My payments</h3>
@@ -49,4 +49,5 @@ renderPageTop('Payments', 'payments', ['role' => 'customer']);
         </table>
     </div>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

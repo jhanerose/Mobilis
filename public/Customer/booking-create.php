@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors[] = (string) ($result['error'] ?? 'Could not create booking.');
 }
 
-renderPageTop('New booking', 'bookings', ['role' => 'customer']);
+viewBegin('app', appLayoutData('New booking', 'bookings', ['role' => 'customer']));
 ?>
 <section class="card customer-form-card">
     <div class="card-header">
@@ -98,4 +98,5 @@ renderPageTop('New booking', 'bookings', ['role' => 'customer']);
         </div>
     </form>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

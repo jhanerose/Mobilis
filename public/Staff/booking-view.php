@@ -8,10 +8,10 @@ $rentalId = (int) ($_GET['id'] ?? 0);
 $showReceipt = isset($_GET['receipt']);
 $booking = getBookingById($rentalId);
 
-renderPageTop('Booking details', 'bookings', [
+viewBegin('app', appLayoutData('Booking details', 'bookings', [
     'show_search' => false,
     'show_primary_cta' => false,
-]);
+]));
 ?>
 <section class="card customer-form-card">
     <?php if ($booking === null): ?>
@@ -51,4 +51,5 @@ renderPageTop('Booking details', 'bookings', [
         <?php endif; ?>
     <?php endif; ?>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

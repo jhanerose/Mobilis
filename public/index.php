@@ -16,7 +16,7 @@ if (isAuthenticated()) {
 }
 ?>
 <?php
-renderLandingPageTop('Mobilis | Smarter Vehicle Rental');
+viewBegin('landing', ['title' => 'Mobilis | Smarter Vehicle Rental']);
 ?>
     <nav class="landing-nav">
         <a href="/index.php" class="brand">
@@ -164,4 +164,5 @@ renderLandingPageTop('Mobilis | Smarter Vehicle Rental');
     <footer class="landing-footer">
         <p>&copy; 2026 Mobilis. Built for reliable, transparent vehicle rentals.</p>
     </footer>
-<?php renderLandingPageBottom(); ?>
+<?php viewEnd();
+?>

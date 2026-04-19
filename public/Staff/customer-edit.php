@@ -8,13 +8,13 @@ $customerId = (int) ($_GET['id'] ?? 0);
 $customer = getCustomerById($customerId);
 
 if ($customer === null) {
-    renderPageTop('Edit customer', 'customers', [
+    viewBegin('app', appLayoutData('Edit customer', 'customers', [
         'show_search' => false,
         'show_primary_cta' => false,
-    ]);
-    echo '<section class="card customer-form-card"><h3>Customer not found</h3><p class="muted">The selected customer record does not exist.</p><p><a class="ghost-link" href="customers.php">Back to customers</a></p></section>';
-    renderPageBottom();
-    exit;
+    ]));
+echo '<section class="card customer-form-card"><h3>Customer not found</h3><p class="muted">The selected customer record does not exist.</p><p><a class="ghost-link" href="customers.php">Back to customers</a></p></section>';
+    viewEnd();
+exit;
 }
 
 $errors = [];
@@ -57,10 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-renderPageTop('Edit customer', 'customers', [
+viewBegin('app', appLayoutData('Edit customer', 'customers', [
     'show_search' => false,
     'show_primary_cta' => false,
-]);
+]));
 ?>
 <section class="card customer-form-card">
     <div class="card-header">
@@ -105,4 +105,5 @@ renderPageTop('Edit customer', 'customers', [
         </div>
     </form>
 </section>
-<?php renderPageBottom(); ?>
+<?php viewEnd();
+?>

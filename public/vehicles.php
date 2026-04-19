@@ -152,67 +152,76 @@ renderPageTop('Vehicles', 'vehicles', [
     <div class="alert-success customers-alert"><?= htmlspecialchars($noticeMessage) ?></div>
 <?php endif; ?>
 
-<section class="content-grid metric-grid">
-    <article class="card metric-card"><p>Total fleet</p><h3><?= $totalFleet ?></h3></article>
-    <article class="card metric-card"><p>Currently rented</p><h3><?= $currentlyRented ?></h3></article>
-    <article class="card metric-card"><p>Available now</p><h3><?= $availableNow ?></h3></article>
-    <article class="card metric-card"><p>In maintenance</p><h3><?= $inMaintenance ?></h3></article>
+<section class="vehicles-page-header">
+    <h3>All vehicles</h3>
+    <form class="vehicles-toolbar" method="get" action="vehicles.php">
+        <div class="vehicles-search-wrap">
+            <span aria-hidden="true">🔍</span>
+            <input type="search" name="q" value="<?= htmlspecialchars($searchTerm) ?>" placeholder="Search vehicles...">
+        </div>
+        <input type="hidden" name="status" value="<?= htmlspecialchars($statusFilter) ?>">
+        <input type="hidden" name="category" value="<?= htmlspecialchars($categoryFilter) ?>">
+        <a class="ghost-link button-like" href="vehicles-export.php?<?= htmlspecialchars(vehiclesQuery()) ?>">Export</a>
+        <a class="primary-btn" href="vehicle-create.php">+ Add vehicle</a>
+    </form>
 </section>
 
-<section class="card vehicles-control-card">
-    <div class="vehicles-toolbar-head">
-        <h3>All vehicles</h3>
-        <form class="vehicles-toolbar" method="get" action="vehicles.php">
-            <input type="search" name="q" value="<?= htmlspecialchars($searchTerm) ?>" placeholder="Search vehicles...">
-            <input type="hidden" name="status" value="<?= htmlspecialchars($statusFilter) ?>">
-            <input type="hidden" name="category" value="<?= htmlspecialchars($categoryFilter) ?>">
-            <button class="ghost-link button-like" type="submit">Search</button>
-            <a class="ghost-link button-like" href="vehicles-export.php?<?= htmlspecialchars(vehiclesQuery()) ?>">Export</a>
-            <a class="primary-btn" href="vehicle-create.php">+ Add vehicle</a>
-        </form>
-    </div>
+<section class="vehicles-kpi-grid">
+    <article class="card vehicles-kpi-card fleet">
+        <span class="vehicles-kpi-icon">🚙</span>
+        <div><p>Total fleet</p><h3><?= $totalFleet ?></h3></div>
+    </article>
+    <article class="card vehicles-kpi-card rented">
+        <span class="vehicles-kpi-icon">🔑</span>
+        <div><p>Currently rented</p><h3><?= $currentlyRented ?></h3></div>
+    </article>
+    <article class="card vehicles-kpi-card available">
+        <span class="vehicles-kpi-icon">✅</span>
+        <div><p>Available now</p><h3><?= $availableNow ?></h3></div>
+    </article>
+    <article class="card vehicles-kpi-card maintenance">
+        <span class="vehicles-kpi-icon">🔧</span>
+        <div><p>In maintenance</p><h3><?= $inMaintenance ?></h3></div>
+    </article>
+</section>
 
-    <div class="vehicles-filters">
-        <div class="vehicles-chip-row">
-            <?php $statusLabels = ['all' => 'All', 'available' => 'Available', 'rented' => 'Rented', 'maintenance' => 'Maintenance']; ?>
-            <?php foreach ($statusLabels as $key => $label): ?>
-                <a class="vehicles-chip<?= $statusFilter === $key ? ' active' : '' ?>" href="vehicles.php?<?= htmlspecialchars(vehiclesQuery(['status' => $key])) ?>">
-                    <?= htmlspecialchars($label) ?> (<?= (int) ($statusCounts[$key] ?? 0) ?>)
-                </a>
-            <?php endforeach; ?>
-        </div>
+<section class="vehicles-filter-row">
+    <?php $statusLabels = ['all' => 'All', 'available' => 'Available', 'rented' => 'Rented', 'maintenance' => 'Maintenance']; ?>
+    <?php foreach ($statusLabels as $key => $label): ?>
+        <a class="vehicles-chip<?= $statusFilter === $key ? ' active' : '' ?>" href="vehicles.php?<?= htmlspecialchars(vehiclesQuery(['status' => $key])) ?>">
+            <?= htmlspecialchars($label) ?> (<?= (int) ($statusCounts[$key] ?? 0) ?>)
+        </a>
+    <?php endforeach; ?>
 
-        <div class="vehicles-chip-row secondary">
-            <?php $catLabels = ['all' => 'All categories', 'suv' => 'SUVs', 'sedan' => 'Sedans', 'van' => 'Vans', 'pickup' => 'Pick-ups']; ?>
-            <?php foreach ($catLabels as $key => $label): ?>
-                <a class="vehicles-chip<?= $categoryFilter === $key ? ' active' : '' ?>" href="vehicles.php?<?= htmlspecialchars(vehiclesQuery(['category' => $key])) ?>">
-                    <?= htmlspecialchars($label) ?><?= $key !== 'all' ? ' (' . (int) ($categoryCounts[$key] ?? 0) . ')' : '' ?>
-                </a>
-            <?php endforeach; ?>
-        </div>
-    </div>
+    <span class="vehicles-divider" aria-hidden="true"></span>
+
+    <?php $catLabels = ['all' => 'All types', 'suv' => 'SUVs', 'sedan' => 'Sedans', 'van' => 'Vans', 'pickup' => 'Pick-ups']; ?>
+    <?php foreach ($catLabels as $key => $label): ?>
+        <a class="vehicles-chip secondary<?= $categoryFilter === $key ? ' active' : '' ?>" href="vehicles.php?<?= htmlspecialchars(vehiclesQuery(['category' => $key])) ?>">
+            <?= htmlspecialchars($label) ?><?= $key !== 'all' ? ' (' . (int) ($categoryCounts[$key] ?? 0) . ')' : '' ?>
+        </a>
+    <?php endforeach; ?>
 </section>
 
 <section class="vehicle-grid">
     <?php foreach ($vehicles as $vehicle): ?>
         <?php $status = strtolower((string) ($vehicle['status'] ?? 'available')); ?>
         <article class="card vehicle-card">
-            <div class="card-header">
-                <div class="vehicle-title-wrap">
-                    <span class="status-emoji"><?= htmlspecialchars(vehicleIconPage($vehicle)) ?></span>
-                    <h3><?= htmlspecialchars((string) $vehicle['name']) ?></h3>
-                </div>
+            <div class="vehicle-card-top">
+                <span class="vehicle-card-icon"><?= htmlspecialchars(vehicleIconPage($vehicle)) ?></span>
                 <span class="pill <?= htmlspecialchars($status) ?>"><?= htmlspecialchars(ucfirst($status)) ?></span>
             </div>
-            <p><?= htmlspecialchars((string) $vehicle['plate']) ?> · <?= htmlspecialchars((string) $vehicle['category_name']) ?></p>
-            <div class="meta-grid">
-                <div><span>Year</span><strong><?= htmlspecialchars((string) $vehicle['year']) ?></strong></div>
-                <div><span>Mileage</span><strong><?= number_format((float) $vehicle['mileage_km']) ?> km</strong></div>
-                <div><span>Rate/day</span><strong>P<?= number_format((float) $vehicle['daily_rate'], 2) ?></strong></div>
-                <div><span>Fuel</span><strong><?= htmlspecialchars(vehicleFuelTypePage($vehicle)) ?></strong></div>
-                <div><span>Color</span><strong><?= htmlspecialchars((string) ($vehicle['color'] ?? 'N/A')) ?></strong></div>
+            <h3 class="vehicle-card-title"><?= htmlspecialchars((string) $vehicle['name']) ?></h3>
+            <p class="vehicle-card-subtitle"><?= htmlspecialchars((string) $vehicle['plate']) ?> · <?= htmlspecialchars((string) $vehicle['category_name']) ?></p>
+
+            <div class="vehicle-meta-grid">
+                <div class="vehicle-meta-item"><span>Year</span><strong><?= htmlspecialchars((string) $vehicle['year']) ?></strong></div>
+                <div class="vehicle-meta-item"><span>Mileage</span><strong><?= number_format((float) $vehicle['mileage_km']) ?> km</strong></div>
+                <div class="vehicle-meta-item"><span>Rate/day</span><strong>P<?= number_format((float) $vehicle['daily_rate'], 0) ?></strong></div>
+                <div class="vehicle-meta-item"><span>Fuel</span><strong><?= htmlspecialchars(vehicleFuelTypePage($vehicle)) ?></strong></div>
             </div>
-            <div class="actions">
+
+            <div class="vehicle-actions">
                 <a class="ghost-link button-like" href="vehicle-view.php?id=<?= (int) $vehicle['vehicle_id'] ?>">View</a>
                 <a class="ghost-link button-like" href="vehicle-edit.php?id=<?= (int) $vehicle['vehicle_id'] ?>">Edit</a>
                 <?php if ($status === 'rented'): ?>

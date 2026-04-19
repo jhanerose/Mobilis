@@ -53,7 +53,8 @@ mysql -u root -p -e "GRANT ALL PRIVILEGES ON mobilis_db.* TO 'mobilis_app'@'127.
 mysql -h 127.0.0.1 -P 3306 -u mobilis_app -p mobilis_db < mobilis_sql.sql
 ```
 
-The seed script is idempotent: rerunning it will skip existing seed rows instead of failing on duplicate keys.
+The seed script now performs a full reseed: each run drops the app tables/views and recreates them with fresh demo data.
+Rerunning it is safe, but any existing records in those tables will be replaced.
 On many Linux installs, `root` uses socket authentication and cannot be used by PHP over TCP without sudo.
 On Windows, run the commands in Command Prompt as Administrator if your MySQL setup requires elevated permissions.
 

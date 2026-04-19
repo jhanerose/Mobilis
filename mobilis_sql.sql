@@ -9,6 +9,24 @@ CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE mobilis_db;
 
+-- Step 2: Reset schema objects so every run reseeds from a clean slate
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP VIEW IF EXISTS vw_active_rentals;
+DROP VIEW IF EXISTS vw_monthly_revenue;
+DROP VIEW IF EXISTS vw_support_inbox_summary;
+
+DROP TABLE IF EXISTS PasswordResetRequest;
+DROP TABLE IF EXISTS AdminContactMessage;
+DROP TABLE IF EXISTS Invoice;
+DROP TABLE IF EXISTS MaintenanceLog;
+DROP TABLE IF EXISTS Rental;
+DROP TABLE IF EXISTS Vehicle;
+DROP TABLE IF EXISTS Customer;
+DROP TABLE IF EXISTS VehicleCategory;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
 -- ── 1. VehicleCategory ──────────────────────────────────────
 CREATE TABLE IF NOT EXISTS VehicleCategory (
   category_id   INT UNSIGNED    NOT NULL AUTO_INCREMENT,

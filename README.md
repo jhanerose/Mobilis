@@ -75,6 +75,29 @@ Demo credentials:
 - Python computes insights such as utilization interpretation, demand trends, and maintenance alerts.
 - The dashboard/reports pages display the Python response directly.
 
+## Deploy To Railway
+
+This repository is ready for Railway using the included Docker runtime.
+
+1. Push this codebase to GitHub.
+2. In Railway, create a new project and deploy from that GitHub repository.
+3. Add a MySQL service in the same Railway project.
+4. Set environment variables in the app service: use Railway MySQL defaults (`MYSQLHOST`, `MYSQLPORT`, `MYSQLDATABASE`, `MYSQLUSER`, `MYSQLPASSWORD`) which are auto-detected; optional override is `MOBILIS_DB_HOST`, `MOBILIS_DB_PORT`, `MOBILIS_DB_NAME`, `MOBILIS_DB_USER`, `MOBILIS_DB_PASS`; keep `MOBILIS_PYTHON_BIN=python3`.
+
+5. Open the MySQL service shell (or connect from your local machine using Railway connection info) and import schema + seed data:
+
+```bash
+mysql -h <host> -P <port> -u <user> -p <database> < mobilis_sql.sql
+```
+
+6. Redeploy (or trigger a new deployment) and open the generated Railway URL.
+
+The app starts with:
+
+```bash
+php -S 0.0.0.0:$PORT -t public
+```
+
 ## Notes
 
 - This is a prototype intended for coursework and iterative expansion.

@@ -12,7 +12,7 @@ $firstNonEmpty = static function (array $keys): ?string {
     return null;
 };
 
-$dbUrl = $firstNonEmpty(['MYSQL_URL', 'DATABASE_URL']);
+$dbUrl = $firstNonEmpty(['MYSQL_PUBLIC_URL', 'MYSQL_URL', 'DATABASE_URL']);
 $dbUrlParts = $dbUrl ? parse_url($dbUrl) : false;
 $dbUrlPath = is_array($dbUrlParts) ? (string) ($dbUrlParts['path'] ?? '') : '';
 

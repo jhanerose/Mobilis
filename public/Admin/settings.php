@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../app/bootstrap.php';
-requireAuth(['admin', 'staff']);
+requireAuth(['admin']);
 
 $user = currentUser();
 
-renderPageTop('Settings', 'settings');
+renderPageTop('Settings', 'settings', ['role' => 'admin']);
 ?>
 <section class="page-content-head">
     <h3>System settings</h3>

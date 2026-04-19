@@ -2,12 +2,12 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../app/bootstrap.php';
-requireAuth(['admin', 'staff']);
+requireAuth(['admin']);
 
 $contactMessages = getAdminContactMessages(30);
 $resetRequests = getPasswordResetRequests(30);
 
-renderPageTop('Support inbox', 'support');
+renderPageTop('Support inbox', 'support', ['role' => 'admin']);
 ?>
 <section class="page-content-head">
     <h3>All support requests</h3>

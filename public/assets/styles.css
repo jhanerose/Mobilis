@@ -1456,6 +1456,10 @@ td p {
   background: linear-gradient(155deg, #15745a 0%, #0f5f47 58%, #0d4d3b 100%);
 }
 
+.hero-copy {
+  margin: auto 0;
+}
+
 .hero-brand {
   display: inline-flex;
   align-items: center;

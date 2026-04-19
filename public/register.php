@@ -58,47 +58,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/styles.css">
 </head>
-<body>
-<main class="auth-helper-wrap">
-    <section class="auth-helper-card">
-        <h2>Create your Mobilis account</h2>
-        <p>Sign up to start booking vehicles, track rentals, and manage your trip history in one platform.</p>
-        <h3>Registration details</h3>
-
-        <?php if ($success !== ''): ?>
-            <div class="alert-success"><?= htmlspecialchars($success) ?></div>
-        <?php endif; ?>
-
-        <?php if ($errors !== []): ?>
-            <div class="alert-error">
-                <?php foreach ($errors as $error): ?>
-                    <p><?= htmlspecialchars($error) ?></p>
-                <?php endforeach; ?>
+<body class="public-auth-body">
+<main class="auth-split-shell">
+    <section class="auth-brand-panel">
+        <a href="/index.php" class="brand hero-brand">
+            <span class="brand-icon">🚗</span>
+            <div>
+                <h1>Mobilis</h1>
+                <p>Vehicle Rental</p>
             </div>
-        <?php endif; ?>
+        </a>
+        <div class="hero-copy">
+            <h2>Join Mobilis, start renting in minutes</h2>
+            <p>Create your account request and our team will activate your profile for secure booking, tracking, and payment visibility.</p>
+            <ul class="auth-benefits">
+                <li><span class="auth-check">✓</span><span>Online booking</span></li>
+                <li><span class="auth-check">✓</span><span>Real-time tracking</span></li>
+                <li><span class="auth-check">✓</span><span>Transparent billing</span></li>
+            </ul>
+        </div>
+    </section>
 
-        <form method="post" class="auth-helper-form">
-            <label>Full name
-                <input type="text" name="full_name" placeholder="Maria Reyes" required>
-            </label>
-            <label>Email address
-                <input type="email" name="email" placeholder="maria@email.com" required>
-            </label>
-            <label>Phone number
-                <input type="tel" name="phone" placeholder="+63 917 123 4567" required>
-            </label>
-            <label>Driver's license number
-                <input type="text" name="license_number" placeholder="N01-23-456789" required>
-            </label>
-            <label>Address (optional)
-                <textarea name="address" rows="3" placeholder="Makati City, Metro Manila"></textarea>
-            </label>
-            <button type="submit" class="primary-btn">Submit registration</button>
-        </form>
+    <section class="auth-form-panel">
+        <div class="form-wrap">
+            <h3>Create your Mobilis account</h3>
+            <p>Submit your details below and wait for admin approval.</p>
 
-        <div class="auth-helper-actions">
-            <a href="/login.php" class="primary-btn">Go to sign in</a>
-            <a href="/contact-admin.php" class="ghost-btn">Talk to admin</a>
+            <?php if ($success !== ''): ?>
+                <div class="alert-success"><?= htmlspecialchars($success) ?></div>
+            <?php endif; ?>
+
+            <?php if ($errors !== []): ?>
+                <div class="alert-error">
+                    <?php foreach ($errors as $error): ?>
+                        <p><?= htmlspecialchars($error) ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <form method="post" class="auth-form-grid">
+                <label for="register-full-name">Full name
+                    <input id="register-full-name" type="text" name="full_name" placeholder="Maria Reyes" required>
+                </label>
+                <label for="register-email">Email address
+                    <input id="register-email" type="email" name="email" placeholder="maria@email.com" required>
+                </label>
+                <label for="register-phone">Phone number
+                    <input id="register-phone" type="tel" name="phone" placeholder="+63 917 123 4567" required>
+                </label>
+                <label for="register-license">Driver's license number
+                    <input id="register-license" type="text" name="license_number" placeholder="N01-23-456789" required>
+                </label>
+                <label for="register-address" class="full">Address (optional)
+                    <textarea id="register-address" name="address" rows="3" placeholder="Makati City, Metro Manila"></textarea>
+                </label>
+                <button type="submit" class="primary-btn full">Submit registration</button>
+            </form>
+
+            <p class="auth-footnote">Already approved? <a href="/login.php" class="text-link">Sign in</a></p>
         </div>
     </section>
 </main>

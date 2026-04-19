@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobilis Prototype Login</title>
+    <title>Sign In | Mobilis</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
@@ -43,13 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="login-body">
 <div class="login-shell">
     <section class="login-brand-panel">
-        <div class="brand hero-brand">
+        <a href="/index.php" class="brand hero-brand">
             <span class="brand-icon">🚗</span>
             <div>
                 <h1>Mobilis</h1>
                 <p>Vehicle Rental</p>
             </div>
-        </div>
+        </a>
         <div class="hero-copy">
             <h2>Rent a vehicle and manage a fleet, all from one place</h2>
             <p>Track vehicles in real time, handle bookings, monitor maintenance, and grow your rental business with confidence.</p>
@@ -75,16 +75,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form method="post" class="login-form">
-                <label>Email address
-                    <input type="email" name="email" placeholder="you@mobilis.ph" required>
+                <label for="login-email">Email address
+                    <input id="login-email" type="email" name="email" placeholder="you@mobilis.ph" required>
                 </label>
-                <label>Password
-                    <input type="password" name="password" placeholder="Enter password" required>
+                <label for="login-password">Password
+                    <input id="login-password" type="password" name="password" placeholder="Enter password" required>
                 </label>
 
                 <div class="form-inline-row">
-                    <label class="checkbox-line">
-                        <input type="checkbox" name="remember_me" value="1">
+                    <label for="remember-me" class="checkbox-line">
+                        <input id="remember-me" type="checkbox" name="remember_me" value="1">
                         <span>Remember me</span>
                     </label>
                     <a href="/forgot-password.php" class="text-link">Forgot password?</a>

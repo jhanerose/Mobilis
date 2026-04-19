@@ -21,7 +21,21 @@ if (isAuthenticated()) {
 </head>
 <body class="landing-body">
 <main class="landing-shell">
-    <section class="landing-hero">
+    <nav class="landing-nav reveal">
+        <a href="/index.php" class="brand">
+            <span class="brand-icon">🚗</span>
+            <div>
+                <h1>Mobilis</h1>
+                <p>Vehicle Rental Platform</p>
+            </div>
+        </a>
+        <div class="landing-nav-links">
+            <a href="/login.php" class="landing-nav-link">Sign in</a>
+            <a href="/register.php" class="landing-nav-link primary">Register</a>
+        </div>
+    </nav>
+
+    <section class="landing-hero reveal reveal-delay-1">
         <div class="brand hero-brand">
             <span class="brand-icon">🚗</span>
             <div>
@@ -42,42 +56,54 @@ if (isAuthenticated()) {
 
         <div class="landing-proof-grid">
             <article>
-                <strong>48+</strong>
-                <span>Vehicles managed daily</span>
+                <span class="landing-proof-icon">🚙</span>
+                <div class="landing-proof-content">
+                    <strong>48+</strong>
+                    <span>Vehicles managed daily</span>
+                </div>
             </article>
             <article>
-                <strong>31</strong>
-                <span>Active rentals in progress</span>
+                <span class="landing-proof-icon">🧭</span>
+                <div class="landing-proof-content">
+                    <strong>31</strong>
+                    <span>Active rentals in progress</span>
+                </div>
             </article>
             <article>
-                <strong>99%</strong>
-                <span>On-time booking updates</span>
+                <span class="landing-proof-icon">📊</span>
+                <div class="landing-proof-content">
+                    <strong>99%</strong>
+                    <span>On-time booking updates</span>
+                </div>
             </article>
         </div>
     </section>
 
-    <section class="landing-section">
+    <section class="landing-section reveal reveal-delay-2">
         <div class="landing-section-head">
             <h3>Why customers choose Mobilis</h3>
             <p>Everything you need before, during, and after a rental.</p>
         </div>
         <div class="landing-feature-grid">
             <article class="card landing-feature-card">
+                <span class="landing-feature-icon">⚡</span>
                 <h4>Instant booking visibility</h4>
                 <p>Track confirmation, payment, and schedule updates with clear status indicators.</p>
             </article>
             <article class="card landing-feature-card">
+                <span class="landing-feature-icon">🛡️</span>
                 <h4>Reliable vehicle options</h4>
                 <p>Choose from sedans, SUVs, vans, and pickups with transparent rates and availability.</p>
             </article>
             <article class="card landing-feature-card">
+                <span class="landing-feature-icon">💳</span>
                 <h4>Transparent billing flow</h4>
                 <p>See charges, invoices, and payment status in one place with no hidden surprises.</p>
             </article>
         </div>
     </section>
 
-    <section class="landing-section">
+    <section class="landing-section reveal reveal-delay-3">
         <div class="landing-section-head">
             <h3>Meet Team Mobilis</h3>
             <p>The people building your smarter rental experience.</p>
@@ -120,6 +146,10 @@ if (isAuthenticated()) {
             <a href="/login.php" class="ghost-btn">Sign in</a>
         </div>
     </section>
+
+    <footer class="landing-footer">
+        <p>&copy; 2026 Mobilis. Built for reliable, transparent vehicle rentals.</p>
+    </footer>
 </main>
 </body>
 </html>

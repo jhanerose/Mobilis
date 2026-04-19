@@ -54,48 +54,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/styles.css">
 </head>
-<body>
-<main class="auth-helper-wrap">
-    <section class="auth-helper-card">
-        <h2>Contact your admin</h2>
-        <p>For account creation, role updates, billing questions, or password support, send a message below.</p>
-        <h3>Submit a support message</h3>
-
-        <?php if ($success !== ''): ?>
-            <div class="alert-success"><?= htmlspecialchars($success) ?></div>
-        <?php endif; ?>
-
-        <?php if ($errors !== []): ?>
-            <div class="alert-error">
-                <?php foreach ($errors as $error): ?>
-                    <p><?= htmlspecialchars($error) ?></p>
-                <?php endforeach; ?>
+<body class="public-auth-body">
+<main class="auth-split-shell">
+    <section class="auth-brand-panel">
+        <a href="/index.php" class="brand hero-brand">
+            <span class="brand-icon">🚗</span>
+            <div>
+                <h1>Mobilis</h1>
+                <p>Vehicle Rental</p>
             </div>
-        <?php endif; ?>
+        </a>
+        <div class="hero-copy">
+            <h2>Reach the Mobilis team</h2>
+            <p>For account concerns, billing clarifications, and support requests, send us a message and we will follow up as soon as possible.</p>
+            <ul class="auth-channel-list">
+                <li>
+                    <span class="auth-channel-icon">✉️</span>
+                    <div>
+                        <strong>Email support</strong>
+                        <span>admin@mobilis.ph</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="auth-channel-icon">📞</span>
+                    <div>
+                        <strong>Support line</strong>
+                        <span>+63 917 000 0000</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="auth-channel-icon">🕒</span>
+                    <div>
+                        <strong>Response window</strong>
+                        <span>Mon-Sat, 8:00 AM to 6:00 PM</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
 
-        <form method="post" class="auth-helper-form">
-            <label>Full name
-                <input type="text" name="full_name" placeholder="Maria Reyes" required>
-            </label>
-            <label>Email address
-                <input type="email" name="email" placeholder="maria@email.com" required>
-            </label>
-            <label>Phone (optional)
-                <input type="tel" name="phone" placeholder="+63 917 123 4567">
-            </label>
-            <label>Subject
-                <input type="text" name="subject" placeholder="Account access support" required>
-            </label>
-            <label>Message
-                <textarea name="message" rows="4" maxlength="1000" placeholder="Please help reset my account access" required></textarea>
-            </label>
-            <button type="submit" class="primary-btn">Send to admin</button>
-        </form>
+    <section class="auth-form-panel">
+        <div class="form-wrap">
+            <h3>Contact your admin</h3>
+            <p>Submit a support message and we will route it to the right team.</p>
 
-        <p>Email: <strong>admin@mobilis.ph</strong><br>Support line: <strong>+63 917 000 0000</strong></p>
-        <div class="auth-helper-actions">
-            <a href="/login.php" class="primary-btn">Back to sign in</a>
-            <a href="/forgot-password.php" class="ghost-btn">Forgot password</a>
+            <?php if ($success !== ''): ?>
+                <div class="alert-success"><?= htmlspecialchars($success) ?></div>
+            <?php endif; ?>
+
+            <?php if ($errors !== []): ?>
+                <div class="alert-error">
+                    <?php foreach ($errors as $error): ?>
+                        <p><?= htmlspecialchars($error) ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <form method="post" class="auth-form-grid">
+                <label for="contact-full-name">Full name
+                    <input id="contact-full-name" type="text" name="full_name" placeholder="Maria Reyes" required>
+                </label>
+                <label for="contact-email">Email address
+                    <input id="contact-email" type="email" name="email" placeholder="maria@email.com" required>
+                </label>
+                <label for="contact-phone">Phone (optional)
+                    <input id="contact-phone" type="tel" name="phone" placeholder="+63 917 123 4567">
+                </label>
+                <label for="contact-subject">Subject
+                    <input id="contact-subject" type="text" name="subject" placeholder="Account access support" required>
+                </label>
+                <label for="contact-message" class="full">Message
+                    <textarea id="contact-message" name="message" rows="4" maxlength="1000" placeholder="Please help reset my account access" required></textarea>
+                </label>
+                <button type="submit" class="primary-btn full">Send to admin</button>
+            </form>
+
+            <div class="auth-form-footer-links">
+                <a href="/login.php">Back to sign in</a>
+                <a href="/forgot-password.php">Forgot password</a>
+            </div>
         </div>
     </section>
 </main>

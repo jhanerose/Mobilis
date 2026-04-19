@@ -49,42 +49,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/styles.css">
 </head>
-<body>
-<main class="auth-helper-wrap">
-    <section class="auth-helper-card">
-        <h2>Password assistance</h2>
-        <p>Submit a password reset request and it will be stored for the admin team to verify and process.</p>
-        <h3>Submit reset details</h3>
-
-        <?php if ($success !== ''): ?>
-            <div class="alert-success"><?= htmlspecialchars($success) ?></div>
-        <?php endif; ?>
-
-        <?php if ($errors !== []): ?>
-            <div class="alert-error">
-                <?php foreach ($errors as $error): ?>
-                    <p><?= htmlspecialchars($error) ?></p>
-                <?php endforeach; ?>
+<body class="public-auth-body">
+<main class="auth-split-shell">
+    <section class="auth-brand-panel">
+        <a href="/index.php" class="brand hero-brand">
+            <span class="brand-icon">🚗</span>
+            <div>
+                <h1>Mobilis</h1>
+                <p>Vehicle Rental</p>
             </div>
-        <?php endif; ?>
+        </a>
+        <div class="hero-copy">
+            <h2>We'll help you regain access</h2>
+            <p>Send a reset request and the Mobilis admin team will manually review and process your account recovery details.</p>
+            <ul class="auth-benefits">
+                <li><span class="auth-check">✓</span><span>Manual identity checks for account safety</span></li>
+                <li><span class="auth-check">✓</span><span>Fast follow-up through your registered contact info</span></li>
+                <li><span class="auth-check">✓</span><span>Status updates from our support team</span></li>
+            </ul>
+        </div>
+    </section>
 
-        <form method="post" class="auth-helper-form">
-            <label>Email address
-                <input type="email" name="email" placeholder="you@mobilis.ph" required>
-            </label>
-            <label>License number (optional)
-                <input type="text" name="license_number" placeholder="N01-23-456789">
-            </label>
-            <label>Reason
-                <textarea name="reason" rows="4" maxlength="500" placeholder="Lost access to account credentials" required></textarea>
-            </label>
-            <button type="submit" class="primary-btn">Submit request</button>
-        </form>
+    <section class="auth-form-panel">
+        <div class="form-wrap">
+            <h3>Password assistance</h3>
+            <p>Provide your account details and reason for the request.</p>
 
-        <p>Default admin demo account: <strong>admin@mobilis.ph</strong></p>
-        <div class="auth-helper-actions">
-            <a href="/login.php" class="primary-btn">Back to sign in</a>
-            <a href="/contact-admin.php" class="ghost-btn">Contact admin</a>
+            <?php if ($success !== ''): ?>
+                <div class="alert-success"><?= htmlspecialchars($success) ?></div>
+            <?php endif; ?>
+
+            <?php if ($errors !== []): ?>
+                <div class="alert-error">
+                    <?php foreach ($errors as $error): ?>
+                        <p><?= htmlspecialchars($error) ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <form method="post" class="auth-form-grid">
+                <label for="forgot-email">Email address
+                    <input id="forgot-email" type="email" name="email" placeholder="you@mobilis.ph" required>
+                </label>
+                <label for="forgot-license">License number (optional)
+                    <input id="forgot-license" type="text" name="license_number" placeholder="N01-23-456789">
+                </label>
+                <label for="forgot-reason" class="full">Reason
+                    <textarea id="forgot-reason" name="reason" rows="4" maxlength="500" placeholder="Lost access to account credentials" required></textarea>
+                </label>
+                <button type="submit" class="primary-btn full">Submit request</button>
+            </form>
+
+            <div class="auth-form-footer-links">
+                <a href="/login.php">Back to sign in</a>
+                <a href="/contact-admin.php">Contact admin</a>
+            </div>
         </div>
     </section>
 </main>

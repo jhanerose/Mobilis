@@ -80,7 +80,7 @@ if (!function_exists('renderPageTop')) {
         $user = currentUser();
         $role = (string) ($options['role'] ?? ($user['role'] ?? 'staff'));
         $showSearch = (bool) ($options['show_search'] ?? true);
-        $showPrimaryCta = (bool) ($options['show_primary_cta'] ?? true);
+        $showPrimaryCta = (bool) ($options['show_primary_cta'] ?? false);
         $primaryCtaLabel = (string) ($options['primary_cta_label'] ?? '+ New booking');
         $initials = 'MB';
         if ($user && isset($user['name'])) {

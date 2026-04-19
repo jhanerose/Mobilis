@@ -18,13 +18,12 @@ renderPageTop('Live tracking', 'tracking');
             <h4>Live fleet map</h4>
             <a href="vehicles.php" class="ghost-link">Full map</a>
         </div>
-        <div class="map-stage">
-            <span class="map-point" style="top: 32%; left: 22%;"></span>
-            <span class="map-point" style="top: 20%; left: 44%;"></span>
-            <span class="map-point" style="top: 42%; left: 61%;"></span>
-            <span class="map-point" style="top: 58%; left: 77%;"></span>
-            <span class="map-route"></span>
-            <p>Metro Manila · 31 active trackers</p>
+        <div class="map-embed-wrap">
+            <iframe
+                title="Live fleet map"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps?q=Metro+Manila,+Philippines&output=embed"></iframe>
         </div>
     </article>
 

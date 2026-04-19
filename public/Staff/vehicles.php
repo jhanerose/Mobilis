@@ -228,8 +228,6 @@ renderPageTop('Vehicles', 'vehicles', [
                     <a class="primary-btn" href="vehicle-track.php?id=<?= (int) $vehicle['vehicle_id'] ?>">Track</a>
                 <?php elseif ($status === 'maintenance'): ?>
                     <a class="primary-btn warning" href="maintenance.php?vehicle_id=<?= (int) $vehicle['vehicle_id'] ?>">PMS due</a>
-                <?php else: ?>
-                    <a class="primary-btn" href="booking-create.php?vehicle_id=<?= (int) $vehicle['vehicle_id'] ?>">Book now</a>
                 <?php endif; ?>
             </div>
         </article>

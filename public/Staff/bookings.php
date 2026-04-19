@@ -255,7 +255,6 @@ renderPageTop('Bookings', 'bookings', [
             </details>
 
             <a class="ghost-link button-like" href="bookings-export.php?<?= htmlspecialchars(bookingsQuery(['page' => 1])) ?>">Export</a>
-            <a class="primary-btn" href="booking-create.php">+ New booking</a>
         </form>
     </div>
 
@@ -324,7 +323,6 @@ renderPageTop('Bookings', 'bookings', [
                             <?php elseif ($statusKey === 'completed'): ?>
                                 <a class="ghost-link button-like booking-mini-btn" href="booking-view.php?id=<?= (int) $booking['rental_id'] ?>&receipt=1">Receipt</a>
                             <?php elseif ($statusKey === 'cancelled'): ?>
-                                <a class="ghost-link button-like booking-mini-btn" href="booking-create.php?customer_id=<?= (int) ($booking['customer_id'] ?? 0) ?>">Rebook</a>
                             <?php else: ?>
                                 <a class="ghost-link button-like booking-mini-btn" href="booking-edit.php?id=<?= (int) $booking['rental_id'] ?>">Edit</a>
                             <?php endif; ?>

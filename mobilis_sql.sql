@@ -55,13 +55,54 @@ CREATE TABLE IF NOT EXISTS Vehicle (
 INSERT INTO Vehicle (category_id, plate_number, brand, model, year, color, mileage_km, status)
 SELECT seed.category_id, seed.plate_number, seed.brand, seed.model, seed.year, seed.color, seed.mileage_km, seed.status
 FROM (
-  SELECT 1 AS category_id, 'ABC 1234' AS plate_number, 'Toyota' AS brand, 'Vios' AS model, 2022 AS year, 'White' AS color, 45000 AS mileage_km, 'available' AS status
-  UNION ALL SELECT 1, 'DEF 5678', 'Honda', 'City', 2023, 'Silver', 12000, 'rented'
-  UNION ALL SELECT 2, 'GHI 9012', 'Ford', 'Everest', 2021, 'Black', 78000, 'available'
-  UNION ALL SELECT 2, 'JKL 3456', 'Mitsubishi', 'Montero', 2020, 'Gray', 95000, 'maintenance'
-  UNION ALL SELECT 3, 'MNO 7890', 'Toyota', 'HiAce', 2019, 'White', 130000, 'available'
-  UNION ALL SELECT 4, 'PQR 1122', 'Honda', 'Click 125', 2023, 'Red', 8000, 'available'
-  UNION ALL SELECT 5, 'STU 3344', 'Mitsubishi', 'Strada', 2022, 'Blue', 55000, 'available'
+  SELECT 2 AS category_id, 'ABC-1234' AS plate_number, 'Toyota' AS brand, 'Fortuner' AS model, 2022 AS year, 'Blue' AS color, 38200 AS mileage_km, 'rented' AS status
+  UNION ALL SELECT 1, 'XYZ-5678', 'Honda', 'Civic', 2023, 'Gray', 12500, 'available'
+  UNION ALL SELECT 3, 'DEF-9012', 'Toyota', 'HiAce', 2021, 'White', 49800, 'maintenance'
+  UNION ALL SELECT 2, 'GHI-3456', 'Mitsubishi', 'Xpander', 2023, 'Silver', 21000, 'rented'
+  UNION ALL SELECT 5, 'JKL-7890', 'Ford', 'Ranger', 2022, 'Black', 30100, 'available'
+  UNION ALL SELECT 2, 'MNO-2345', 'Hyundai', 'Tucson', 2024, 'White', 8400, 'rented'
+  UNION ALL SELECT 1, 'QRS-1007', 'Toyota', 'Vios', 2022, 'White', 44500, 'rented'
+  UNION ALL SELECT 1, 'TUV-1008', 'Honda', 'City', 2023, 'Silver', 16000, 'rented'
+  UNION ALL SELECT 1, 'WXY-1009', 'Nissan', 'Almera', 2021, 'Red', 55200, 'rented'
+  UNION ALL SELECT 1, 'ZAB-1010', 'Mazda', '3', 2022, 'Machine Gray', 22000, 'rented'
+  UNION ALL SELECT 2, 'CDE-1011', 'Ford', 'Everest', 2021, 'Black', 77800, 'rented'
+  UNION ALL SELECT 2, 'FGH-1012', 'Isuzu', 'mu-X', 2020, 'Brown', 88000, 'rented'
+  UNION ALL SELECT 2, 'IJK-1013', 'Mitsubishi', 'Montero', 2020, 'Gray', 95400, 'rented'
+  UNION ALL SELECT 3, 'LMN-1014', 'Toyota', 'Innova', 2022, 'White', 36000, 'rented'
+  UNION ALL SELECT 3, 'OPQ-1015', 'Nissan', 'Urvan', 2019, 'Pearl White', 116000, 'rented'
+  UNION ALL SELECT 3, 'RST-1016', 'Kia', 'Carnival', 2023, 'Blue', 28000, 'rented'
+  UNION ALL SELECT 5, 'UVW-1017', 'Ford', 'F-150', 2022, 'Red', 42000, 'rented'
+  UNION ALL SELECT 5, 'XYA-1018', 'Toyota', 'Hilux', 2021, 'Black', 61000, 'rented'
+  UNION ALL SELECT 5, 'BCD-1019', 'Mitsubishi', 'Strada', 2022, 'Blue', 54800, 'rented'
+  UNION ALL SELECT 3, 'EFG-1020', 'Suzuki', 'Ertiga', 2023, 'Gray', 14000, 'rented'
+  UNION ALL SELECT 2, 'HIJ-1021', 'Geely', 'Coolray', 2023, 'White', 17000, 'rented'
+  UNION ALL SELECT 2, 'KLM-1022', 'Honda', 'BR-V', 2022, 'Silver', 25000, 'rented'
+  UNION ALL SELECT 2, 'NOP-1023', 'Chery', 'Tiggo', 2024, 'Black', 9000, 'rented'
+  UNION ALL SELECT 2, 'QRT-1024', 'Toyota', 'Raize', 2024, 'Yellow', 7800, 'rented'
+  UNION ALL SELECT 3, 'STU-1025', 'Hyundai', 'Staria', 2024, 'White', 11000, 'rented'
+  UNION ALL SELECT 2, 'VWX-1026', 'Peugeot', '3008', 2021, 'Blue', 31200, 'rented'
+  UNION ALL SELECT 2, 'YZA-1027', 'Subaru', 'Forester', 2022, 'Green', 27600, 'rented'
+  UNION ALL SELECT 2, 'ABC-1028', 'Chevrolet', 'Trailblazer', 2020, 'Black', 68000, 'rented'
+  UNION ALL SELECT 5, 'DEF-1029', 'Nissan', 'Navara', 2021, 'Orange', 50000, 'rented'
+  UNION ALL SELECT 5, 'GHI-1030', 'Mazda', 'BT-50', 2022, 'Gray', 34500, 'rented'
+  UNION ALL SELECT 1, 'JKL-1031', 'Toyota', 'Corolla', 2023, 'White', 14300, 'rented'
+  UNION ALL SELECT 1, 'MNP-1032', 'Honda', 'Accord', 2020, 'Blue', 62800, 'rented'
+  UNION ALL SELECT 1, 'QWE-1033', 'Kia', 'Soluto', 2024, 'Red', 6200, 'rented'
+  UNION ALL SELECT 2, 'RTY-1034', 'MG', 'ZS', 2023, 'Gray', 12300, 'rented'
+  UNION ALL SELECT 3, 'UIO-1035', 'Toyota', 'Avanza', 2021, 'Silver', 43000, 'available'
+  UNION ALL SELECT 3, 'PAS-1036', 'Honda', 'Mobilio', 2020, 'Gray', 49000, 'available'
+  UNION ALL SELECT 1, 'DFG-1037', 'Suzuki', 'Dzire', 2022, 'Blue', 23000, 'available'
+  UNION ALL SELECT 2, 'HJK-1038', 'Nissan', 'Terra', 2021, 'Black', 57500, 'available'
+  UNION ALL SELECT 2, 'LZX-1039', 'Ford', 'Explorer', 2020, 'White', 70000, 'available'
+  UNION ALL SELECT 2, 'CVB-1040', 'Toyota', 'Rush', 2023, 'Maroon', 11000, 'available'
+  UNION ALL SELECT 5, 'NMK-1041', 'Isuzu', 'D-Max', 2022, 'Brown', 32000, 'available'
+  UNION ALL SELECT 3, 'POI-1042', 'Mitsubishi', 'L300', 2021, 'White', 51000, 'available'
+  UNION ALL SELECT 1, 'TRE-1043', 'Hyundai', 'Accent', 2024, 'Silver', 5500, 'available'
+  UNION ALL SELECT 2, 'WQA-1044', 'Kia', 'Sportage', 2022, 'Green', 26900, 'available'
+  UNION ALL SELECT 2, 'SED-1045', 'Toyota', 'Land Cruiser', 2019, 'White', 99000, 'maintenance'
+  UNION ALL SELECT 3, 'RFV-1046', 'Ford', 'Transit', 2020, 'Blue', 88000, 'maintenance'
+  UNION ALL SELECT 2, 'TGB-1047', 'Mazda', 'CX-9', 2021, 'Red', 54000, 'maintenance'
+  UNION ALL SELECT 2, 'YHN-1048', 'Nissan', 'Patrol', 2018, 'Black', 120000, 'maintenance'
 ) AS seed
 WHERE NOT EXISTS (
   SELECT 1
@@ -85,14 +126,16 @@ CREATE TABLE IF NOT EXISTS Customer (
   UNIQUE KEY uq_license (license_number)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO Customer (first_name, last_name, email, phone, license_number, license_expiry, address)
-SELECT seed.first_name, seed.last_name, seed.email, seed.phone, seed.license_number, seed.license_expiry, seed.address
+INSERT INTO Customer (first_name, last_name, email, phone, license_number, license_expiry, address, created_at)
+SELECT seed.first_name, seed.last_name, seed.email, seed.phone, seed.license_number, seed.license_expiry, seed.address, seed.created_at
 FROM (
-  SELECT 'Juan' AS first_name, 'dela Cruz' AS last_name, 'juan@email.com' AS email, '09171234567' AS phone, 'N01-23-456789' AS license_number, '2027-05-12' AS license_expiry, 'Quezon City' AS address
-  UNION ALL SELECT 'Maria', 'Santos', 'maria@email.com', '09189876543', 'N02-34-567890', '2026-08-30', 'Makati City'
-  UNION ALL SELECT 'Jose', 'Reyes', 'jose@email.com', '09201122334', 'N03-45-678901', '2028-01-15', 'Pasig City'
-  UNION ALL SELECT 'Ana', 'Garcia', 'ana@email.com', '09331234567', 'N04-56-789012', '2025-12-01', 'Marikina City'
-  UNION ALL SELECT 'Pedro', 'Lim', 'pedro@email.com', '09558765432', 'N05-67-890123', '2029-03-20', 'Taguig City'
+  SELECT 'Maria' AS first_name, 'Reyes' AS last_name, 'maria@email.com' AS email, '+63 917 123 4567' AS phone, 'N01-23-456789' AS license_number, '2028-03-20' AS license_expiry, 'Makati City, Metro Manila' AS address, '2023-01-12 09:30:00' AS created_at
+  UNION ALL SELECT 'Juan', 'dela Cruz', 'jdc@email.com', '+63 918 234 5678', 'N02-34-567890', '2027-08-30', 'Quezon City, Metro Manila', '2024-04-03 11:00:00'
+  UNION ALL SELECT 'Ana', 'Lim', 'ana.lim@email.com', '+63 919 345 6789', 'N03-45-678901', '2028-03-15', 'Pasig City, Metro Manila', '2023-03-18 10:15:00'
+  UNION ALL SELECT 'Ramon', 'Santos', 'ramon.s@email.com', '+63 920 456 7890', 'N04-56-789012', '2027-11-21', 'Manila City, Metro Manila', '2024-01-09 13:25:00'
+  UNION ALL SELECT 'Pedro', 'Cruz', 'pedz@email.com', '+63 921 567 8901', 'N05-67-890123', '2029-06-12', 'Taguig City, Metro Manila', '2023-06-25 08:20:00'
+  UNION ALL SELECT 'Lisa', 'Garcia', 'lisag@email.com', '+63 922 678 9012', 'N06-78-901234', '2028-10-08', 'Mandaluyong City, Metro Manila', '2026-03-30 16:10:00'
+  UNION ALL SELECT 'Bea', 'Torres', 'bea.t@email.com', '+63 923 789 0123', 'N07-89-012345', '2029-02-14', 'Caloocan City, Metro Manila', '2022-02-05 09:05:00'
 ) AS seed
 WHERE NOT EXISTS (
   SELECT 1
@@ -108,7 +151,7 @@ CREATE TABLE IF NOT EXISTS Rental (
   pickup_date   DATE          NOT NULL,
   return_date   DATE          NOT NULL,
   actual_return DATE          DEFAULT NULL,
-  status        ENUM('active','completed','cancelled') NOT NULL DEFAULT 'active',
+  status        ENUM('pending','active','completed','cancelled') NOT NULL DEFAULT 'active',
   notes         TEXT,
   created_at    TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (rental_id),
@@ -118,23 +161,47 @@ CREATE TABLE IF NOT EXISTS Rental (
     REFERENCES Vehicle(vehicle_id)   ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO Rental (customer_id, vehicle_id, pickup_date, return_date, actual_return, status)
-SELECT seed.customer_id, seed.vehicle_id, seed.pickup_date, seed.return_date, seed.actual_return, seed.status
+INSERT INTO Rental (rental_id, customer_id, vehicle_id, pickup_date, return_date, actual_return, status, notes)
+SELECT seed.rental_id, seed.customer_id, seed.vehicle_id, seed.pickup_date, seed.return_date, seed.actual_return, seed.status, seed.notes
 FROM (
-  SELECT 1 AS customer_id, 2 AS vehicle_id, '2026-04-01' AS pickup_date, '2026-04-05' AS return_date, '2026-04-05' AS actual_return, 'completed' AS status
-  UNION ALL SELECT 2, 1, '2026-04-06', '2026-04-10', NULL, 'active'
-  UNION ALL SELECT 3, 3, '2026-03-15', '2026-03-20', '2026-03-21', 'completed'
-  UNION ALL SELECT 4, 6, '2026-04-08', '2026-04-11', NULL, 'active'
-  UNION ALL SELECT 5, 7, '2026-03-01', '2026-03-07', '2026-03-07', 'completed'
+  SELECT 412 AS rental_id, 1 AS customer_id, 1 AS vehicle_id, '2026-04-13' AS pickup_date, '2026-04-16' AS return_date, NULL AS actual_return, 'active' AS status, 'Priority corporate booking' AS notes
+  UNION ALL SELECT 411, 2, 2, '2026-04-14', '2026-04-14', NULL, 'pending', 'Awaiting approval'
+  UNION ALL SELECT 410, 3, 3, '2026-04-15', '2026-04-20', NULL, 'active', 'Family vacation trip'
+  UNION ALL SELECT 409, 4, 5, '2026-04-17', '2026-04-19', NULL, 'active', 'Weekend out-of-town use'
+  UNION ALL SELECT 408, 5, 4, '2026-04-10', '2026-04-12', '2026-04-12', 'completed', 'Completed with receipt issued'
+  UNION ALL SELECT 407, 6, 6, '2026-04-08', '2026-04-08', NULL, 'cancelled', 'Customer cancelled same day'
+  UNION ALL SELECT 406, 1, 5, '2026-03-28', '2026-03-30', '2026-03-30', 'completed', 'Recent booking history'
+  UNION ALL SELECT 405, 1, 3, '2026-03-10', '2026-03-14', '2026-03-14', 'completed', 'Recent booking history'
+  UNION ALL SELECT 404, 7, 11, '2026-04-03', '2026-04-06', NULL, 'active', 'VIP corporate booking'
+  UNION ALL SELECT 403, 7, 12, '2026-04-05', '2026-04-09', NULL, 'active', 'VIP corporate booking'
+  UNION ALL SELECT 402, 2, 7, '2026-04-02', '2026-04-05', NULL, 'active', 'Regional travel'
+  UNION ALL SELECT 401, 4, 8, '2026-04-01', '2026-04-03', NULL, 'active', 'Branch operations'
+  UNION ALL SELECT 400, 3, 9, '2026-04-04', '2026-04-07', NULL, 'active', 'Intercity transfer'
+  UNION ALL SELECT 399, 5, 10, '2026-04-06', '2026-04-08', NULL, 'active', 'Event support fleet'
 ) AS seed
 WHERE NOT EXISTS (
   SELECT 1
   FROM Rental r
-  WHERE r.customer_id = seed.customer_id
-    AND r.vehicle_id = seed.vehicle_id
-    AND r.pickup_date = seed.pickup_date
-    AND r.return_date = seed.return_date
+  WHERE r.rental_id = seed.rental_id
 );
+
+INSERT INTO Rental (customer_id, vehicle_id, pickup_date, return_date, actual_return, status, notes)
+SELECT
+  ((v.vehicle_id - 1) % 7) + 1 AS customer_id,
+  v.vehicle_id,
+  DATE_ADD('2026-03-01', INTERVAL ((v.vehicle_id - 1) % 9) DAY) AS pickup_date,
+  DATE_ADD('2026-03-03', INTERVAL ((v.vehicle_id - 1) % 9) DAY) AS return_date,
+  NULL AS actual_return,
+  'active' AS status,
+  'Baseline seeded active rental' AS notes
+FROM Vehicle v
+WHERE v.status = 'rented'
+  AND NOT EXISTS (
+    SELECT 1
+    FROM Rental r
+    WHERE r.vehicle_id = v.vehicle_id
+      AND r.status = 'active'
+  );
 
 -- ── 5. MaintenanceLog ────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS MaintenanceLog (
@@ -184,12 +251,23 @@ CREATE TABLE IF NOT EXISTS Invoice (
     REFERENCES Rental(rental_id) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO Invoice (rental_id, base_amount, late_fee, damage_fee, total_amount, payment_status)
-SELECT seed.rental_id, seed.base_amount, seed.late_fee, seed.damage_fee, seed.total_amount, seed.payment_status
+INSERT INTO Invoice (rental_id, base_amount, late_fee, damage_fee, total_amount, payment_status, issued_at)
+SELECT seed.rental_id, seed.base_amount, seed.late_fee, seed.damage_fee, seed.total_amount, seed.payment_status, seed.issued_at
 FROM (
-  SELECT 1 AS rental_id, 6000.00 AS base_amount, 0.00 AS late_fee, 0.00 AS damage_fee, 6000.00 AS total_amount, 'paid' AS payment_status
-  UNION ALL SELECT 3, 12500.00, 2500.00, 0.00, 15000.00, 'paid'
-  UNION ALL SELECT 5, 12000.00, 0.00, 500.00, 12500.00, 'paid'
+  SELECT 412 AS rental_id, 10500.00 AS base_amount, 0.00 AS late_fee, 0.00 AS damage_fee, 10500.00 AS total_amount, 'paid' AS payment_status, '2026-04-13 08:00:00' AS issued_at
+  UNION ALL SELECT 411, 2200.00, 0.00, 0.00, 2200.00, 'unpaid', '2026-04-14 09:00:00'
+  UNION ALL SELECT 410, 20000.00, 0.00, 0.00, 20000.00, 'paid', '2026-04-15 10:00:00'
+  UNION ALL SELECT 409, 6400.00, 0.00, 0.00, 6400.00, 'unpaid', '2026-04-17 11:00:00'
+  UNION ALL SELECT 408, 5600.00, 0.00, 0.00, 5600.00, 'paid', '2026-04-12 14:30:00'
+  UNION ALL SELECT 407, 3800.00, 0.00, 0.00, 3800.00, 'unpaid', '2026-04-08 15:20:00'
+  UNION ALL SELECT 406, 6400.00, 0.00, 0.00, 6400.00, 'paid', '2026-03-30 16:00:00'
+  UNION ALL SELECT 405, 125100.00, 0.00, 0.00, 125100.00, 'paid', '2026-03-14 13:10:00'
+  UNION ALL SELECT 404, 150000.00, 0.00, 0.00, 150000.00, 'paid', '2026-04-06 12:00:00'
+  UNION ALL SELECT 403, 126300.00, 0.00, 0.00, 126300.00, 'paid', '2026-04-09 12:15:00'
+  UNION ALL SELECT 402, 36200.00, 0.00, 0.00, 36200.00, 'paid', '2026-04-05 12:45:00'
+  UNION ALL SELECT 401, 14800.00, 0.00, 0.00, 14800.00, 'paid', '2026-04-03 18:25:00'
+  UNION ALL SELECT 400, 178500.00, 0.00, 0.00, 178500.00, 'paid', '2026-04-07 18:45:00'
+  UNION ALL SELECT 399, 49200.00, 0.00, 0.00, 49200.00, 'paid', '2026-04-08 19:00:00'
 ) AS seed
 WHERE NOT EXISTS (
   SELECT 1

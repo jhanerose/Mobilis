@@ -320,6 +320,7 @@ CREATE TABLE IF NOT EXISTS Invoice (
   damage_fee     DECIMAL(10,2)  NOT NULL DEFAULT 0.00,
   total_amount   DECIMAL(10,2)  NOT NULL,
   payment_status ENUM('unpaid','paid','partial') NOT NULL DEFAULT 'unpaid',
+  payment_method ENUM('pending','cash','gcash','card','bank_transfer') NOT NULL DEFAULT 'pending',
   issued_at      TIMESTAMP      DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (invoice_id),
   UNIQUE KEY uq_rental (rental_id),
@@ -385,6 +386,16 @@ WHERE r.notes LIKE 'Trend seed rental #%'
     FROM Invoice i
     WHERE i.rental_id = r.rental_id
   );
+
+UPDATE Invoice
+SET payment_method = CASE
+  WHEN payment_status = 'paid' AND MOD(invoice_id, 4) = 0 THEN 'card'
+  WHEN payment_status = 'paid' AND MOD(invoice_id, 4) = 1 THEN 'gcash'
+  WHEN payment_status = 'paid' AND MOD(invoice_id, 4) = 2 THEN 'bank_transfer'
+  WHEN payment_status = 'paid' THEN 'cash'
+  WHEN payment_status = 'partial' THEN 'bank_transfer'
+  ELSE 'pending'
+END;
 
 -- Add additional maintenance log entries for diverse vehicle service history and alerts
 INSERT INTO MaintenanceLog (vehicle_id, service_date, service_type, cost, performed_by, odometer_km, remarks)
@@ -475,11 +486,15 @@ CREATE TABLE IF NOT EXISTS AdminContactMessage (
   phone        VARCHAR(30)  DEFAULT NULL,
   subject      VARCHAR(180) NOT NULL,
   message      TEXT         NOT NULL,
+  admin_response TEXT       DEFAULT NULL,
   status       ENUM('new','read','resolved') NOT NULL DEFAULT 'new',
   created_at   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  responded_at TIMESTAMP NULL DEFAULT NULL,
+  responded_by INT UNSIGNED DEFAULT NULL,
   PRIMARY KEY (message_id),
   KEY idx_admin_contact_status (status),
-  KEY idx_admin_contact_created (created_at)
+  KEY idx_admin_contact_created (created_at),
+  KEY idx_admin_contact_responded_at (responded_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO AdminContactMessage (full_name, email, phone, subject, message, status)

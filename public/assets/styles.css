@@ -2249,19 +2249,8 @@ td p {
 
 .landing-bento-card.split {
   grid-column: span 8;
-  grid-template-columns: 1fr 0.8fr;
-  align-items: center;
+  grid-template-columns: 1fr;
   background: #fbfdfc;
-}
-
-.landing-bento-art {
-  min-height: 140px;
-  border-radius: 20px;
-  background:
-    radial-gradient(circle at 25% 25%, rgba(21, 129, 94, 0.23), transparent 46%),
-    radial-gradient(circle at 70% 70%, rgba(14, 95, 71, 0.19), transparent 50%),
-    linear-gradient(155deg, #ebf4f1, #dcebe4);
-  border: 1px solid #cfe3d9;
 }
 
 .team-grid {

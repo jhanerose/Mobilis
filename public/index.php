@@ -119,7 +119,6 @@ if (isAuthenticated()) {
                     <h4>24/7 support routing</h4>
                     <p>Our support workflows keep customers informed with timely updates and clear turnaround expectations.</p>
                 </div>
-                <div class="landing-bento-art"></div>
             </article>
         </div>
     </section>

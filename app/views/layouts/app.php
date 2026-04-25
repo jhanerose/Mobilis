@@ -74,6 +74,9 @@ $content = (string) ($content ?? '');
         <?= $content ?>
     </main>
 </div>
+<script>
+    const BASE_URL = '<?= baseUrl() ?>';
+</script>
 <script src="<?= baseUrl() ?>/assets/app.js"></script>
 </body>
 </html>

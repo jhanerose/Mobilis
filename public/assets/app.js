@@ -7,7 +7,7 @@ async function refreshInsights() {
   insightsOutput.textContent = 'Running analysis...';
 
   try {
-    const response = await fetch('/api/dashboard.php', {
+    const response = await fetch(BASE_URL + '/api/dashboard.php', {
       method: 'GET',
       headers: { Accept: 'application/json' },
     });
@@ -379,7 +379,7 @@ function setupCustomerProfilePanel() {
     const name = String(customer.name || '').trim();
     profileMessageBtn.href = 'mailto:' + email + '?subject=' + encodeURIComponent('Mobilis customer support: ' + name);
     if (profileBookingBtn) {
-      profileBookingBtn.href = '/Staff/booking-create.php?user_id=' + encodeURIComponent(String(customerId));
+      profileBookingBtn.href = BASE_URL + '/Staff/booking-create.php?user_id=' + encodeURIComponent(String(customerId));
     }
 
     recentBookingsList.innerHTML = '';
@@ -921,7 +921,7 @@ function updateTrackingMarkers(map, markerStore, vehicles) {
 async function setupLiveTrackingMap(mapEl) {
   await ensureLeaflet();
 
-  const endpoint = mapEl.dataset.trackingEndpoint || '/api/tracking.php';
+  const endpoint = mapEl.dataset.trackingEndpoint || BASE_URL + '/api/tracking.php';
   const listTargetId = mapEl.dataset.trackingListTarget || '';
   const statusTargetId = mapEl.dataset.trackingStatusTarget || '';
   const listLimit = Number(mapEl.dataset.trackingListLimit || 10);

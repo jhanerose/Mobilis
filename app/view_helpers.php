@@ -8,21 +8,21 @@ if (!function_exists('navSections')) {
             [
                 'section' => 'My Rentals',
                 'items' => [
-                    ['key' => 'dashboard', 'label' => 'Dashboard', 'href' => '/Customer/dashboard.php', 'icon' => '📊'],
-                    ['key' => 'bookings', 'label' => 'My bookings', 'href' => '/Customer/bookings.php', 'icon' => '🗓'],
+                    ['key' => 'dashboard', 'label' => 'Dashboard', 'href' => baseUrl() . '/Customer/dashboard.php', 'icon' => '📊'],
+                    ['key' => 'bookings', 'label' => 'My bookings', 'href' => baseUrl() . '/Customer/bookings.php', 'icon' => '🗓'],
                 ],
             ],
             [
                 'section' => 'Fleet',
                 'items' => [
-                    ['key' => 'vehicles', 'label' => 'Browse vehicles', 'href' => '/Customer/vehicles.php', 'icon' => '🚘'],
-                    ['key' => 'tracking', 'label' => 'Live tracking', 'href' => '/Customer/tracking.php', 'icon' => '📍'],
+                    ['key' => 'vehicles', 'label' => 'Browse vehicles', 'href' => baseUrl() . '/Customer/vehicles.php', 'icon' => '🚘'],
+                    ['key' => 'tracking', 'label' => 'Live tracking', 'href' => baseUrl() . '/Customer/tracking.php', 'icon' => '📍'],
                 ],
             ],
             [
                 'section' => 'Account',
                 'items' => [
-                    ['key' => 'payments', 'label' => 'Payments', 'href' => '/Customer/payments.php', 'icon' => '💳'],
+                    ['key' => 'payments', 'label' => 'Payments', 'href' => baseUrl() . '/Customer/payments.php', 'icon' => '💳'],
                 ],
             ],
         ];
@@ -31,24 +31,24 @@ if (!function_exists('navSections')) {
             [
                 'section' => 'Overview',
                 'items' => [
-                    ['key' => 'dashboard', 'label' => 'Dashboard', 'href' => '/Staff/dashboard.php', 'icon' => '📊'],
-                    ['key' => 'bookings', 'label' => 'Bookings', 'href' => '/Staff/bookings.php', 'icon' => '🗓', 'badge' => '12', 'badge_class' => 'ok'],
+                    ['key' => 'dashboard', 'label' => 'Dashboard', 'href' => baseUrl() . '/Staff/dashboard.php', 'icon' => '📊'],
+                    ['key' => 'bookings', 'label' => 'Bookings', 'href' => baseUrl() . '/Staff/bookings.php', 'icon' => '🗓', 'badge' => '12', 'badge_class' => 'ok'],
                 ],
             ],
             [
                 'section' => 'Fleet',
                 'items' => [
-                    ['key' => 'vehicles', 'label' => 'Vehicles', 'href' => '/Staff/vehicles.php', 'icon' => '🚙'],
-                    ['key' => 'tracking', 'label' => 'Live tracking', 'href' => '/Staff/tracking.php', 'icon' => '📍'],
-                    ['key' => 'maintenance', 'label' => 'Maintenance', 'href' => '/Staff/maintenance.php', 'icon' => '🔧', 'badge' => '3', 'badge_class' => 'warn'],
+                    ['key' => 'vehicles', 'label' => 'Vehicles', 'href' => baseUrl() . '/Staff/vehicles.php', 'icon' => '🚙'],
+                    ['key' => 'tracking', 'label' => 'Live tracking', 'href' => baseUrl() . '/Staff/tracking.php', 'icon' => '📍'],
+                    ['key' => 'maintenance', 'label' => 'Maintenance', 'href' => baseUrl() . '/Staff/maintenance.php', 'icon' => '🔧', 'badge' => '3', 'badge_class' => 'warn'],
                 ],
             ],
             [
                 'section' => 'Business',
                 'items' => [
-                    ['key' => 'customers', 'label' => 'Customers', 'href' => '/Staff/customers.php', 'icon' => '👥'],
-                    ['key' => 'payments', 'label' => 'Payments', 'href' => '/Staff/payments.php', 'icon' => '💳'],
-                    ['key' => 'reports', 'label' => 'Reports', 'href' => '/Staff/reports.php', 'icon' => '📈'],
+                    ['key' => 'customers', 'label' => 'Customers', 'href' => baseUrl() . '/Staff/customers.php', 'icon' => '👥'],
+                    ['key' => 'payments', 'label' => 'Payments', 'href' => baseUrl() . '/Staff/payments.php', 'icon' => '💳'],
+                    ['key' => 'reports', 'label' => 'Reports', 'href' => baseUrl() . '/Staff/reports.php', 'icon' => '📈'],
                 ],
             ],
         ];
@@ -57,8 +57,8 @@ if (!function_exists('navSections')) {
             [
                 'section' => 'Admin',
                 'items' => [
-                    ['key' => 'support', 'label' => 'Support inbox', 'href' => '/Admin/support-requests.php', 'icon' => '✉'],
-                    ['key' => 'settings', 'label' => 'Settings', 'href' => '/Admin/settings.php', 'icon' => '⚙'],
+                    ['key' => 'support', 'label' => 'Support inbox', 'href' => baseUrl() . '/Admin/support-requests.php', 'icon' => '✉'],
+                    ['key' => 'settings', 'label' => 'Settings', 'href' => baseUrl() . '/Admin/settings.php', 'icon' => '⚙'],
                 ],
             ],
         ];

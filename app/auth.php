@@ -113,14 +113,14 @@ if (!function_exists('roleHomePath')) {
     function roleHomePath(?string $role): string
     {
         if ($role === 'customer') {
-            return '/Customer/dashboard.php';
+            return baseUrl() . '/Customer/dashboard.php';
         }
 
         if ($role === 'admin') {
-            return '/Admin/settings.php';
+            return baseUrl() . '/Admin/settings.php';
         }
 
-        return '/Staff/dashboard.php';
+        return baseUrl() . '/Staff/dashboard.php';
     }
 }
 

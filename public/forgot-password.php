@@ -43,7 +43,7 @@ viewBegin('auth', authLayoutData('Forgot Password'));
 ?>
     <section class="auth-brand-panel">
         <a href="/index.php" class="brand hero-brand">
-            <img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
+            <img src="<?= baseUrl() ?>/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
         </a>
         <div class="hero-copy">
             <h2>We'll help you regain access</h2>

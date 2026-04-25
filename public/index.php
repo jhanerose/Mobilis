@@ -13,7 +13,7 @@ viewBegin('landing', ['title' => 'Mobilis | Smarter Vehicle Rental']);
 ?>
     <nav class="landing-nav">
         <a href="/index.php" class="brand">
-            <img src="/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
+            <img src="<?= baseUrl() ?>/assets/images/logo.png" alt="Mobilis logo" class="brand-logo">
         </a>
         <div class="landing-nav-center">
             <a href="#platform" class="landing-nav-tab active">Platform</a>
@@ -118,27 +118,27 @@ viewBegin('landing', ['title' => 'Mobilis | Smarter Vehicle Rental']);
 
         <div class="team-grid">
             <article class="team-card">
-                <img src="/assets/images/Team-Mobilis/DAWINAN.png" alt="Anton Sebastian C. Dawinan">
+                <img src="<?= baseUrl() ?>/assets/images/Team-Mobilis/DAWINAN.png" alt="Anton Sebastian C. Dawinan">
                 <h4>DAWINAN, ANTON SEBASTIAN C.</h4>
                 <p>Web/PHP</p>
             </article>
             <article class="team-card">
-                <img src="/assets/images/Team-Mobilis/MANGAO.png" alt="Alexander John M. Mangao">
+                <img src="<?= baseUrl() ?>/assets/images/Team-Mobilis/MANGAO.png" alt="Alexander John M. Mangao">
                 <h4>MANGAO, ALEXANDER JOHN M.</h4>
                 <p>Frontend/UI</p>
             </article>
             <article class="team-card">
-                <img src="/assets/images/Team-Mobilis/SADICON.png" alt="Jhane Rose U. Sadicon">
+                <img src="<?= baseUrl() ?>/assets/images/Team-Mobilis/SADICON.png" alt="Jhane Rose U. Sadicon">
                 <h4>SADICON, JHANE ROSE U.</h4>
                 <p>Project Manager/QA Tester</p>
             </article>
             <article class="team-card">
-                <img src="/assets/images/Team-Mobilis/SY.png" alt="Kenneth A. Sy">
+                <img src="<?= baseUrl() ?>/assets/images/Team-Mobilis/SY.png" alt="Kenneth A. Sy">
                 <h4>SY, KENNETH A.</h4>
                 <p>Backend</p>
             </article>
             <article class="team-card">
-                <img src="/assets/images/Team-Mobilis/TENORIA.png" alt="Johan Jaiser Tenoria">
+                <img src="<?= baseUrl() ?>/assets/images/Team-Mobilis/TENORIA.png" alt="Johan Jaiser Tenoria">
                 <h4>TENORIA, JOHAN JAISER</h4>
                 <p>Database Lead</p>
             </article>

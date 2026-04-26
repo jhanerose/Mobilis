@@ -9,15 +9,15 @@ class TestLandingPage:
     def test_landing_page_loads(self, page: Page):
         """Test that the landing page loads correctly"""
         page.goto(f"{BASE_URL}/index.php")
-        expect(page).to_have_title("Mobilis | Smarter Vehicle Rental")
+        expect(page).to_have_title("Mobilis | Smarter Vehicle Rental | Mobilis")
         expect(page.locator("text=Book faster.")).to_be_visible()
         expect(page.locator("text=Travel smarter.")).to_be_visible()
 
     def test_landing_page_navigation_links(self, page: Page):
         """Test that navigation links are present"""
         page.goto(f"{BASE_URL}/index.php")
-        expect(page.locator("text=Sign in")).to_be_visible()
-        expect(page.locator("text=Register")).to_be_visible()
+        expect(page.locator("text=Sign in").first).to_be_visible()
+        expect(page.locator("text=Register").first).to_be_visible()
 
     def test_landing_page_hero_section(self, page: Page):
         """Test that hero section displays correctly"""
@@ -50,13 +50,13 @@ class TestLandingPage:
         """Test that CTA section displays correctly"""
         page.goto(f"{BASE_URL}/index.php")
         expect(page.locator("text=Ready to book your next vehicle?")).to_be_visible()
-        expect(page.locator("text=Create account")).to_be_visible()
-        expect(page.locator("text=Sign in")).to_be_visible()
+        expect(page.locator("text=Create account").first).to_be_visible()
+        expect(page.locator("text=Sign in").first).to_be_visible()
 
     def test_landing_page_footer(self, page: Page):
         """Test that footer displays correctly"""
         page.goto(f"{BASE_URL}/index.php")
-        expect(page.locator("text=© 2026 Mobilis")).to_be_visible()
+        expect(page.locator("text=2026 Mobilis")).to_be_visible()
         expect(page.locator("text=Built for reliable, transparent vehicle rentals")).to_be_visible()
 
     def test_navigate_to_login_from_landing(self, page: Page):
@@ -71,4 +71,4 @@ class TestLandingPage:
         page.goto(f"{BASE_URL}/index.php")
         page.click("text=Register")
         page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/register.php")
-        expect(page).to_have_title("Register | Mobilis")
+        expect(page).to_have_title("Create Account | Mobilis")

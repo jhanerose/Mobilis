@@ -48,7 +48,13 @@ class TestCustomers:
         # Navigate from dashboard
         authenticated_admin_page.click("text=Customers")
         authenticated_admin_page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Staff/customers.php")
-        export_button = authenticated_admin_page.locator("text=Export")
+        export_button = authenticated_admin_page.locator("[data-export-modal]")
         if export_button.is_visible():
             export_button.click()
-            expect(authenticated_admin_page.locator("text=Export Customers")).to_be_visible()
+            authenticated_admin_page.wait_for_timeout(1000)
+            # Check modal is open
+            expect(authenticated_admin_page.locator("#export-modal")).to_be_visible()
+            expect(authenticated_admin_page.locator("text=Export Data")).to_be_visible()
+            # Close modal using the close button (scoped to export modal)
+            authenticated_admin_page.locator("#export-modal .modal-close").click()
+            authenticated_admin_page.wait_for_timeout(500)

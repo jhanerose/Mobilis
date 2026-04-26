@@ -21,7 +21,7 @@ class TestAuthentication:
         page.fill("input[name='password']", ADMIN_PASSWORD)
         page.click("button[type='submit']")
         page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Staff/dashboard.php")
-        expect(page.locator("text=Dashboard")).to_be_visible()
+        expect(page.locator("text=Dashboard").first).to_be_visible()
 
     def test_staff_login_success(self, page: Page):
         """Test successful staff login"""
@@ -30,7 +30,7 @@ class TestAuthentication:
         page.fill("input[name='password']", STAFF_PASSWORD)
         page.click("button[type='submit']")
         page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Staff/dashboard.php")
-        expect(page.locator("text=Dashboard")).to_be_visible()
+        expect(page.locator("text=Dashboard").first).to_be_visible()
 
     def test_customer_login_success(self, page: Page):
         """Test successful customer login"""
@@ -39,7 +39,7 @@ class TestAuthentication:
         page.fill("input[name='password']", CUSTOMER_PASSWORD)
         page.click("button[type='submit']")
         page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Customer/dashboard.php")
-        expect(page.locator("text=Dashboard")).to_be_visible()
+        expect(page.locator("text=Dashboard").first).to_be_visible()
 
     def test_login_invalid_credentials(self, page: Page):
         """Test login with invalid credentials"""
@@ -67,7 +67,7 @@ class TestAuthentication:
         page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Staff/dashboard.php")
         
         page.click("a[href*='logout']")
-        page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/index.php")
+        page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/login.php")
 
     def test_customer_logout(self, page: Page):
         """Test customer logout functionality"""
@@ -78,7 +78,7 @@ class TestAuthentication:
         page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Customer/dashboard.php")
         
         page.click("a[href*='logout']")
-        page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/index.php")
+        page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/login.php")
 
     def test_role_based_access_admin_to_customer_pages(self, page: Page):
         """Test that admin cannot access customer-specific pages"""

@@ -45,7 +45,7 @@ class TestBookings:
 
     def test_customer_bookings_page_loads(self, page: Page):
         """Test that customer bookings page loads correctly"""
-        page.goto(f"{BASE_URL}/index.php")
+        page.goto(f"{BASE_URL}{PATH_PREFIX}/login.php")
         page.fill("input[name='email']", CUSTOMER_EMAIL)
         page.fill("input[name='password']", CUSTOMER_PASSWORD)
         page.click("button[type='submit']")
@@ -54,11 +54,11 @@ class TestBookings:
         # Navigate from dashboard
         page.click("text=My bookings")
         page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Customer/bookings.php")
-        expect(page).to_have_title("My bookings | Mobilis")
+        expect(page).to_have_title("My Bookings | Mobilis")
 
     def test_customer_booking_create_page_loads(self, page: Page):
         """Test that customer booking creation page loads"""
-        page.goto(f"{BASE_URL}/index.php")
+        page.goto(f"{BASE_URL}{PATH_PREFIX}/login.php")
         page.fill("input[name='email']", CUSTOMER_EMAIL)
         page.fill("input[name='password']", CUSTOMER_PASSWORD)
         page.click("button[type='submit']")
@@ -72,14 +72,14 @@ class TestBookings:
         if first_vehicle.is_visible():
             first_vehicle.click()
             page.wait_for_timeout(1000)
-            expect(page.locator("text=Create Booking")).to_be_visible()
+            expect(page.locator("text=Create Booking").first).to_be_visible()
             expect(page.locator("select[name='vehicle_id']")).to_be_visible()
             expect(page.locator("input[name='pickup_date']")).to_be_visible()
             expect(page.locator("input[name='return_date']")).to_be_visible()
 
     def test_customer_booking_submit(self, page: Page):
         """Test customer can submit a booking"""
-        page.goto(f"{BASE_URL}/index.php")
+        page.goto(f"{BASE_URL}{PATH_PREFIX}/login.php")
         page.fill("input[name='email']", CUSTOMER_EMAIL)
         page.fill("input[name='password']", CUSTOMER_PASSWORD)
         page.click("button[type='submit']")

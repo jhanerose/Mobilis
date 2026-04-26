@@ -39,7 +39,7 @@ class TestVehicles:
         authenticated_admin_page.click("text=Vehicles")
         authenticated_admin_page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Staff/vehicles.php")
         # Click on available filter
-        available_filter = authenticated_admin_page.locator("text=Available")
+        available_filter = authenticated_admin_page.locator("text=Available").first
         if available_filter.is_visible():
             available_filter.click()
             authenticated_admin_page.wait_for_timeout(1000)
@@ -49,16 +49,16 @@ class TestVehicles:
         # Navigate from dashboard
         authenticated_admin_page.click("text=Vehicles")
         authenticated_admin_page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Staff/vehicles.php")
-        # Click on first vehicle card
-        first_vehicle = authenticated_admin_page.locator(".vehicle-card").first
-        if first_vehicle.is_visible():
-            first_vehicle.click()
-            authenticated_admin_page.wait_for_url("**/vehicle-view.php*")
-            expect(authenticated_admin_page.locator("text=Vehicle Details")).to_be_visible()
+        # Check for view button on first vehicle
+        view_button = authenticated_admin_page.locator("a[href*='vehicle-view.php']").first
+        if view_button.is_visible():
+            view_button.click()
+            authenticated_admin_page.wait_for_url(f"{BASE_URL}{PATH_PREFIX}/Staff/vehicle-view.php*")
+            expect(authenticated_admin_page.locator("text=Vehicle Details").first).to_be_visible()
 
     def test_customer_vehicles_page_loads(self, page: Page):
         """Test that customer vehicles page loads correctly"""
-        page.goto(f"{BASE_URL}/index.php")
+        page.goto(f"{BASE_URL}{PATH_PREFIX}/login.php")
         page.fill("input[name='email']", "customer@mobilis.ph")
         page.fill("input[name='password']", "password")
         page.click("button[type='submit']")
@@ -71,7 +71,7 @@ class TestVehicles:
 
     def test_customer_vehicle_booking_form(self, page: Page):
         """Test that customer can access booking form from vehicles page"""
-        page.goto(f"{BASE_URL}/index.php")
+        page.goto(f"{BASE_URL}{PATH_PREFIX}/login.php")
         page.fill("input[name='email']", "customer@mobilis.ph")
         page.fill("input[name='password']", "password")
         page.click("button[type='submit']")

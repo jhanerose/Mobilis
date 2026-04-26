@@ -4,7 +4,7 @@ import csv
 from openpyxl import Workbook
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, landscape
-from reportlab.platypus import Table, TableStyle, SimpleDocTemplate
+from reportlab.platypus import TableStyle, Table
 from db_client import execute_query
 
 def export_csv(data, output_file):

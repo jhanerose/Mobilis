@@ -5,7 +5,7 @@ from datetime import datetime
 from openpyxl import Workbook
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, landscape
-from reportlab.platypus import SimpleDocTable, TableStyle, Table
+from reportlab.platypus import TableStyle, Table
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from db_client import execute_query

@@ -23,11 +23,11 @@ def get_analytics_summary():
         status_data = execute_query(status_query)
         status_breakdown = {row['status']: row['count'] for row in status_data}
         
-        # Get booking behavior
+        # Get booking behavior - use actual rental data
         bookings_query = """
-            SELECT DATEDIFF(return_date, pickup_date) as days
+            SELECT DATEDIFF(COALESCE(return_date, CURDATE()), pickup_date) as days
             FROM Rental
-            WHERE status != 'cancelled' AND return_date IS NOT NULL
+            WHERE status != 'cancelled' AND pickup_date IS NOT NULL
         """
         bookings_data = execute_query(bookings_query)
         days = [row['days'] for row in bookings_data if row['days'] and row['days'] > 0]
@@ -73,6 +73,7 @@ def get_analytics_summary():
         if avg_days > 4:
             recommendations.append('Average rental duration is long; prepare long-term rental bundles and retention offers.')
         
+        from datetime import datetime
         return {
             'fleet_health': {
                 'total_fleet': total_fleet,
@@ -90,9 +91,10 @@ def get_analytics_summary():
             },
             'maintenance_alerts': maintenance_alerts,
             'recommendations': recommendations,
-            'generated_at': '2024-01-01 00:00:00'  # Placeholder
+            'generated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
     except Exception as e:
+        from datetime import datetime
         return {
             'error': str(e),
             'fleet_health': {'total_fleet': 0, 'active_rentals': 0, 'utilization_rate': 0, 'status_breakdown': {}},
@@ -100,7 +102,7 @@ def get_analytics_summary():
             'financial_snapshot': {'revenue_today': 0},
             'maintenance_alerts': [],
             'recommendations': [],
-            'generated_at': '2024-01-01 00:00:00'
+            'generated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
 
 def get_maintenance_alerts():

@@ -23,6 +23,8 @@ def execute_query(query: str, params: tuple = ()) -> List[Dict[str, Any]]:
             return result
     except Exception as e:
         print(f"Query error: {e}")
+        print(f"Query: {query}")
+        print(f"Params: {params}")
         return []
     finally:
         conn.close()

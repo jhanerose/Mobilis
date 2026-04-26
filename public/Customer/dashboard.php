@@ -120,11 +120,11 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard', ['role' => 'customer'])
     <article class="card">
         <div class="card-header">
             <h4>My bookings</h4>
-            <a href="bookings.php" class="ghost-link">View all</a>
+            <a href="<?= baseUrl() ?>/Customer/bookings.php" class="ghost-link">View all</a>
         </div>
         <ul class="list clean">
             <?php if ($customerBookings === []): ?>
-                <p class="muted">No bookings yet. <a href="booking-create.php" class="text-link">Book a vehicle</a></p>
+                <p class="muted">No bookings yet. <a href="<?= baseUrl() ?>/Customer/booking-create.php" class="text-link">Book a vehicle</a></p>
             <?php else: ?>
                 <?php foreach (array_slice($customerBookings, 0, 5) as $booking): ?>
                     <?php $statusKey = bookingStatusKey($booking); ?>
@@ -146,7 +146,7 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard', ['role' => 'customer'])
     <article class="card">
         <div class="card-header">
             <h4>Available vehicles</h4>
-            <a href="vehicles.php" class="ghost-link">View fleet</a>
+            <a href="<?= baseUrl() ?>/Customer/vehicles.php" class="ghost-link">View fleet</a>
         </div>
         <ul class="list clean">
             <?php foreach ($availableVehicles as $vehicle): ?>
@@ -168,7 +168,7 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard', ['role' => 'customer'])
 <section class="card">
     <div class="card-header">
         <h4>Recent payments</h4>
-        <a href="payments.php" class="ghost-link">View all</a>
+        <a href="<?= baseUrl() ?>/Customer/payments.php" class="ghost-link">View all</a>
     </div>
     <div class="table-wrap">
         <table>

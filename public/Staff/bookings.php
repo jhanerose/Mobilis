@@ -242,7 +242,7 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
 <section class="bookings-page-head">
     <div class="bookings-page-titlebar">
         <h3>All bookings</h3>
-        <form class="bookings-toolbar" method="get" action="bookings.php">
+        <form class="bookings-toolbar" method="get" action="<?= baseUrl() ?>/Staff/bookings.php">
             <div class="bookings-search-wrap">
                 <span aria-hidden="true">🔍</span>
                 <input type="search" name="q" placeholder="Search bookings..." value="<?= htmlspecialchars($searchTerm) ?>">
@@ -307,6 +307,7 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
     </div>
 
     <script>
+    const baseUrl = '<?= htmlspecialchars(baseUrl()) ?>';
     document.addEventListener('DOMContentLoaded', function() {
         const exportButtons = document.querySelectorAll('[data-export-modal]');
         const exportModal = document.getElementById('export-modal');
@@ -338,7 +339,7 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
             const format = document.querySelector('input[name="export-format"]:checked').value;
             const query = exportModal.dataset.exportQuery || '';
             
-            let url = `Staff/${currentExportType}-export.php?format=${format}`;
+            let url = `${baseUrl}/Staff/${currentExportType}-export.php?format=${format}`;
             if (query) {
                 url += '&' + query;
             }
@@ -352,7 +353,7 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
     <nav class="bookings-tabs" aria-label="Booking status tabs">
         <?php foreach ($tabs as $key => $label): ?>
             <?php $isActiveTab = $activeStatus === $key; ?>
-            <a class="bookings-tab<?= $isActiveTab ? ' active' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['status' => $key, 'page' => 1])) ?>">
+            <a class="bookings-tab<?= $isActiveTab ? ' active' : '' ?>" href="<?= baseUrl() ?>/Staff/bookings.php?<?= htmlspecialchars(bookingsQuery(['status' => $key, 'page' => 1])) ?>">
                 <?= htmlspecialchars($label) ?>
             </a>
         <?php endforeach; ?>
@@ -395,12 +396,12 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
                     <td><span class="pill <?= htmlspecialchars($statusClass) ?>"><?= htmlspecialchars((string) ($booking['status_label'] ?? 'Pending')) ?></span></td>
                     <td>
                         <div class="booking-actions">
-                            <a class="ghost-link button-like booking-mini-btn" href="booking-view.php?id=<?= (int) $booking['rental_id'] ?>">View</a>
+                            <a class="ghost-link button-like booking-mini-btn" href="<?= baseUrl() ?>/Staff/booking-view.php?id=<?= (int) $booking['rental_id'] ?>">View</a>
 
                             <?php if ($statusKey === 'pending'): ?>
                                 <form
                                     method="post"
-                                    action="booking-action.php"
+                                    action="<?= baseUrl() ?>/Staff/booking-action.php"
                                     data-confirm-submit
                                     data-confirm-title="Approve booking"
                                     data-confirm-message="Approve this booking request now?"
@@ -409,13 +410,13 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
                                 >
                                     <input type="hidden" name="action" value="approve">
                                     <input type="hidden" name="id" value="<?= (int) $booking['rental_id'] ?>">
-                                    <input type="hidden" name="redirect" value="bookings.php?<?= htmlspecialchars(bookingsQuery()) ?>">
+                                    <input type="hidden" name="redirect" value="<?= baseUrl() ?>/Staff/bookings.php?<?= htmlspecialchars(bookingsQuery()) ?>">
                                     <button class="ghost-link button-like booking-mini-btn" type="submit">Approve</button>
                                 </form>
                             <?php elseif ($statusKey === 'awaiting-payment'): ?>
                                 <form
                                     method="post"
-                                    action="booking-action.php"
+                                    action="<?= baseUrl() ?>/Staff/booking-action.php"
                                     data-confirm-submit
                                     data-confirm-title="Send payment reminder"
                                     data-confirm-message="Send a payment reminder for this booking?"
@@ -424,14 +425,14 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
                                 >
                                     <input type="hidden" name="action" value="remind">
                                     <input type="hidden" name="id" value="<?= (int) $booking['rental_id'] ?>">
-                                    <input type="hidden" name="redirect" value="bookings.php?<?= htmlspecialchars(bookingsQuery()) ?>">
+                                    <input type="hidden" name="redirect" value="<?= baseUrl() ?>/Staff/bookings.php?<?= htmlspecialchars(bookingsQuery()) ?>">
                                     <button class="ghost-link button-like booking-mini-btn" type="submit">Remind</button>
                                 </form>
                             <?php elseif ($statusKey === 'completed'): ?>
-                                <a class="ghost-link button-like booking-mini-btn" href="booking-view.php?id=<?= (int) $booking['rental_id'] ?>&receipt=1">Receipt</a>
+                                <a class="ghost-link button-like booking-mini-btn" href="<?= baseUrl() ?>/Staff/booking-view.php?id=<?= (int) $booking['rental_id'] ?>&receipt=1">Receipt</a>
                             <?php elseif ($statusKey === 'cancelled'): ?>
                             <?php else: ?>
-                                <a class="ghost-link button-like booking-mini-btn" href="booking-edit.php?id=<?= (int) $booking['rental_id'] ?>">Edit</a>
+                                <a class="ghost-link button-like booking-mini-btn" href="<?= baseUrl() ?>/Staff/booking-edit.php?id=<?= (int) $booking['rental_id'] ?>">Edit</a>
                             <?php endif; ?>
                         </div>
                     </td>
@@ -449,15 +450,15 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
         <p>Showing <?= $startItem ?>-<?= $endItem ?> of <?= $totalFiltered ?> bookings</p>
 
         <div class="bookings-pagination">
-            <a class="ghost-link button-like page-btn<?= $currentPage <= 1 ? ' disabled' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => max(1, $currentPage - 1)])) ?>">&lsaquo;</a>
+            <a class="ghost-link button-like page-btn<?= $currentPage <= 1 ? ' disabled' : '' ?>" href="<?= baseUrl() ?>/Staff/bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => max(1, $currentPage - 1)])) ?>">&lsaquo;</a>
             <?php foreach ($paginationItems as $item): ?>
                 <?php if ($item === '...'): ?>
                     <span class="page-ellipsis">...</span>
                 <?php else: ?>
-                    <a class="ghost-link button-like page-btn<?= $currentPage === (int) $item ? ' active' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => (int) $item])) ?>"><?= (int) $item ?></a>
+                    <a class="ghost-link button-like page-btn<?= $currentPage === (int) $item ? ' active' : '' ?>" href="<?= baseUrl() ?>/Staff/bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => (int) $item])) ?>"><?= (int) $item ?></a>
                 <?php endif; ?>
             <?php endforeach; ?>
-            <a class="ghost-link button-like page-btn<?= $currentPage >= $totalPages ? ' disabled' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => min($totalPages, $currentPage + 1)])) ?>">&rsaquo;</a>
+            <a class="ghost-link button-like page-btn<?= $currentPage >= $totalPages ? ' disabled' : '' ?>" href="<?= baseUrl() ?>/Staff/bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => min($totalPages, $currentPage + 1)])) ?>">&rsaquo;</a>
         </div>
     </div>
 </section>

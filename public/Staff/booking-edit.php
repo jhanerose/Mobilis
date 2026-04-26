@@ -13,7 +13,7 @@ if ($booking === null) {
         'show_search' => false,
         'show_primary_cta' => false,
     ]));
-echo '<section class="card customer-form-card"><h3>Booking not found</h3><p class="muted">The selected booking record does not exist.</p><p><a class="ghost-link" href="bookings.php">Back to bookings</a></p></section>';
+echo '<section class="card customer-form-card"><h3>Booking not found</h3><p class="muted">The selected booking record does not exist.</p><p><a class="ghost-link" href="<?= baseUrl() ?>/Staff/bookings.php">Back to bookings</a></p></section>';
     viewEnd();
 exit;
 }
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if (($result['ok'] ?? false) === true) {
-        header('Location: bookings.php?notice=updated');
+        header('Location: <?= baseUrl() ?>/Staff/bookings.php?notice=updated');
         exit;
     }
 
@@ -55,7 +55,7 @@ viewBegin('app', appLayoutData('Edit booking', 'bookings', [
 <section class="card customer-form-card">
     <div class="card-header">
         <h3>Edit booking #BK-<?= str_pad((string) ((int) $booking['rental_id']), 4, '0', STR_PAD_LEFT) ?></h3>
-        <a class="ghost-link" href="bookings.php">Back</a>
+        <a class="ghost-link" href="<?= baseUrl() ?>/Staff/bookings.php">Back</a>
     </div>
 
     <?php if ($errors !== []): ?>
@@ -91,7 +91,7 @@ viewBegin('app', appLayoutData('Edit booking', 'bookings', [
         </label>
 
         <div class="customer-form-actions full">
-            <a class="ghost-link button-like" href="bookings.php">Cancel</a>
+            <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/bookings.php">Cancel</a>
             <button type="submit" class="primary-btn">Save changes</button>
         </div>
     </form>

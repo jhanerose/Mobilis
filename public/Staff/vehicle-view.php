@@ -16,13 +16,13 @@ viewBegin('app', appLayoutData('Vehicle details', 'vehicles', [
     <?php if ($vehicle === null): ?>
         <h3>Vehicle not found</h3>
         <p class="muted">The selected vehicle could not be found.</p>
-        <p><a class="ghost-link" href="vehicles.php">Back to vehicles</a></p>
+        <p><a class="ghost-link" href="<?= baseUrl() ?>/Staff/vehicles.php">Back to vehicles</a></p>
     <?php else: ?>
         <div class="card-header">
             <h3><?= htmlspecialchars((string) ($vehicle['name'] ?? 'Vehicle')) ?></h3>
             <div class="customer-form-actions">
-                <a class="ghost-link button-like" href="vehicles.php">Back</a>
-                <a class="ghost-link button-like" href="vehicle-edit.php?id=<?= (int) ($vehicle['vehicle_id'] ?? 0) ?>">Edit</a>
+                <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/vehicles.php">Back</a>
+                <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/vehicle-edit.php?id=<?= (int) ($vehicle['vehicle_id'] ?? 0) ?>">Edit</a>
             </div>
         </div>
 

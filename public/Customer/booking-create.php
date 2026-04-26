@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (($result['ok'] ?? false) === true) {
-        header('Location: bookings.php?notice=booking_created');
+        header('Location: <?= baseUrl() ?>/Customer/bookings.php?notice=booking_created');
         exit;
     }
 
@@ -56,7 +56,7 @@ viewBegin('app', appLayoutData('New booking', 'bookings', ['role' => 'customer']
 <section class="card customer-form-card">
     <div class="card-header">
         <h3>Book a vehicle</h3>
-        <a class="ghost-link" href="bookings.php">Back</a>
+        <a class="ghost-link" href="<?= baseUrl() ?>/Customer/bookings.php">Back</a>
     </div>
 
     <?php if ($success !== ''): ?>
@@ -101,7 +101,7 @@ viewBegin('app', appLayoutData('New booking', 'bookings', ['role' => 'customer']
         </label>
 
         <div class="customer-form-actions full">
-            <a class="ghost-link button-like" href="bookings.php">Cancel</a>
+            <a class="ghost-link button-like" href="<?= baseUrl() ?>/Customer/bookings.php">Cancel</a>
             <button type="submit" class="primary-btn" <?= $accountLinked ? '' : 'disabled' ?>>Book vehicle</button>
         </div>
     </form>

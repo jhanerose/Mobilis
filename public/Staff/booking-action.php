@@ -5,17 +5,19 @@ require_once __DIR__ . '/../../app/bootstrap.php';
 requireAuth(['admin', 'staff']);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: bookings.php');
+    header('Location: ' . baseUrl() . '/Staff/bookings.php');
     exit;
 }
 
 $rentalId = (int) ($_POST['id'] ?? 0);
 $action = trim((string) ($_POST['action'] ?? ''));
-$redirect = trim((string) ($_POST['redirect'] ?? 'bookings.php'));
+$redirect = trim((string) ($_POST['redirect'] ?? baseUrl() . '/Staff/bookings.php'));
 
-$target = 'bookings.php';
-if ($redirect !== '' && str_starts_with($redirect, 'bookings.php')) {
+$target = baseUrl() . '/Staff/bookings.php';
+if ($redirect !== '' && str_starts_with($redirect, baseUrl() . '/Staff/bookings.php')) {
     $target = $redirect;
+} else if ($redirect !== '' && str_starts_with($redirect, 'bookings.php')) {
+    $target = baseUrl() . '/Staff/bookings.php';
 }
 
 $result = applyBookingAction($rentalId, $action);

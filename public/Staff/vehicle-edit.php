@@ -14,7 +14,7 @@ if ($vehicle === null) {
         'show_search' => false,
         'show_primary_cta' => false,
     ]));
-echo '<section class="card customer-form-card"><h3>Vehicle not found</h3><p class="muted">The selected vehicle record does not exist.</p><p><a class="ghost-link" href="vehicles.php">Back to vehicles</a></p></section>';
+echo '<section class="card customer-form-card"><h3>Vehicle not found</h3><p class="muted">The selected vehicle record does not exist.</p><p><a class="ghost-link" href="<?= baseUrl() ?>/Staff/vehicles.php">Back to vehicles</a></p></section>';
     viewEnd();
 exit;
 }
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($errors === []) {
         $result = updateVehicleRecord($vehicleId, $form);
         if (($result['ok'] ?? false) === true) {
-            header('Location: vehicles.php?notice=vehicle_updated');
+            header('Location: <?= baseUrl() ?>/Staff/vehicles.php?notice=vehicle_updated');
             exit;
         }
         $errors[] = (string) ($result['error'] ?? 'Unable to update vehicle.');
@@ -65,7 +65,7 @@ viewBegin('app', appLayoutData('Edit vehicle', 'vehicles', [
 <section class="card customer-form-card">
     <div class="card-header">
         <h3>Edit vehicle</h3>
-        <a class="ghost-link" href="vehicles.php">Back</a>
+        <a class="ghost-link" href="<?= baseUrl() ?>/Staff/vehicles.php">Back</a>
     </div>
 
     <?php if ($errors !== []): ?>
@@ -121,7 +121,7 @@ viewBegin('app', appLayoutData('Edit vehicle', 'vehicles', [
         </label>
 
         <div class="customer-form-actions full">
-            <a class="ghost-link button-like" href="vehicles.php">Cancel</a>
+            <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/vehicles.php">Cancel</a>
             <button type="submit" class="primary-btn">Save changes</button>
         </div>
     </form>

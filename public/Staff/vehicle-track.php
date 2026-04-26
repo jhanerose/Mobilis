@@ -16,11 +16,11 @@ viewBegin('app', appLayoutData('Vehicle tracking', 'tracking', [
     <?php if ($vehicle === null): ?>
         <h3>Vehicle not found</h3>
         <p class="muted">The selected vehicle could not be found.</p>
-        <p><a class="ghost-link" href="vehicles.php">Back to vehicles</a></p>
+        <p><a class="ghost-link" href="<?= baseUrl() ?>/Staff/vehicles.php">Back to vehicles</a></p>
     <?php else: ?>
         <div class="card-header">
             <h3>Tracking <?= htmlspecialchars((string) ($vehicle['name'] ?? 'Vehicle')) ?></h3>
-            <a class="ghost-link" href="vehicles.php">Back</a>
+            <a class="ghost-link" href="<?= baseUrl() ?>/Staff/vehicles.php">Back</a>
         </div>
         <p class="muted" style="margin-bottom: 10px;">Plate: <?= htmlspecialchars((string) ($vehicle['plate'] ?? 'N/A')) ?> · Status: <?= htmlspecialchars(ucfirst((string) ($vehicle['status'] ?? 'available'))) ?></p>
         <div class="map-embed-wrap">

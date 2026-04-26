@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($errors === []) {
         $result = createVehicleRecord($form);
         if (($result['ok'] ?? false) === true) {
-            header('Location: vehicles.php?notice=vehicle_created');
+            header('Location: <?= baseUrl() ?>/Staff/vehicles.php?notice=vehicle_created');
             exit;
         }
         $errors[] = (string) ($result['error'] ?? 'Unable to add vehicle.');
@@ -52,7 +52,7 @@ viewBegin('app', appLayoutData('Add vehicle', 'vehicles', [
 <section class="card customer-form-card">
     <div class="card-header">
         <h3>New vehicle</h3>
-        <a class="ghost-link" href="vehicles.php">Back</a>
+        <a class="ghost-link" href="<?= baseUrl() ?>/Staff/vehicles.php">Back</a>
     </div>
 
     <?php if ($errors !== []): ?>
@@ -108,7 +108,7 @@ viewBegin('app', appLayoutData('Add vehicle', 'vehicles', [
         </label>
 
         <div class="customer-form-actions full">
-            <a class="ghost-link button-like" href="vehicles.php">Cancel</a>
+            <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/vehicles.php">Cancel</a>
             <button type="submit" class="primary-btn">Create vehicle</button>
         </div>
     </form>

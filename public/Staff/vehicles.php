@@ -155,7 +155,7 @@ viewBegin('app', appLayoutData('Vehicles', 'vehicles', [
 
 <section class="vehicles-page-header">
     <h3>All vehicles</h3>
-    <form class="vehicles-toolbar" method="get" action="vehicles.php">
+    <form class="vehicles-toolbar" method="get" action="<?= baseUrl() ?>/Staff/vehicles.php">
         <div class="vehicles-search-wrap">
             <span aria-hidden="true">🔍</span>
             <input type="search" name="q" value="<?= htmlspecialchars($searchTerm) ?>" placeholder="Search vehicles...">
@@ -206,6 +206,7 @@ viewBegin('app', appLayoutData('Vehicles', 'vehicles', [
 </div>
 
 <script>
+const baseUrl = '<?= htmlspecialchars(baseUrl()) ?>';
 document.addEventListener('DOMContentLoaded', function() {
     const exportButtons = document.querySelectorAll('[data-export-modal]');
     const exportModal = document.getElementById('export-modal');
@@ -237,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const format = document.querySelector('input[name="export-format"]:checked').value;
         const query = exportModal.dataset.exportQuery || '';
 
-        let url = `Staff/${currentExportType}-export.php?format=${format}`;
+        let url = `${baseUrl}/Staff/${currentExportType}-export.php?format=${format}`;
         if (query) {
             url += '&' + query;
         }
@@ -270,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <section class="vehicles-filter-row">
     <?php $statusLabels = ['all' => 'All', 'available' => 'Available', 'rented' => 'Rented', 'maintenance' => 'Maintenance']; ?>
     <?php foreach ($statusLabels as $key => $label): ?>
-        <a class="vehicles-chip<?= $statusFilter === $key ? ' active' : '' ?>" href="vehicles.php?<?= htmlspecialchars(vehiclesQuery(['status' => $key])) ?>">
+        <a class="vehicles-chip<?= $statusFilter === $key ? ' active' : '' ?>" href="<?= baseUrl() ?>/Staff/vehicles.php?<?= htmlspecialchars(vehiclesQuery(['status' => $key])) ?>">
             <?= htmlspecialchars($label) ?> (<?= (int) ($statusCounts[$key] ?? 0) ?>)
         </a>
     <?php endforeach; ?>
@@ -279,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <?php $catLabels = ['all' => 'All types', 'suv' => 'SUVs', 'sedan' => 'Sedans', 'van' => 'Vans', 'pickup' => 'Pick-ups']; ?>
     <?php foreach ($catLabels as $key => $label): ?>
-        <a class="vehicles-chip secondary<?= $categoryFilter === $key ? ' active' : '' ?>" href="vehicles.php?<?= htmlspecialchars(vehiclesQuery(['category' => $key])) ?>">
+        <a class="vehicles-chip secondary<?= $categoryFilter === $key ? ' active' : '' ?>" href="<?= baseUrl() ?>/Staff/vehicles.php?<?= htmlspecialchars(vehiclesQuery(['category' => $key])) ?>">
             <?= htmlspecialchars($label) ?><?= $key !== 'all' ? ' (' . (int) ($categoryCounts[$key] ?? 0) . ')' : '' ?>
         </a>
     <?php endforeach; ?>
@@ -304,12 +305,12 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
 
             <div class="vehicle-actions">
-                <a class="ghost-link button-like" href="vehicle-view.php?id=<?= (int) $vehicle['vehicle_id'] ?>">View</a>
-                <a class="ghost-link button-like" href="vehicle-edit.php?id=<?= (int) $vehicle['vehicle_id'] ?>">Edit</a>
+                <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/vehicle-view.php?id=<?= (int) $vehicle['vehicle_id'] ?>">View</a>
+                <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/vehicle-edit.php?id=<?= (int) $vehicle['vehicle_id'] ?>">Edit</a>
                 <?php if ($status === 'rented'): ?>
-                    <a class="primary-btn" href="vehicle-track.php?id=<?= (int) $vehicle['vehicle_id'] ?>">Track</a>
+                    <a class="primary-btn" href="<?= baseUrl() ?>/Staff/vehicle-track.php?id=<?= (int) $vehicle['vehicle_id'] ?>">Track</a>
                 <?php elseif ($status === 'maintenance'): ?>
-                    <a class="primary-btn warning" href="maintenance.php?vehicle_id=<?= (int) $vehicle['vehicle_id'] ?>">PMS due</a>
+                    <a class="primary-btn warning" href="<?= baseUrl() ?>/Staff/maintenance.php?vehicle_id=<?= (int) $vehicle['vehicle_id'] ?>">PMS due</a>
                 <?php endif; ?>
             </div>
         </article>
@@ -321,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 
 <?php viewModalStart('addVehicleModal', 'Add vehicle', ['size' => 'lg']); ?>
-    <form method="post" action="vehicle-create.php" class="modal-body" id="addVehicleForm">
+    <form method="post" action="<?= baseUrl() ?>/Staff/vehicle-create.php" class="modal-body" id="addVehicleForm">
         <label for="add_vehicle_name">Vehicle name (Brand Model)</label>
         <input id="add_vehicle_name" type="text" name="name" placeholder="Toyota Fortuner" required>
 

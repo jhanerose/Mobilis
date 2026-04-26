@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if (($result['ok'] ?? false) === true) {
-        header('Location: customers.php?notice=booking_created');
+        header('Location: <?= baseUrl() ?>/Staff/customers.php?notice=booking_created');
         exit;
     }
 
@@ -48,7 +48,7 @@ viewBegin('app', appLayoutData('New booking', 'bookings', [
 <section class="card customer-form-card">
     <div class="card-header">
         <h3>Create booking</h3>
-        <a class="ghost-link" href="customers.php">Back</a>
+        <a class="ghost-link" href="<?= baseUrl() ?>/Staff/customers.php">Back</a>
     </div>
 
     <?php if ($success !== ''): ?>
@@ -101,7 +101,7 @@ viewBegin('app', appLayoutData('New booking', 'bookings', [
         </label>
 
         <div class="customer-form-actions full">
-            <a class="ghost-link button-like" href="customers.php">Cancel</a>
+            <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/customers.php">Cancel</a>
             <button type="submit" class="primary-btn">Create booking</button>
         </div>
     </form>

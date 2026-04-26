@@ -17,13 +17,13 @@ viewBegin('app', appLayoutData('Booking details', 'bookings', [
     <?php if ($booking === null): ?>
         <h3>Booking not found</h3>
         <p class="muted">The selected booking could not be found.</p>
-        <p><a class="ghost-link" href="bookings.php">Back to bookings</a></p>
+        <p><a class="ghost-link" href="<?= baseUrl() ?>/Staff/bookings.php">Back to bookings</a></p>
     <?php else: ?>
         <div class="card-header">
             <h3>Booking #BK-<?= str_pad((string) ((int) $booking['rental_id']), 4, '0', STR_PAD_LEFT) ?></h3>
             <div class="customer-form-actions">
-                <a class="ghost-link button-like" href="bookings.php">Back</a>
-                <a class="ghost-link button-like" href="booking-edit.php?id=<?= (int) $booking['rental_id'] ?>">Edit</a>
+                <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/bookings.php">Back</a>
+                <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/booking-edit.php?id=<?= (int) $booking['rental_id'] ?>">Edit</a>
             </div>
         </div>
 

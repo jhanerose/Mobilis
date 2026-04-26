@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $reason = trim((string) ($_POST['reason'] ?? ''));
             $result = cancelCustomerBooking($customerId, $rentalId, $reason);
             if (($result['ok'] ?? false) === true) {
-                header('Location: bookings.php?notice=booking_cancelled');
+                header('Location: <?= baseUrl() ?>/Customer/bookings.php?notice=booking_cancelled');
                 exit;
             }
             $errors[] = (string) ($result['error'] ?? 'Could not cancel booking.');
@@ -40,18 +40,18 @@ viewBegin('app', appLayoutData('Booking details', 'bookings', ['role' => 'custom
     <?php if (!$accountLinked): ?>
         <h3>Booking unavailable</h3>
         <p class="muted">Your account is not yet linked to a customer profile.</p>
-        <p><a class="ghost-link" href="bookings.php">Back to bookings</a></p>
+        <p><a class="ghost-link" href="<?= baseUrl() ?>/Customer/bookings.php">Back to bookings</a></p>
     <?php elseif ($booking === null): ?>
         <h3>Booking not found</h3>
         <p class="muted">The selected booking does not exist or does not belong to your account.</p>
-        <p><a class="ghost-link" href="bookings.php">Back to bookings</a></p>
+        <p><a class="ghost-link" href="<?= baseUrl() ?>/Customer/bookings.php">Back to bookings</a></p>
     <?php else: ?>
         <div class="card-header">
             <h3>Booking #BK-<?= str_pad((string) ((int) $booking['rental_id']), 4, '0', STR_PAD_LEFT) ?></h3>
             <div class="customer-form-actions">
-                <a class="ghost-link button-like" href="bookings.php">Back</a>
+                <a class="ghost-link button-like" href="<?= baseUrl() ?>/Customer/bookings.php">Back</a>
                 <?php if ((int) ($booking['vehicle_id'] ?? 0) > 0): ?>
-                    <a class="ghost-link button-like" href="booking-create.php?vehicle_id=<?= (int) $booking['vehicle_id'] ?>">Book similar</a>
+                    <a class="ghost-link button-like" href="<?= baseUrl() ?>/Customer/booking-create.php?vehicle_id=<?= (int) $booking['vehicle_id'] ?>">Book similar</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -78,7 +78,7 @@ viewBegin('app', appLayoutData('Booking details', 'bookings', ['role' => 'custom
 
         <div class="booking-actions" style="margin-top: 12px; justify-content: flex-start;">
             <?php if (in_array((string) ($booking['payment_status'] ?? 'unpaid'), ['unpaid', 'partial'], true)): ?>
-                <a class="primary-btn booking-mini-btn" href="payments.php">Pay invoice</a>
+                <a class="primary-btn booking-mini-btn" href="<?= baseUrl() ?>/Customer/payments.php">Pay invoice</a>
             <?php endif; ?>
 
             <?php if ($canCancel): ?>

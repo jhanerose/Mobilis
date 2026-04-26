@@ -55,7 +55,7 @@ viewBegin('app', appLayoutData('Browse vehicles', 'vehicles', ['role' => 'custom
         <?php endif; ?>
     </div>
 
-    <form method="get" class="bookings-toolbar">
+    <form method="get" action="<?= baseUrl() ?>/Customer/vehicles.php" class="bookings-toolbar">
         <input type="search" name="q" placeholder="Search vehicle or plate" value="<?= htmlspecialchars($search) ?>">
         <select name="category">
             <?php foreach ($categories as $category): ?>
@@ -123,7 +123,7 @@ viewBegin('app', appLayoutData('Browse vehicles', 'vehicles', ['role' => 'custom
 </section>
 
 <?php viewModalStart('bookVehicleModal', 'Book a vehicle', ['size' => 'md']); ?>
-    <form method="post" action="booking-create.php" class="modal-body" id="bookVehicleForm">
+    <form method="post" action="<?= baseUrl() ?>/Customer/booking-create.php" class="modal-body" id="bookVehicleForm">
         <input type="hidden" name="vehicle_id" id="bookVehicleId">
 
         <div class="user-info">

@@ -87,6 +87,7 @@ viewBegin('app', appLayoutData('Payments', 'payments'));
 </div>
 
 <script>
+const baseUrl = '<?= htmlspecialchars(baseUrl()) ?>';
 document.addEventListener('DOMContentLoaded', function() {
     const exportButtons = document.querySelectorAll('[data-export-modal]');
     const exportModal = document.getElementById('export-modal');
@@ -118,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const format = document.querySelector('input[name="export-format"]:checked').value;
         const query = exportModal.dataset.exportQuery || '';
 
-        let url = `Staff/${currentExportType}-export.php?format=${format}`;
+        let url = `${baseUrl}/Staff/${currentExportType}-export.php?format=${format}`;
         if (query) {
             url += '&' + query;
         }

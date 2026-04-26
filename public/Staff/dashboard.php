@@ -94,7 +94,7 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard'));
     <article class="card">
         <div class="card-header">
             <h4>Vehicle status</h4>
-            <a href="vehicles.php" class="ghost-link">View all vehicles</a>
+            <a href="<?= baseUrl() ?>/Staff/vehicles.php" class="ghost-link">View all vehicles</a>
         </div>
         <ul class="list clean">
             <?php foreach ($vehicleStatus as $vehicle): ?>
@@ -116,7 +116,7 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard'));
     <article class="card">
         <div class="card-header">
             <h4>Upcoming bookings</h4>
-            <a href="bookings.php" class="ghost-link">View all bookings</a>
+            <a href="<?= baseUrl() ?>/Staff/bookings.php" class="ghost-link">View all bookings</a>
         </div>
         <ul class="list clean">
             <?php foreach ($upcomingBookings as $booking): ?>
@@ -148,7 +148,7 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard'));
             id="dashboard-live-map"
             class="live-map-canvas"
             data-tracking-map
-            data-tracking-endpoint="/api/tracking.php"
+            data-tracking-endpoint="<?= baseUrl() ?>/api/tracking.php"
             data-tracking-status-target="dashboard-tracking-status"></div>
         <p id="dashboard-tracking-status" class="muted tracking-status-note">
             Simulated locations refresh every few seconds.
@@ -161,7 +161,7 @@ viewBegin('app', appLayoutData('Dashboard', 'dashboard'));
     <article class="card">
         <div class="card-header">
             <h4>Fleet by category</h4>
-            <a href="vehicles.php" class="ghost-link">View details</a>
+            <a href="<?= baseUrl() ?>/Staff/vehicles.php" class="ghost-link">View details</a>
         </div>
         <div class="progress-list">
             <?php foreach ($fleetByCategory as $row): ?>

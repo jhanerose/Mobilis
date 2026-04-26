@@ -180,15 +180,15 @@ viewBegin('app', appLayoutData('My Bookings', 'bookings', ['role' => 'customer']
 <section class="bookings-page-head">
     <div class="bookings-page-titlebar">
         <h3>My bookings</h3>
-        <form class="bookings-toolbar" method="get" action="bookings.php">
-            <a class="primary-btn" href="booking-create.php">+ New booking</a>
+        <form class="bookings-toolbar" method="get" action="<?= baseUrl() ?>/Customer/bookings.php">
+            <a class="primary-btn" href="<?= baseUrl() ?>/Customer/booking-create.php">+ New booking</a>
         </form>
     </div>
 
     <nav class="bookings-tabs" aria-label="Booking status tabs">
         <?php foreach ($tabs as $key => $label): ?>
             <?php $isActiveTab = $activeStatus === $key; ?>
-            <a class="bookings-tab<?= $isActiveTab ? ' active' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['status' => $key, 'page' => 1])) ?>">
+            <a class="bookings-tab<?= $isActiveTab ? ' active' : '' ?>" href="<?= baseUrl() ?>/Customer/bookings.php?<?= htmlspecialchars(bookingsQuery(['status' => $key, 'page' => 1])) ?>">
                 <?= htmlspecialchars($label) ?>
             </a>
         <?php endforeach; ?>
@@ -237,11 +237,11 @@ viewBegin('app', appLayoutData('My Bookings', 'bookings', ['role' => 'customer']
                     <td>
                         <div class="booking-actions">
                             <?php if ($statusKey === 'completed'): ?>
-                                <a class="ghost-link button-like booking-mini-btn" href="booking-view.php?id=<?= (int) $booking['rental_id'] ?>">Receipt</a>
+                                <a class="ghost-link button-like booking-mini-btn" href="<?= baseUrl() ?>/Customer/booking-view.php?id=<?= (int) $booking['rental_id'] ?>">Receipt</a>
                             <?php elseif ($statusKey === 'cancelled'): ?>
-                                <a class="ghost-link button-like booking-mini-btn" href="booking-create.php">Rebook</a>
+                                <a class="ghost-link button-like booking-mini-btn" href="<?= baseUrl() ?>/Customer/booking-create.php">Rebook</a>
                             <?php else: ?>
-                                <a class="ghost-link button-like booking-mini-btn" href="booking-view.php?id=<?= (int) $booking['rental_id'] ?>">View</a>
+                                <a class="ghost-link button-like booking-mini-btn" href="<?= baseUrl() ?>/Customer/booking-view.php?id=<?= (int) $booking['rental_id'] ?>">View</a>
                             <?php endif; ?>
                         </div>
                     </td>
@@ -251,7 +251,7 @@ viewBegin('app', appLayoutData('My Bookings', 'bookings', ['role' => 'customer']
         </table>
 
         <?php if ($pagedBookings === []): ?>
-            <p class="muted">No bookings found. <a href="booking-create.php" class="text-link">Book a vehicle</a></p>
+            <p class="muted">No bookings found. <a href="<?= baseUrl() ?>/Customer/booking-create.php" class="text-link">Book a vehicle</a></p>
         <?php endif; ?>
     </div>
 
@@ -260,15 +260,15 @@ viewBegin('app', appLayoutData('My Bookings', 'bookings', ['role' => 'customer']
             <p>Showing <?= $startItem ?>-<?= $endItem ?> of <?= $totalFiltered ?> bookings</p>
 
             <div class="bookings-pagination">
-                <a class="ghost-link button-like page-btn<?= $currentPage <= 1 ? ' disabled' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => max(1, $currentPage - 1)])) ?>">&lsaquo;</a>
+                <a class="ghost-link button-like page-btn<?= $currentPage <= 1 ? ' disabled' : '' ?>" href="<?= baseUrl() ?>/Customer/bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => max(1, $currentPage - 1)])) ?>">&lsaquo;</a>
                 <?php foreach ($paginationItems as $item): ?>
                     <?php if ($item === '...'): ?>
                         <span class="page-ellipsis">...</span>
                     <?php else: ?>
-                        <a class="ghost-link button-like page-btn<?= $currentPage === (int) $item ? ' active' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => (int) $item])) ?>"><?= (int) $item ?></a>
+                        <a class="ghost-link button-like page-btn<?= $currentPage === (int) $item ? ' active' : '' ?>" href="<?= baseUrl() ?>/Customer/bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => (int) $item])) ?>"><?= (int) $item ?></a>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                <a class="ghost-link button-like page-btn<?= $currentPage >= $totalPages ? ' disabled' : '' ?>" href="bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => min($totalPages, $currentPage + 1)])) ?>">&rsaquo;</a>
+                <a class="ghost-link button-like page-btn<?= $currentPage >= $totalPages ? ' disabled' : '' ?>" href="<?= baseUrl() ?>/Customer/bookings.php?<?= htmlspecialchars(bookingsQuery(['page' => min($totalPages, $currentPage + 1)])) ?>">&rsaquo;</a>
             </div>
         </div>
     <?php endif; ?>

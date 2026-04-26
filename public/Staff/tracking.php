@@ -23,7 +23,7 @@ viewBegin('app', appLayoutData('Live tracking', 'tracking'));
             id="staff-live-map"
             class="live-map-canvas"
             data-tracking-map
-            data-tracking-endpoint="/api/tracking.php"
+            data-tracking-endpoint="<?= baseUrl() ?>/api/tracking.php"
             data-tracking-list-target="staff-tracked-vehicles"
             data-tracking-list-limit="10"
             data-tracking-status-target="staff-tracking-status"></div>

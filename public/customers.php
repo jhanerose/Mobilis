@@ -78,7 +78,7 @@ viewBegin('app', appLayoutData('Customers', 'customers', [
             <h4>Customer directory</h4>
             <div class="customers-toolbar">
                 <input type="search" placeholder="Search customers..." aria-label="Search customers" data-customer-search>
-                <a class="ghost-link button-like" href="customers-export.php">Export</a>
+                <a class="ghost-link button-like" href="<?= baseUrl() ?>/Staff/customers-export.php">Export</a>
                 <span class="pill support-status-read">Self-registration enabled</span>
             </div>
         </div>
@@ -167,7 +167,7 @@ viewBegin('app', appLayoutData('Customers', 'customers', [
 
             <div class="customer-profile-actions">
                 <a class="ghost-link button-like" id="profile-message-btn" href="mailto:<?= htmlspecialchars((string) ($selected['email'] ?? '')) ?>">Message</a>
-                <a class="primary-btn" id="profile-booking-btn" href="booking-create.php?user_id=<?= (int) ($selected['user_id'] ?? 0) ?>">New booking</a>
+                <a class="primary-btn" id="profile-booking-btn" href="<?= baseUrl() ?>/Staff/booking-create.php?user_id=<?= (int) ($selected['user_id'] ?? 0) ?>">New booking</a>
             </div>
         <?php else: ?>
             <p>No customer data available.</p>

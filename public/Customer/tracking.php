@@ -50,7 +50,7 @@ viewBegin('app', appLayoutData('Live tracking', 'tracking', ['role' => 'customer
 
 <?php if ($activeBookings === []): ?>
     <section class="card">
-        <p class="muted">You have no active rentals to track. <a href="booking-create.php" class="text-link">Book a vehicle</a></p>
+        <p class="muted">You have no active rentals to track. <a href="<?= baseUrl() ?>/Customer/booking-create.php" class="text-link">Book a vehicle</a></p>
     </section>
 <?php else: ?>
     <section class="content-grid split-grid">
@@ -62,7 +62,7 @@ viewBegin('app', appLayoutData('Live tracking', 'tracking', ['role' => 'customer
                 id="customer-live-map"
                 class="live-map-canvas"
                 data-tracking-map
-                data-tracking-endpoint="/api/tracking.php"
+                data-tracking-endpoint="<?= baseUrl() ?>/api/tracking.php"
                 data-tracking-list-target="customer-tracked-vehicles"
                 data-tracking-list-limit="10"
                 data-tracking-status-target="customer-tracking-status"

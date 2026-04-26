@@ -88,7 +88,7 @@ if (!function_exists('isAuthenticated')) {
 if (!function_exists('requireAuth')) {
     function requireAuth(array $roles = []): void
     {
-        // Check for API key authentication first (for Python service)
+        // Check for API key authentication first (for external API access)
         $apiKey = $_SERVER['HTTP_X_API_KEY'] ?? $_GET['api_key'] ?? null;
         $validApiKey = 'mobilis-api-key-2024'; // Hardcoded for simplicity
 

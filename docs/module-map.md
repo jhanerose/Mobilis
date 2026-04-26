@@ -16,7 +16,19 @@
 - `payments.php`: invoice retrieval and payment updates
 - `support.php`: contact/reset queue operations and admin response actions
 - `tracking.php`: simulated live tracking and role-scoped map payloads
-- `analytics.php`: reporting aggregates and recommendations
+- `analytics.php`: reporting aggregates and recommendations (legacy, superseded by Python service)
+
+## Python Service Modules
+- `python-service/app/main.py`: FastAPI application entry point
+- `python-service/app/config.py`: Configuration management
+- `python-service/app/services/php_api_client.py`: HTTP client for PHP APIs
+- `python-service/app/services/analytics_engine.py`: Data processing and analytics logic
+- `python-service/app/services/export_generator.py`: Export generation (CSV, Excel, PDF)
+- `python-service/app/api/dashboard.py`: Dashboard metrics endpoints
+- `python-service/app/api/analytics.py`: Analytics endpoints
+- `python-service/app/api/exports.py`: Export endpoints
+- `python-service/app/models/analytics.py`: Pydantic models for analytics data
+- `python-service/app/models/exports.py`: Pydantic models for export requests
 
 ## UI/Pages by Audience
 - Public auth/support pages: login/register/forgot-password/contact-admin

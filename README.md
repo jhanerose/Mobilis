@@ -7,6 +7,148 @@ This is a functional prototype for the Mobilis vehicle rental and fleet manageme
 - Database: MySQL
 - Analytics & Export: Python (standalone scripts)
 
+## Project Directory
+```
+Mobilis-System/
+├── .dockerignore
+├── .env.example
+├── .gitignore
+├── .htaccess
+├── app/
+│   ├── auth.php
+│   ├── bootstrap.php
+│   ├── config.php
+│   ├── db.php
+│   ├── repositories/
+│   │   ├── analytics.php
+│   │   ├── bookings.php
+│   │   ├── common.php
+│   │   ├── customers.php
+│   │   ├── dashboard.php
+│   │   ├── payments.php
+│   │   ├── support.php
+│   │   ├── tracking.php
+│   │   └── vehicles.php
+│   ├── repository.php
+│   ├── view.php
+│   ├── views/
+│   │   └── layouts/
+│   │       ├── app.php
+│   │       ├── auth.php
+│   │       ├── error.php
+│   │       └── landing.php
+│   └── view_helpers.php
+├── database/
+│   └── migrations/
+│       ├── 2024_04_19_add_vehicle_gps.sql
+│       └── 2024_04_19_convert_customer_to_user.sql
+├── Dockerfile
+├── docs/
+│   ├── api-reference.md
+│   ├── auth-support-db.md
+│   ├── connectivity-php-mysql.md
+│   ├── data-dictionary.md
+│   ├── database-cardinality-rules.md
+│   ├── database-design-schema.md
+│   ├── database-quick-reference.md
+│   ├── developer-guide.md
+│   ├── documentation-index.md
+│   ├── eerd-structure.md
+│   ├── module-map.md
+│   ├── python-integration.md
+│   ├── relationship-logic-data-structure.md
+│   ├── sql-scripts-ddl-dml.md
+│   ├── system-architecture.md
+│   └── technology-stack.md
+├── index.php
+├── mobilis_sql.sql
+├── public/
+│   ├── Admin/
+│   │   ├── settings.php
+│   │   └── support-requests.php
+│   ├── api/
+│   │   ├── dashboard.php
+│   │   └── tracking.php
+│   ├── assets/
+│   │   ├── app.js
+│   │   ├── images/
+│   │   │   ├── favicon.png
+│   │   │   ├── logo.png
+│   │   │   └── Team-Mobilis/
+│   │   │       ├── DAWINAN.png
+│   │   │       ├── MANGAO.png
+│   │   │       ├── SADICON.png
+│   │   │       ├── SY.png
+│   │   │       └── TENORIA.png
+│   │   └── styles.css
+│   ├── contact-admin.php
+│   ├── Customer/
+│   │   ├── booking-create.php
+│   │   ├── booking-view.php
+│   │   ├── bookings.php
+│   │   ├── dashboard.php
+│   │   ├── payments.php
+│   │   ├── tracking.php
+│   │   └── vehicles.php
+│   ├── customers.php
+│   ├── errors/
+│   │   ├── 403.php
+│   │   ├── 404.php
+│   │   ├── 500.php
+│   │   └── error.php
+│   ├── forgot-password.php
+│   ├── index.php
+│   ├── login.php
+│   ├── logout.php
+│   ├── register.php
+│   └── Staff/
+│       ├── booking-action.php
+│       ├── booking-create.php
+│       ├── booking-edit.php
+│       ├── booking-view.php
+│       ├── bookings-export.php
+│       ├── bookings.php
+│       ├── customers-export.php
+│       ├── customers.php
+│       ├── dashboard.php
+│       ├── maintenance.php
+│       ├── payments-export.php
+│       ├── payments.php
+│       ├── reports.php
+│       ├── tracking.php
+│       ├── vehicle-create.php
+│       ├── vehicle-edit.php
+│       ├── vehicle-track.php
+│       ├── vehicle-view.php
+│       ├── vehicles-export.php
+│       └── vehicles.php
+├── python-scripts/
+│   ├── analytics.py
+│   ├── config.py
+│   ├── db_client.py
+│   ├── export_bookings.py
+│   ├── export_customers.py
+│   ├── export_payments.py
+│   ├── export_vehicles.py
+│   └── requirements.txt
+├── README.md
+└── tests/
+    ├── conftest.py
+    ├── playwright.config.py
+    ├── pytest.ini
+    ├── README.md
+    ├── requirements.txt
+    ├── test_auth.py
+    ├── test_bookings.py
+    ├── test_config.py
+    ├── test_customers.py
+    ├── test_exports.py
+    ├── test_index.py
+    ├── test_reports.py
+    ├── test_vehicles.py
+    └── __init__.py
+```
+
 ## Features Included
 
 - Session-based login with role simulation (Admin, Staff, Customer)

@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($errors === []) {
         $result = createVehicleRecord($form);
         if (($result['ok'] ?? false) === true) {
-            header('Location: <?= baseUrl() ?>/Staff/vehicles.php?notice=vehicle_created');
+            header('Location: ' . baseUrl() . '/Staff/vehicles.php?notice=vehicle_created');
             exit;
         }
         $errors[] = (string) ($result['error'] ?? 'Unable to add vehicle.');

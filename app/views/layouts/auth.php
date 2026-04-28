@@ -22,6 +22,9 @@ $content = (string) ($content ?? '');
 <main class="auth-split-shell">
     <?= $content ?>
 </main>
+<script>
+    const BASE_URL = '<?= baseUrl() ?>';
+</script>
 <script src="<?= baseUrl() ?>/assets/app.js"></script>
 </body>
 </html>

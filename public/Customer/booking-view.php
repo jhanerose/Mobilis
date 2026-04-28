@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $reason = trim((string) ($_POST['reason'] ?? ''));
             $result = cancelCustomerBooking($customerId, $rentalId, $reason);
             if (($result['ok'] ?? false) === true) {
-                header('Location: <?= baseUrl() ?>/Customer/bookings.php?notice=booking_cancelled');
+                header('Location: ' . baseUrl() . '/Customer/bookings.php?notice=booking_cancelled');
                 exit;
             }
             $errors[] = (string) ($result['error'] ?? 'Could not cancel booking.');

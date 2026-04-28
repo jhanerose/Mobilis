@@ -307,7 +307,7 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
     </div>
 
     <script>
-    const baseUrl = '<?= htmlspecialchars(baseUrl()) ?>';
+    const BASE_URL = '<?= htmlspecialchars(baseUrl()) ?>';
     document.addEventListener('DOMContentLoaded', function() {
         const exportButtons = document.querySelectorAll('[data-export-modal]');
         const exportModal = document.getElementById('export-modal');
@@ -339,7 +339,7 @@ viewBegin('app', appLayoutData('Bookings', 'bookings', [
             const format = document.querySelector('input[name="export-format"]:checked').value;
             const query = exportModal.dataset.exportQuery || '';
             
-            let url = `${baseUrl}/Staff/${currentExportType}-export.php?format=${format}`;
+            let url = `${BASE_URL}/Staff/${currentExportType}-export.php?format=${format}`;
             if (query) {
                 url += '&' + query;
             }

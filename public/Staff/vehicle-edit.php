@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($errors === []) {
         $result = updateVehicleRecord($vehicleId, $form);
         if (($result['ok'] ?? false) === true) {
-            header('Location: <?= baseUrl() ?>/Staff/vehicles.php?notice=vehicle_updated');
+            header('Location: ' . baseUrl() . '/Staff/vehicles.php?notice=vehicle_updated');
             exit;
         }
         $errors[] = (string) ($result['error'] ?? 'Unable to update vehicle.');

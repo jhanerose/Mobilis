@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (($result['ok'] ?? false) === true) {
-        header('Location: <?= baseUrl() ?>/Customer/bookings.php?notice=booking_created');
+        header('Location: ' . baseUrl() . '/Customer/bookings.php?notice=booking_created');
         exit;
     }
 

@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if (($result['ok'] ?? false) === true) {
-        header('Location: <?= baseUrl() ?>/Staff/bookings.php?notice=updated');
+        header('Location: ' . baseUrl() . '/Staff/bookings.php?notice=updated');
         exit;
     }
 
